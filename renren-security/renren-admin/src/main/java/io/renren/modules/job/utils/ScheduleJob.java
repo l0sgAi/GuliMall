@@ -8,9 +8,9 @@
 
 package io.renren.modules.job.utils;
 
-import io.renren.common.constant.Constant;
-import io.renren.common.exception.ExceptionUtils;
-import io.renren.common.utils.SpringContextUtils;
+import com.losgai.gulimall.common.constant.Constant;
+import com.losgai.gulimall.common.exception.ExceptionUtils;
+import com.losgai.gulimall.common.utils.SpringContextUtils;
 import io.renren.modules.job.entity.ScheduleJobEntity;
 import io.renren.modules.job.entity.ScheduleJobLogEntity;
 import io.renren.modules.job.service.ScheduleJobLogService;

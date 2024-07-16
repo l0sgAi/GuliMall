@@ -17,7 +17,7 @@
     </parent>
 
     <modules>
-        <module>renren-common</module>
+        <module>gulimall-common</module>
 		<module>renren-dynamic-datasource</module>
         <module>renren-admin</module>
         <module>renren-api</module>

@@ -8,9 +8,9 @@
 
 package io.renren.modules.job.controller;
 
-import io.renren.common.constant.Constant;
-import io.renren.common.page.PageData;
-import io.renren.common.utils.Result;
+import com.losgai.gulimall.common.constant.Constant;
+import com.losgai.gulimall.common.page.PageData;
+import com.losgai.gulimall.common.utils.Result;
 import io.renren.modules.job.dto.ScheduleJobLogDTO;
 import io.renren.modules.job.service.ScheduleJobLogService;
 import io.swagger.v3.oas.annotations.Operation;

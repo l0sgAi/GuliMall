@@ -8,7 +8,7 @@
 
 package io.renren.modules.oss.cloud;
 
-import io.renren.common.utils.DateUtils;
+import com.losgai.gulimall.common.utils.DateUtils;
 import cn.hutool.core.util.StrUtil;
 
 import java.io.InputStream;

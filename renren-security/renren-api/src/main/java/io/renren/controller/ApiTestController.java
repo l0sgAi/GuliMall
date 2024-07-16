@@ -10,7 +10,7 @@ package io.renren.controller;
 
 import io.renren.annotation.Login;
 import io.renren.annotation.LoginUser;
-import io.renren.common.utils.Result;
+import com.losgai.gulimall.common.utils.Result;
 import io.renren.entity.UserEntity;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

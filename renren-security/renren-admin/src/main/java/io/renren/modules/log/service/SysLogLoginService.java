@@ -8,8 +8,8 @@
 
 package io.renren.modules.log.service;
 
-import io.renren.common.page.PageData;
-import io.renren.common.service.BaseService;
+import com.losgai.gulimall.common.page.PageData;
+import com.losgai.gulimall.common.service.BaseService;
 import io.renren.modules.log.dto.SysLogLoginDTO;
 import io.renren.modules.log.entity.SysLogLoginEntity;
 

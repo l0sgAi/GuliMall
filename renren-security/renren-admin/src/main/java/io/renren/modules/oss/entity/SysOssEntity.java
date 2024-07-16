@@ -9,7 +9,7 @@
 package io.renren.modules.oss.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.renren.common.entity.BaseEntity;
+import com.losgai.gulimall.common.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

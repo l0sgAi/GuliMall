@@ -9,7 +9,7 @@
 package io.renren.modules.sys.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
-import io.renren.common.service.impl.BaseServiceImpl;
+import com.losgai.gulimall.common.service.impl.BaseServiceImpl;
 import io.renren.modules.sys.dao.SysRoleDataScopeDao;
 import io.renren.modules.sys.entity.SysRoleDataScopeEntity;
 import io.renren.modules.sys.service.SysRoleDataScopeService;

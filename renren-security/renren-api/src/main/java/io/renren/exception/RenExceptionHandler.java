@@ -8,9 +8,9 @@
 
 package io.renren.exception;
 
-import io.renren.common.exception.ErrorCode;
-import io.renren.common.exception.RenException;
-import io.renren.common.utils.Result;
+import com.losgai.gulimall.common.exception.ErrorCode;
+import com.losgai.gulimall.common.exception.RenException;
+import com.losgai.gulimall.common.utils.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DuplicateKeyException;

@@ -8,7 +8,7 @@
 
 package io.renren.modules.log.dao;
 
-import io.renren.common.dao.BaseDao;
+import com.losgai.gulimall.common.dao.BaseDao;
 import io.renren.modules.log.entity.SysLogErrorEntity;
 import org.apache.ibatis.annotations.Mapper;
 

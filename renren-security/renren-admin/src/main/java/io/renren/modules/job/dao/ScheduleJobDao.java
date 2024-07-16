@@ -8,7 +8,7 @@
 
 package io.renren.modules.job.dao;
 
-import io.renren.common.dao.BaseDao;
+import com.losgai.gulimall.common.dao.BaseDao;
 import io.renren.modules.job.entity.ScheduleJobEntity;
 import org.apache.ibatis.annotations.Mapper;
 

@@ -1,6 +1,6 @@
 package io.renren.modules.sys.controller;
 
-import io.renren.common.utils.Result;
+import com.losgai.gulimall.common.utils.Result;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 

@@ -8,12 +8,12 @@
 
 package io.renren.modules.security.controller;
 
-import io.renren.common.exception.ErrorCode;
-import io.renren.common.exception.RenException;
-import io.renren.common.utils.IpUtils;
-import io.renren.common.utils.Result;
-import io.renren.common.validator.AssertUtils;
-import io.renren.common.validator.ValidatorUtils;
+import com.losgai.gulimall.common.exception.ErrorCode;
+import com.losgai.gulimall.common.exception.RenException;
+import com.losgai.gulimall.common.utils.IpUtils;
+import com.losgai.gulimall.common.utils.Result;
+import com.losgai.gulimall.common.validator.AssertUtils;
+import com.losgai.gulimall.common.validator.ValidatorUtils;
 import io.renren.modules.log.entity.SysLogLoginEntity;
 import io.renren.modules.log.enums.LoginOperationEnum;
 import io.renren.modules.log.enums.LoginStatusEnum;

@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import io.renren.common.utils.DateUtils;
+import com.losgai.gulimall.common.utils.DateUtils;
 import io.renren.interceptor.AuthorizationInterceptor;
 import io.renren.resolver.LoginUserHandlerMethodArgumentResolver;
 import jakarta.annotation.Resource;

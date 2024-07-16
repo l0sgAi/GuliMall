@@ -8,9 +8,9 @@
 
 package io.renren.modules.oss.cloud;
 
-import io.renren.common.validator.group.AliyunGroup;
-import io.renren.common.validator.group.QcloudGroup;
-import io.renren.common.validator.group.QiniuGroup;
+import com.losgai.gulimall.common.validator.group.AliyunGroup;
+import com.losgai.gulimall.common.validator.group.QcloudGroup;
+import com.losgai.gulimall.common.validator.group.QiniuGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

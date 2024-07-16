@@ -8,9 +8,9 @@
 
 package io.renren.modules.job.utils;
 
-import io.renren.common.constant.Constant;
-import io.renren.common.exception.ErrorCode;
-import io.renren.common.exception.RenException;
+import com.losgai.gulimall.common.constant.Constant;
+import com.losgai.gulimall.common.exception.ErrorCode;
+import com.losgai.gulimall.common.exception.RenException;
 import io.renren.modules.job.entity.ScheduleJobEntity;
 import org.quartz.*;
 

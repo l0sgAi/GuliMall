@@ -14,8 +14,8 @@ import com.qiniu.storage.Region;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.util.Auth;
 import com.qiniu.util.IOUtils;
-import io.renren.common.exception.ErrorCode;
-import io.renren.common.exception.RenException;
+import com.losgai.gulimall.common.exception.ErrorCode;
+import com.losgai.gulimall.common.exception.RenException;
 
 import java.io.IOException;
 import java.io.InputStream;

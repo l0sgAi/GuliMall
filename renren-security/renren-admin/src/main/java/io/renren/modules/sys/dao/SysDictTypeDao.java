@@ -8,7 +8,7 @@
 
 package io.renren.modules.sys.dao;
 
-import io.renren.common.dao.BaseDao;
+import com.losgai.gulimall.common.dao.BaseDao;
 import io.renren.modules.sys.entity.DictType;
 import io.renren.modules.sys.entity.SysDictTypeEntity;
 import org.apache.ibatis.annotations.Mapper;

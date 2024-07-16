@@ -8,8 +8,8 @@
 
 package io.renren.modules.oss.cloud;
 
-import io.renren.common.constant.Constant;
-import io.renren.common.utils.SpringContextUtils;
+import com.losgai.gulimall.common.constant.Constant;
+import com.losgai.gulimall.common.utils.SpringContextUtils;
 import io.renren.modules.sys.service.SysParamsService;
 
 /**

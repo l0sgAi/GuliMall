@@ -9,8 +9,8 @@
 package io.renren.controller;
 
 import cn.hutool.crypto.digest.DigestUtil;
-import io.renren.common.utils.Result;
-import io.renren.common.validator.ValidatorUtils;
+import com.losgai.gulimall.common.utils.Result;
+import com.losgai.gulimall.common.validator.ValidatorUtils;
 import io.renren.dto.RegisterDTO;
 import io.renren.entity.UserEntity;
 import io.renren.service.UserService;

@@ -8,9 +8,9 @@
 
 package io.renren.modules.security.oauth2;
 
-import io.renren.common.exception.ErrorCode;
-import io.renren.common.utils.ConvertUtils;
-import io.renren.common.utils.MessageUtils;
+import com.losgai.gulimall.common.exception.ErrorCode;
+import com.losgai.gulimall.common.utils.ConvertUtils;
+import com.losgai.gulimall.common.utils.MessageUtils;
 import io.renren.modules.security.entity.SysUserTokenEntity;
 import io.renren.modules.security.service.ShiroService;
 import io.renren.modules.security.user.UserDetail;

@@ -8,14 +8,14 @@
 
 package io.renren.modules.job.controller;
 
-import io.renren.common.annotation.LogOperation;
-import io.renren.common.constant.Constant;
-import io.renren.common.page.PageData;
-import io.renren.common.utils.Result;
-import io.renren.common.validator.ValidatorUtils;
-import io.renren.common.validator.group.AddGroup;
-import io.renren.common.validator.group.DefaultGroup;
-import io.renren.common.validator.group.UpdateGroup;
+import com.losgai.gulimall.common.annotation.LogOperation;
+import com.losgai.gulimall.common.constant.Constant;
+import com.losgai.gulimall.common.page.PageData;
+import com.losgai.gulimall.common.utils.Result;
+import com.losgai.gulimall.common.validator.ValidatorUtils;
+import com.losgai.gulimall.common.validator.group.AddGroup;
+import com.losgai.gulimall.common.validator.group.DefaultGroup;
+import com.losgai.gulimall.common.validator.group.UpdateGroup;
 import io.renren.modules.job.dto.ScheduleJobDTO;
 import io.renren.modules.job.service.ScheduleJobService;
 import io.swagger.v3.oas.annotations.Operation;

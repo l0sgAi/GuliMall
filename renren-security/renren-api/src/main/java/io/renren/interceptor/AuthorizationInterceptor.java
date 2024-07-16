@@ -10,8 +10,8 @@ package io.renren.interceptor;
 
 import cn.hutool.core.util.StrUtil;
 import io.renren.annotation.Login;
-import io.renren.common.exception.ErrorCode;
-import io.renren.common.exception.RenException;
+import com.losgai.gulimall.common.exception.ErrorCode;
+import com.losgai.gulimall.common.exception.RenException;
 import io.renren.entity.TokenEntity;
 import io.renren.service.TokenService;
 import jakarta.annotation.Resource;

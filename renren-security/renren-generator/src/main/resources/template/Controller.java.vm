@@ -10,9 +10,9 @@ import ${package}.common.validator.ValidatorUtils;
 import ${package}.common.validator.group.AddGroup;
 import ${package}.common.validator.group.DefaultGroup;
 import ${package}.common.validator.group.UpdateGroup;
-import ${package}.modules.${moduleName}.dto.${className}DTO;
-import ${package}.modules.${moduleName}.excel.${className}Excel;
-import ${package}.modules.${moduleName}.service.${className}Service;
+import ${package}.${moduleName}.dto.${className}DTO;
+import ${package}.${moduleName}.excel.${className}Excel;
+import ${package}.${moduleName}.service.${className}Service;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -53,7 +53,7 @@ public class ${className}Controller {
 
     @GetMapping("{id}")
     @Operation(summary = "信息")
-    @RequiresPermissions("${moduleName}:${pathName}:info")
+    //@RequiresPermissions("${moduleName}:${pathName}:info")
     public Result<${className}DTO> get(@PathVariable("id") Long id){
         ${className}DTO data = ${classname}Service.get(id);
 
@@ -63,7 +63,7 @@ public class ${className}Controller {
     @PostMapping
     @Operation(summary = "保存")
     @LogOperation("保存")
-    @RequiresPermissions("${moduleName}:${pathName}:save")
+    //@RequiresPermissions("${moduleName}:${pathName}:save")
     public Result save(@RequestBody ${className}DTO dto){
         //效验数据
         ValidatorUtils.validateEntity(dto, AddGroup.class, DefaultGroup.class);
@@ -76,7 +76,7 @@ public class ${className}Controller {
     @PutMapping
     @Operation(summary = "修改")
     @LogOperation("修改")
-    @RequiresPermissions("${moduleName}:${pathName}:update")
+    //@RequiresPermissions("${moduleName}:${pathName}:update")
     public Result update(@RequestBody ${className}DTO dto){
         //效验数据
         ValidatorUtils.validateEntity(dto, UpdateGroup.class, DefaultGroup.class);
@@ -89,7 +89,7 @@ public class ${className}Controller {
     @DeleteMapping
     @Operation(summary = "删除")
     @LogOperation("删除")
-    @RequiresPermissions("${moduleName}:${pathName}:delete")
+    //@RequiresPermissions("${moduleName}:${pathName}:delete")
     public Result delete(@RequestBody Long[] ids){
         //效验数据
         AssertUtils.isArrayEmpty(ids, "id");
@@ -102,7 +102,7 @@ public class ${className}Controller {
     @GetMapping("export")
     @Operation(summary = "导出")
     @LogOperation("导出")
-    @RequiresPermissions("${moduleName}:${pathName}:export")
+    //@RequiresPermissions("${moduleName}:${pathName}:export")
     public void export(@Parameter(hidden = true) @RequestParam Map<String, Object> params, HttpServletResponse response) throws Exception {
         List<${className}DTO> list = ${classname}Service.list(params);
 

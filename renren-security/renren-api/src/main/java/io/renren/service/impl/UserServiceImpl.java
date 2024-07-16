@@ -9,10 +9,10 @@
 package io.renren.service.impl;
 
 import cn.hutool.crypto.digest.DigestUtil;
-import io.renren.common.exception.ErrorCode;
-import io.renren.common.exception.RenException;
-import io.renren.common.service.impl.BaseServiceImpl;
-import io.renren.common.validator.AssertUtils;
+import com.losgai.gulimall.common.exception.ErrorCode;
+import com.losgai.gulimall.common.exception.RenException;
+import com.losgai.gulimall.common.service.impl.BaseServiceImpl;
+import com.losgai.gulimall.common.validator.AssertUtils;
 import io.renren.dao.UserDao;
 import io.renren.dto.LoginDTO;
 import io.renren.entity.TokenEntity;

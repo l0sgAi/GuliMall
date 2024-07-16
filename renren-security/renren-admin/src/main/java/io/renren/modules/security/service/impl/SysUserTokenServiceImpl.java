@@ -8,10 +8,10 @@
 
 package io.renren.modules.security.service.impl;
 
-import io.renren.common.constant.Constant;
-import io.renren.common.service.impl.BaseServiceImpl;
+import com.losgai.gulimall.common.constant.Constant;
+import com.losgai.gulimall.common.service.impl.BaseServiceImpl;
 import io.renren.modules.security.oauth2.TokenGenerator;
-import io.renren.common.utils.Result;
+import com.losgai.gulimall.common.utils.Result;
 import io.renren.modules.security.dao.SysUserTokenDao;
 import io.renren.modules.security.entity.SysUserTokenEntity;
 import io.renren.modules.security.service.SysUserTokenService;

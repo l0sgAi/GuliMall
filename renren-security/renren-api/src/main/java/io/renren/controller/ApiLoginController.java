@@ -10,8 +10,8 @@ package io.renren.controller;
 
 
 import io.renren.annotation.Login;
-import io.renren.common.utils.Result;
-import io.renren.common.validator.ValidatorUtils;
+import com.losgai.gulimall.common.utils.Result;
+import com.losgai.gulimall.common.validator.ValidatorUtils;
 import io.renren.dto.LoginDTO;
 import io.renren.service.TokenService;
 import io.renren.service.UserService;

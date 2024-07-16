@@ -8,8 +8,8 @@
 
 package io.renren.modules.security.service;
 
-import io.renren.common.service.BaseService;
-import io.renren.common.utils.Result;
+import com.losgai.gulimall.common.service.BaseService;
+import com.losgai.gulimall.common.utils.Result;
 import io.renren.modules.security.entity.SysUserTokenEntity;
 
 /**

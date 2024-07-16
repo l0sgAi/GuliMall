@@ -8,7 +8,7 @@
 
 package io.renren.modules.security.oauth2;
 
-import io.renren.common.exception.RenException;
+import com.losgai.gulimall.common.exception.RenException;
 
 import java.security.MessageDigest;
 import java.util.UUID;

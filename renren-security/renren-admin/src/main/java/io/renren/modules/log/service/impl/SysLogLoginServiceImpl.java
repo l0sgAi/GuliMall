@@ -10,10 +10,10 @@ package io.renren.modules.log.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import io.renren.common.constant.Constant;
-import io.renren.common.page.PageData;
-import io.renren.common.service.impl.BaseServiceImpl;
-import io.renren.common.utils.ConvertUtils;
+import com.losgai.gulimall.common.constant.Constant;
+import com.losgai.gulimall.common.page.PageData;
+import com.losgai.gulimall.common.service.impl.BaseServiceImpl;
+import com.losgai.gulimall.common.utils.ConvertUtils;
 import io.renren.modules.log.dao.SysLogLoginDao;
 import io.renren.modules.log.dto.SysLogLoginDTO;
 import io.renren.modules.log.entity.SysLogLoginEntity;

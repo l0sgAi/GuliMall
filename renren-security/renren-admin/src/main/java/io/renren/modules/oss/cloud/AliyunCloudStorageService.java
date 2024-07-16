@@ -9,8 +9,8 @@
 package io.renren.modules.oss.cloud;
 
 import com.aliyun.oss.OSSClient;
-import io.renren.common.exception.ErrorCode;
-import io.renren.common.exception.RenException;
+import com.losgai.gulimall.common.exception.ErrorCode;
+import com.losgai.gulimall.common.exception.RenException;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;

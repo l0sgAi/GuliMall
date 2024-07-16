@@ -9,12 +9,12 @@
 package io.renren.modules.sys.service.impl;
 
 import com.qiniu.util.StringUtils;
-import io.renren.common.constant.Constant;
-import io.renren.common.exception.ErrorCode;
-import io.renren.common.exception.RenException;
-import io.renren.common.service.impl.BaseServiceImpl;
-import io.renren.common.utils.ConvertUtils;
-import io.renren.common.utils.TreeUtils;
+import com.losgai.gulimall.common.constant.Constant;
+import com.losgai.gulimall.common.exception.ErrorCode;
+import com.losgai.gulimall.common.exception.RenException;
+import com.losgai.gulimall.common.service.impl.BaseServiceImpl;
+import com.losgai.gulimall.common.utils.ConvertUtils;
+import com.losgai.gulimall.common.utils.TreeUtils;
 import io.renren.modules.security.user.SecurityUser;
 import io.renren.modules.security.user.UserDetail;
 import io.renren.modules.sys.dao.SysDeptDao;

@@ -8,8 +8,8 @@
 
 package io.renren.modules.oss.service;
 
-import io.renren.common.page.PageData;
-import io.renren.common.service.BaseService;
+import com.losgai.gulimall.common.page.PageData;
+import com.losgai.gulimall.common.service.BaseService;
 import io.renren.modules.oss.entity.SysOssEntity;
 
 import java.util.Map;

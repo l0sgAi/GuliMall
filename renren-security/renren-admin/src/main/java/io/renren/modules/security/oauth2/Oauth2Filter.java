@@ -9,11 +9,11 @@
 package io.renren.modules.security.oauth2;
 
 import cn.hutool.core.util.StrUtil;
-import io.renren.common.constant.Constant;
-import io.renren.common.exception.ErrorCode;
-import io.renren.common.utils.HttpContextUtils;
-import io.renren.common.utils.JsonUtils;
-import io.renren.common.utils.Result;
+import com.losgai.gulimall.common.constant.Constant;
+import com.losgai.gulimall.common.exception.ErrorCode;
+import com.losgai.gulimall.common.utils.HttpContextUtils;
+import com.losgai.gulimall.common.utils.JsonUtils;
+import com.losgai.gulimall.common.utils.Result;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;

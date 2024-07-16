@@ -8,7 +8,7 @@
 
 package io.renren.service.impl;
 
-import io.renren.common.service.impl.BaseServiceImpl;
+import com.losgai.gulimall.common.service.impl.BaseServiceImpl;
 import io.renren.dao.TokenDao;
 import io.renren.entity.TokenEntity;
 import io.renren.service.TokenService;

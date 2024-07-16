@@ -9,7 +9,7 @@
 package io.renren.modules.sys.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
-import io.renren.common.service.impl.BaseServiceImpl;
+import com.losgai.gulimall.common.service.impl.BaseServiceImpl;
 import io.renren.modules.sys.dao.SysRoleMenuDao;
 import io.renren.modules.sys.entity.SysRoleMenuEntity;
 import io.renren.modules.sys.service.SysRoleMenuService;

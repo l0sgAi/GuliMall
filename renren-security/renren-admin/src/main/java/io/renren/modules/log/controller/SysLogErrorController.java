@@ -8,11 +8,11 @@
 
 package io.renren.modules.log.controller;
 
-import io.renren.common.annotation.LogOperation;
-import io.renren.common.constant.Constant;
-import io.renren.common.page.PageData;
-import io.renren.common.utils.ExcelUtils;
-import io.renren.common.utils.Result;
+import com.losgai.gulimall.common.annotation.LogOperation;
+import com.losgai.gulimall.common.constant.Constant;
+import com.losgai.gulimall.common.page.PageData;
+import com.losgai.gulimall.common.utils.ExcelUtils;
+import com.losgai.gulimall.common.utils.Result;
 import io.renren.modules.log.dto.SysLogErrorDTO;
 import io.renren.modules.log.excel.SysLogErrorExcel;
 import io.renren.modules.log.service.SysLogErrorService;

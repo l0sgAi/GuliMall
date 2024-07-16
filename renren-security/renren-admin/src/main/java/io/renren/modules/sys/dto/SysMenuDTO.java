@@ -9,10 +9,10 @@
 package io.renren.modules.sys.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.renren.common.utils.TreeNode;
-import io.renren.common.validator.group.AddGroup;
-import io.renren.common.validator.group.DefaultGroup;
-import io.renren.common.validator.group.UpdateGroup;
+import com.losgai.gulimall.common.utils.TreeNode;
+import com.losgai.gulimall.common.validator.group.AddGroup;
+import com.losgai.gulimall.common.validator.group.DefaultGroup;
+import com.losgai.gulimall.common.validator.group.UpdateGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;

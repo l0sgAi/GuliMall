@@ -8,8 +8,8 @@
 
 package io.renren.modules.sys.redis;
 
-import io.renren.common.redis.RedisKeys;
-import io.renren.common.redis.RedisUtils;
+import com.losgai.gulimall.common.redis.RedisKeys;
+import com.losgai.gulimall.common.redis.RedisUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 

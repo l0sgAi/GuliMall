@@ -9,16 +9,16 @@
 package io.renren.modules.oss.controller;
 
 import cn.hutool.core.io.file.FileNameUtil;
-import io.renren.common.annotation.LogOperation;
-import io.renren.common.constant.Constant;
-import io.renren.common.exception.ErrorCode;
-import io.renren.common.page.PageData;
-import io.renren.common.utils.JsonUtils;
-import io.renren.common.utils.Result;
-import io.renren.common.validator.ValidatorUtils;
-import io.renren.common.validator.group.AliyunGroup;
-import io.renren.common.validator.group.QcloudGroup;
-import io.renren.common.validator.group.QiniuGroup;
+import com.losgai.gulimall.common.annotation.LogOperation;
+import com.losgai.gulimall.common.constant.Constant;
+import com.losgai.gulimall.common.exception.ErrorCode;
+import com.losgai.gulimall.common.page.PageData;
+import com.losgai.gulimall.common.utils.JsonUtils;
+import com.losgai.gulimall.common.utils.Result;
+import com.losgai.gulimall.common.validator.ValidatorUtils;
+import com.losgai.gulimall.common.validator.group.AliyunGroup;
+import com.losgai.gulimall.common.validator.group.QcloudGroup;
+import com.losgai.gulimall.common.validator.group.QiniuGroup;
 import io.renren.modules.oss.cloud.CloudStorageConfig;
 import io.renren.modules.oss.cloud.OSSFactory;
 import io.renren.modules.oss.entity.SysOssEntity;

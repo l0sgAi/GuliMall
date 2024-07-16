@@ -8,13 +8,13 @@
 
 package io.renren.modules.sys.controller;
 
-import io.renren.common.annotation.LogOperation;
-import io.renren.common.utils.Result;
-import io.renren.common.validator.AssertUtils;
-import io.renren.common.validator.ValidatorUtils;
-import io.renren.common.validator.group.AddGroup;
-import io.renren.common.validator.group.DefaultGroup;
-import io.renren.common.validator.group.UpdateGroup;
+import com.losgai.gulimall.common.annotation.LogOperation;
+import com.losgai.gulimall.common.utils.Result;
+import com.losgai.gulimall.common.validator.AssertUtils;
+import com.losgai.gulimall.common.validator.ValidatorUtils;
+import com.losgai.gulimall.common.validator.group.AddGroup;
+import com.losgai.gulimall.common.validator.group.DefaultGroup;
+import com.losgai.gulimall.common.validator.group.UpdateGroup;
 import io.renren.modules.sys.dto.SysDeptDTO;
 import io.renren.modules.sys.service.SysDeptService;
 import io.swagger.v3.oas.annotations.Operation;

@@ -9,7 +9,7 @@
 package io.renren;
 
 import cn.hutool.core.util.StrUtil;
-import io.renren.common.redis.RedisUtils;
+import com.losgai.gulimall.common.redis.RedisUtils;
 import io.renren.modules.sys.entity.SysUserEntity;
 import jakarta.annotation.Resource;
 import org.junit.Test;

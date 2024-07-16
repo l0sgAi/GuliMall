@@ -8,7 +8,7 @@
 
 package io.renren.config;
 
-import io.renren.common.constant.Constant;
+import com.losgai.gulimall.common.constant.Constant;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
