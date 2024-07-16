@@ -1,0 +1,29 @@
+package ${package}.modules.${moduleName}.dto;
+
+import lombok.Data;
+
+import java.io.Serializable;
+import java.util.Date;
+
+#if(${hasBigDecimal})
+import java.math.BigDecimal;
+#end
+
+/**
+ * ${comments}
+ *
+ * @author ${author} ${email}
+ * @since ${version} ${date}
+ */
+@Data
+@Schema(name = "${comments}")
+public class ${className}DTO implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+#foreach ($column in $columns)
+	@SchemaProperty(name = "$column.comments")
+	private $column.attrType $column.attrname;
+
+#end
+
+}
