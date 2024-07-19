@@ -24,6 +24,7 @@
         <module>gulimall-order</module>
         <module>gulimall-coupon</module>
         <module>renren-security</module>
+        <module>gulimall-gateway</module>
     </modules>
 
 </project>

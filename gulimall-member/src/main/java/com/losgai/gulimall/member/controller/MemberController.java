@@ -10,8 +10,11 @@ import com.losgai.gulimall.common.validator.ValidatorUtils;
 import com.losgai.gulimall.common.validator.group.AddGroup;
 import com.losgai.gulimall.common.validator.group.DefaultGroup;
 import com.losgai.gulimall.common.validator.group.UpdateGroup;
+import com.losgai.gulimall.coupon.entity.CouponEntity;
 import com.losgai.gulimall.member.dto.MemberDTO;
+import com.losgai.gulimall.member.entity.MemberEntity;
 import com.losgai.gulimall.member.excel.MemberExcel;
+import com.losgai.gulimall.member.feign.CouponFeignService;
 import com.losgai.gulimall.member.service.MemberService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +25,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,8 +41,12 @@ import java.util.Map;
 @RequestMapping("member/member")
 @Tag(name="会员")
 public class MemberController {
+
     @Autowired
     private MemberService memberService;
+
+    @Autowired
+    private CouponFeignService couponFeignService;
 
     @GetMapping("page")
     @Operation(summary = "分页")
@@ -111,5 +120,18 @@ public class MemberController {
 
         ExcelUtils.exportExcelToTarget(response, null, "会员", list, MemberExcel.class);
     }
+
+    // TODO： 测试Feign
+
+    /*@RequestMapping("feign/coupons")
+    public Result test(){
+        MemberEntity memberEntity = new MemberEntity();
+        memberEntity.setNickname("张叁");
+        Result memberCoupons = couponFeignService.memberCoupon();
+        List<CouponEntity> coupons = (List<CouponEntity>)memberCoupons.getData();
+        HashMap<MemberEntity,List<CouponEntity>> resultHashMap= new HashMap<>();
+        resultHashMap.put(memberEntity,coupons);
+        return new Result().ok(resultHashMap);
+    }*/
 
 }

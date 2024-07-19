@@ -11,6 +11,7 @@ import com.losgai.gulimall.common.validator.group.AddGroup;
 import com.losgai.gulimall.common.validator.group.DefaultGroup;
 import com.losgai.gulimall.common.validator.group.UpdateGroup;
 import com.losgai.gulimall.coupon.dto.CouponDTO;
+import com.losgai.gulimall.coupon.entity.CouponEntity;
 import com.losgai.gulimall.coupon.excel.CouponExcel;
 import com.losgai.gulimall.coupon.service.CouponService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -18,10 +19,14 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import jakarta.servlet.http.HttpServletResponse;
+
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -32,6 +37,7 @@ import java.util.Map;
  * @author losgai 356138661@qq.com
  * @since 1.0.0 2024-07-17
  */
+@RefreshScope
 @RestController
 @RequestMapping("coupon/coupon")
 @Tag(name="优惠券信息")
@@ -111,5 +117,23 @@ public class CouponController {
 
         ExcelUtils.exportExcelToTarget(response, null, "优惠券信息", list, CouponExcel.class);
     }
+
+    // TODO: 配置中心与Feign测试
+
+    /*@RequestMapping("/member/list")
+    public Result memberCoupon(){
+        CouponEntity couponEntity = new CouponEntity();
+        couponEntity.setCouponName("满100减10");
+        return new Result().ok(Arrays.asList(couponEntity));
+    }*/
+
+    /*@Value("${test_user.name}")
+    String username;
+    @Value("${test_user.age}")
+    Integer age;
+    @GetMapping("test")
+    public Result test(){
+        return new Result().ok(username + ":" + age);
+    }*/
 
 }
