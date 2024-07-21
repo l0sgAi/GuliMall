@@ -1,7 +1,7 @@
 package com.losgai.gulimall.member.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.losgai.gulimall.common.service.impl.CrudServiceImpl;
+import com.losgai.gulimall.common.common.service.impl.CrudServiceImpl;
 import com.losgai.gulimall.member.dao.MemberLoginLogDao;
 import com.losgai.gulimall.member.dto.MemberLoginLogDTO;
 import com.losgai.gulimall.member.entity.MemberLoginLogEntity;

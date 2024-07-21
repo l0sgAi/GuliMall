@@ -10,10 +10,10 @@ package com.losgai.gulimall.common.modules.job.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.losgai.gulimall.common.constant.Constant;
-import com.losgai.gulimall.common.page.PageData;
-import com.losgai.gulimall.common.service.impl.BaseServiceImpl;
-import com.losgai.gulimall.common.utils.ConvertUtils;
+import com.losgai.gulimall.common.common.constant.Constant;
+import com.losgai.gulimall.common.common.page.PageData;
+import com.losgai.gulimall.common.common.service.impl.BaseServiceImpl;
+import com.losgai.gulimall.common.common.utils.ConvertUtils;
 import com.losgai.gulimall.common.modules.job.dao.ScheduleJobLogDao;
 import com.losgai.gulimall.common.modules.job.dto.ScheduleJobLogDTO;
 import com.losgai.gulimall.common.modules.job.entity.ScheduleJobLogEntity;

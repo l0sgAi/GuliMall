@@ -1,7 +1,7 @@
 package com.losgai.gulimall.coupon.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.losgai.gulimall.common.service.impl.CrudServiceImpl;
+import com.losgai.gulimall.common.common.service.impl.CrudServiceImpl;
 import com.losgai.gulimall.coupon.dao.SeckillPromotionDao;
 import com.losgai.gulimall.coupon.dto.SeckillPromotionDTO;
 import com.losgai.gulimall.coupon.entity.SeckillPromotionEntity;

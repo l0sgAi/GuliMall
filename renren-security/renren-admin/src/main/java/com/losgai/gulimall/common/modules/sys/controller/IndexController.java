@@ -1,6 +1,6 @@
 package com.losgai.gulimall.common.modules.sys.controller;
 
-import com.losgai.gulimall.common.utils.Result;
+import com.losgai.gulimall.common.common.utils.Result;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 

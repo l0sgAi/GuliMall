@@ -9,13 +9,10 @@
 package com.losgai.gulimall.common.common.exception;
 
 import cn.hutool.core.map.MapUtil;
-import com.losgai.gulimall.common.exception.ErrorCode;
-import com.losgai.gulimall.common.exception.ExceptionUtils;
-import com.losgai.gulimall.common.exception.RenException;
-import com.losgai.gulimall.common.utils.HttpContextUtils;
-import com.losgai.gulimall.common.utils.IpUtils;
-import com.losgai.gulimall.common.utils.JsonUtils;
-import com.losgai.gulimall.common.utils.Result;
+import com.losgai.gulimall.common.common.utils.HttpContextUtils;
+import com.losgai.gulimall.common.common.utils.IpUtils;
+import com.losgai.gulimall.common.common.utils.JsonUtils;
+import com.losgai.gulimall.common.common.utils.Result;
 import com.losgai.gulimall.common.modules.log.entity.SysLogErrorEntity;
 import com.losgai.gulimall.common.modules.log.service.SysLogErrorService;
 import jakarta.servlet.http.HttpServletRequest;

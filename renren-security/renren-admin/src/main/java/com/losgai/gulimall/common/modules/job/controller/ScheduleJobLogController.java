@@ -9,9 +9,9 @@
 package com.losgai.gulimall.common.modules.job.controller;
 
 import com.losgai.gulimall.common.modules.job.dto.ScheduleJobLogDTO;
-import com.losgai.gulimall.common.constant.Constant;
-import com.losgai.gulimall.common.page.PageData;
-import com.losgai.gulimall.common.utils.Result;
+import com.losgai.gulimall.common.common.constant.Constant;
+import com.losgai.gulimall.common.common.page.PageData;
+import com.losgai.gulimall.common.common.utils.Result;
 import com.losgai.gulimall.common.modules.job.service.ScheduleJobLogService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

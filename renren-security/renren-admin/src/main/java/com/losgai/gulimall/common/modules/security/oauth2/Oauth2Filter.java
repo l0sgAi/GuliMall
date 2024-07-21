@@ -9,11 +9,11 @@
 package com.losgai.gulimall.common.modules.security.oauth2;
 
 import cn.hutool.core.util.StrUtil;
-import com.losgai.gulimall.common.constant.Constant;
-import com.losgai.gulimall.common.exception.ErrorCode;
-import com.losgai.gulimall.common.utils.HttpContextUtils;
-import com.losgai.gulimall.common.utils.JsonUtils;
-import com.losgai.gulimall.common.utils.Result;
+import com.losgai.gulimall.common.common.constant.Constant;
+import com.losgai.gulimall.common.common.exception.ErrorCode;
+import com.losgai.gulimall.common.common.utils.HttpContextUtils;
+import com.losgai.gulimall.common.common.utils.JsonUtils;
+import com.losgai.gulimall.common.common.utils.Result;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;

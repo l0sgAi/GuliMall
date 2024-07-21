@@ -1,6 +1,6 @@
 package com.losgai.gulimall.product.service;
 
-import com.losgai.gulimall.common.service.CrudService;
+import com.losgai.gulimall.common.common.service.CrudService;
 import com.losgai.gulimall.product.dto.CategoryDTO;
 import com.losgai.gulimall.product.entity.CategoryEntity;
 

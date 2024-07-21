@@ -16,8 +16,8 @@ import com.qcloud.cos.model.ObjectMetadata;
 import com.qcloud.cos.model.PutObjectRequest;
 import com.qcloud.cos.model.PutObjectResult;
 import com.qcloud.cos.region.Region;
-import com.losgai.gulimall.common.exception.ErrorCode;
-import com.losgai.gulimall.common.exception.RenException;
+import com.losgai.gulimall.common.common.exception.ErrorCode;
+import com.losgai.gulimall.common.common.exception.RenException;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

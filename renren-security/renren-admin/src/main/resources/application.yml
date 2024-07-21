@@ -5,9 +5,9 @@ server:
     threads:
       max: 1000
       min-spare: 30
-  port: 7777
+  port: 8080
   servlet:
-    context-path: /gulimall-admin
+    context-path: /renren-admin
     session:
       cookie:
         http-only: true

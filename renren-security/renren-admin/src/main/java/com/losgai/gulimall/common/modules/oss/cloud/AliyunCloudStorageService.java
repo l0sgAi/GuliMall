@@ -9,8 +9,8 @@
 package com.losgai.gulimall.common.modules.oss.cloud;
 
 import com.aliyun.oss.OSSClient;
-import com.losgai.gulimall.common.exception.ErrorCode;
-import com.losgai.gulimall.common.exception.RenException;
+import com.losgai.gulimall.common.common.exception.ErrorCode;
+import com.losgai.gulimall.common.common.exception.RenException;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;

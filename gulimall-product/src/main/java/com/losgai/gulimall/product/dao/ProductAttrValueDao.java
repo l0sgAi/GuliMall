@@ -1,6 +1,6 @@
 package com.losgai.gulimall.product.dao;
 
-import com.losgai.gulimall.common.dao.BaseDao;
+import com.losgai.gulimall.common.common.dao.BaseDao;
 import com.losgai.gulimall.product.entity.ProductAttrValueEntity;
 import org.apache.ibatis.annotations.Mapper;
 

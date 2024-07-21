@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="io.renren.dao.TokenDao">
+<mapper namespace="com.losgai.gulimall.common.dao.TokenDao">
 
-    <select id="getByToken" resultType="io.renren.entity.TokenEntity">
+    <select id="getByToken" resultType="com.losgai.gulimall.common.entity.TokenEntity">
         select * from tb_token where token = #{value}
     </select>
 
-    <select id="getByUserId" resultType="io.renren.entity.TokenEntity">
+    <select id="getByUserId" resultType="com.losgai.gulimall.common.entity.TokenEntity">
         select * from tb_token where user_id = #{value}
     </select>
 

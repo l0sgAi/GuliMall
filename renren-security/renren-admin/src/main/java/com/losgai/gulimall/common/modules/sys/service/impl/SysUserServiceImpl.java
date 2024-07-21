@@ -10,10 +10,10 @@ package com.losgai.gulimall.common.modules.sys.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.losgai.gulimall.common.constant.Constant;
-import com.losgai.gulimall.common.page.PageData;
-import com.losgai.gulimall.common.service.impl.BaseServiceImpl;
-import com.losgai.gulimall.common.utils.ConvertUtils;
+import com.losgai.gulimall.common.common.constant.Constant;
+import com.losgai.gulimall.common.common.page.PageData;
+import com.losgai.gulimall.common.common.service.impl.BaseServiceImpl;
+import com.losgai.gulimall.common.common.utils.ConvertUtils;
 import com.losgai.gulimall.common.modules.security.password.PasswordUtils;
 import com.losgai.gulimall.common.modules.security.user.SecurityUser;
 import com.losgai.gulimall.common.modules.security.user.UserDetail;

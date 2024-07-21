@@ -8,7 +8,7 @@
 
 package com.losgai.gulimall.common.modules.security.oauth2;
 
-import com.losgai.gulimall.common.exception.RenException;
+import com.losgai.gulimall.common.common.exception.RenException;
 
 import java.security.MessageDigest;
 import java.util.UUID;

@@ -1,7 +1,7 @@
 package com.losgai.gulimall.product.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.losgai.gulimall.common.service.impl.CrudServiceImpl;
+import com.losgai.gulimall.common.common.service.impl.CrudServiceImpl;
 import com.losgai.gulimall.product.dao.SpuCommentDao;
 import com.losgai.gulimall.product.dto.SpuCommentDTO;
 import com.losgai.gulimall.product.entity.SpuCommentEntity;

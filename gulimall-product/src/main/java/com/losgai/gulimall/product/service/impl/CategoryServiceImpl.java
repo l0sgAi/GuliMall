@@ -2,14 +2,13 @@ package com.losgai.gulimall.product.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.losgai.gulimall.common.service.impl.CrudServiceImpl;
+import com.losgai.gulimall.common.common.service.impl.CrudServiceImpl;
 import com.losgai.gulimall.product.dao.CategoryDao;
 import com.losgai.gulimall.product.dto.CategoryDTO;
 import com.losgai.gulimall.product.entity.CategoryEntity;
 import com.losgai.gulimall.product.service.CategoryService;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 

@@ -8,7 +8,7 @@
 
 package com.losgai.gulimall.common.modules.sys.service;
 
-import com.losgai.gulimall.common.service.BaseService;
+import com.losgai.gulimall.common.common.service.BaseService;
 import com.losgai.gulimall.common.modules.sys.entity.SysRoleUserEntity;
 
 import java.util.List;

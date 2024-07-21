@@ -10,8 +10,8 @@ package com.losgai.gulimall.common.modules.job.service;
 
 import com.losgai.gulimall.common.modules.job.dto.ScheduleJobDTO;
 import com.losgai.gulimall.common.modules.job.entity.ScheduleJobEntity;
-import com.losgai.gulimall.common.page.PageData;
-import com.losgai.gulimall.common.service.BaseService;
+import com.losgai.gulimall.common.common.page.PageData;
+import com.losgai.gulimall.common.common.service.BaseService;
 
 import java.util.Map;
 

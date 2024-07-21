@@ -8,7 +8,7 @@
 
 package com.losgai.gulimall.common.modules.oss.cloud;
 
-import com.losgai.gulimall.common.utils.DateUtils;
+import com.losgai.gulimall.common.common.utils.DateUtils;
 import cn.hutool.core.util.StrUtil;
 
 import java.io.InputStream;

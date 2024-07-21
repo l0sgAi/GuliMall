@@ -8,7 +8,7 @@
 
 package com.losgai.gulimall.common.modules.sys.dao;
 
-import com.losgai.gulimall.common.dao.BaseDao;
+import com.losgai.gulimall.common.common.dao.BaseDao;
 import com.losgai.gulimall.common.modules.sys.entity.DictType;
 import com.losgai.gulimall.common.modules.sys.entity.SysDictTypeEntity;
 import org.apache.ibatis.annotations.Mapper;

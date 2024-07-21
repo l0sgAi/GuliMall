@@ -9,8 +9,8 @@
 package com.losgai.gulimall.common.modules.oss.cloud;
 
 import com.losgai.gulimall.common.modules.sys.service.SysParamsService;
-import com.losgai.gulimall.common.constant.Constant;
-import com.losgai.gulimall.common.utils.SpringContextUtils;
+import com.losgai.gulimall.common.common.constant.Constant;
+import com.losgai.gulimall.common.common.utils.SpringContextUtils;
 
 /**
  * 文件上传Factory

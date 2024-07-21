@@ -9,7 +9,7 @@
 package com.losgai.gulimall.common.modules.sys.service;
 
 import com.losgai.gulimall.common.modules.security.user.UserDetail;
-import com.losgai.gulimall.common.service.BaseService;
+import com.losgai.gulimall.common.common.service.BaseService;
 import com.losgai.gulimall.common.modules.sys.dto.SysMenuDTO;
 import com.losgai.gulimall.common.modules.sys.entity.SysMenuEntity;
 

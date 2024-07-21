@@ -8,7 +8,7 @@
 
 package com.losgai.gulimall.common.modules.job.dao;
 
-import com.losgai.gulimall.common.dao.BaseDao;
+import com.losgai.gulimall.common.common.dao.BaseDao;
 import com.losgai.gulimall.common.modules.job.entity.ScheduleJobLogEntity;
 import org.apache.ibatis.annotations.Mapper;
 

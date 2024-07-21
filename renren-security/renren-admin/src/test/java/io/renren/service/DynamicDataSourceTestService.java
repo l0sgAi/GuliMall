@@ -8,7 +8,7 @@
 
 package io.renren.service;
 
-import io.renren.commons.dynamic.datasource.annotation.DataSource;
+import com.losgai.gulimall.common.commons.dynamic.datasource.annotation.DataSource;
 import com.losgai.gulimall.common.modules.sys.dao.SysUserDao;
 import com.losgai.gulimall.common.modules.sys.entity.SysUserEntity;
 import jakarta.annotation.Resource;

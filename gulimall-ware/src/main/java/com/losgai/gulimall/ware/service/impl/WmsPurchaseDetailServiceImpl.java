@@ -1,7 +1,7 @@
 package com.losgai.gulimall.ware.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.losgai.gulimall.common.service.impl.CrudServiceImpl;
+import com.losgai.gulimall.common.common.service.impl.CrudServiceImpl;
 import com.losgai.gulimall.ware.dao.WmsPurchaseDetailDao;
 import com.losgai.gulimall.ware.dto.WmsPurchaseDetailDTO;
 import com.losgai.gulimall.ware.entity.WmsPurchaseDetailEntity;

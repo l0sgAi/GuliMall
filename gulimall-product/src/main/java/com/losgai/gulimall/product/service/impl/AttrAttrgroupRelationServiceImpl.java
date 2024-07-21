@@ -1,7 +1,7 @@
 package com.losgai.gulimall.product.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.losgai.gulimall.common.service.impl.CrudServiceImpl;
+import com.losgai.gulimall.common.common.service.impl.CrudServiceImpl;
 import com.losgai.gulimall.product.dao.AttrAttrgroupRelationDao;
 import com.losgai.gulimall.product.dto.AttrAttrgroupRelationDTO;
 import com.losgai.gulimall.product.entity.AttrAttrgroupRelationEntity;

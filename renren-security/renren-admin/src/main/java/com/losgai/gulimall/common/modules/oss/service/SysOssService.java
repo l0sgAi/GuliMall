@@ -9,8 +9,8 @@
 package com.losgai.gulimall.common.modules.oss.service;
 
 import com.losgai.gulimall.common.modules.oss.entity.SysOssEntity;
-import com.losgai.gulimall.common.page.PageData;
-import com.losgai.gulimall.common.service.BaseService;
+import com.losgai.gulimall.common.common.page.PageData;
+import com.losgai.gulimall.common.common.service.BaseService;
 
 import java.util.Map;
 

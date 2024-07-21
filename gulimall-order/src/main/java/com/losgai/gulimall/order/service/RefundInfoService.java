@@ -1,6 +1,6 @@
 package com.losgai.gulimall.order.service;
 
-import com.losgai.gulimall.common.service.CrudService;
+import com.losgai.gulimall.common.common.service.CrudService;
 import com.losgai.gulimall.order.dto.RefundInfoDTO;
 import com.losgai.gulimall.order.entity.RefundInfoEntity;
 

@@ -8,7 +8,7 @@
 
 package com.losgai.gulimall.common.modules.security.config;
 
-import com.losgai.gulimall.common.xss.XssFilter;
+import com.losgai.gulimall.common.common.xss.XssFilter;
 import jakarta.servlet.DispatcherType;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;

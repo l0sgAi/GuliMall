@@ -9,8 +9,8 @@
 package com.losgai.gulimall.common.modules.security.service;
 
 import com.losgai.gulimall.common.modules.security.entity.SysUserTokenEntity;
-import com.losgai.gulimall.common.service.BaseService;
-import com.losgai.gulimall.common.utils.Result;
+import com.losgai.gulimall.common.common.service.BaseService;
+import com.losgai.gulimall.common.common.utils.Result;
 
 /**
  * 用户Token

@@ -53,6 +53,7 @@ public class ShiroConfig {
     @Bean("shiroFilter")
     public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilter = new ShiroFilterFactoryBean();
+        System.out.println("");
         shiroFilter.setSecurityManager(securityManager);
 
         //oauth过滤

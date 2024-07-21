@@ -8,8 +8,8 @@
 
 package com.losgai.gulimall.common.modules.sys.service;
 
-import com.losgai.gulimall.common.page.PageData;
-import com.losgai.gulimall.common.service.BaseService;
+import com.losgai.gulimall.common.common.page.PageData;
+import com.losgai.gulimall.common.common.service.BaseService;
 import com.losgai.gulimall.common.modules.sys.dto.SysUserDTO;
 import com.losgai.gulimall.common.modules.sys.entity.SysUserEntity;
 

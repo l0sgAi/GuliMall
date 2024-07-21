@@ -11,7 +11,7 @@ package com.losgai.gulimall.common.modules.sys.entity;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.losgai.gulimall.common.entity.BaseEntity;
+import com.losgai.gulimall.common.common.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

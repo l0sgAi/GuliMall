@@ -1,6 +1,6 @@
 package com.losgai.gulimall.ware.dao;
 
-import com.losgai.gulimall.common.dao.BaseDao;
+import com.losgai.gulimall.common.common.dao.BaseDao;
 import com.losgai.gulimall.ware.entity.WmsWareInfoEntity;
 import org.apache.ibatis.annotations.Mapper;
 

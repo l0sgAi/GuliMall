@@ -9,7 +9,7 @@
 package com.losgai.gulimall.common.modules.sys.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.losgai.gulimall.common.entity.BaseEntity;
+import com.losgai.gulimall.common.common.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

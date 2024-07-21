@@ -8,8 +8,8 @@
 
 package com.losgai.gulimall.common.modules.sys.redis;
 
-import com.losgai.gulimall.common.redis.RedisKeys;
-import com.losgai.gulimall.common.redis.RedisUtils;
+import com.losgai.gulimall.common.common.redis.RedisKeys;
+import com.losgai.gulimall.common.common.redis.RedisUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 

@@ -9,7 +9,7 @@
 package com.losgai.gulimall.common.modules.sys.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
-import com.losgai.gulimall.common.service.impl.BaseServiceImpl;
+import com.losgai.gulimall.common.common.service.impl.BaseServiceImpl;
 import com.losgai.gulimall.common.modules.sys.dao.SysRoleDataScopeDao;
 import com.losgai.gulimall.common.modules.sys.entity.SysRoleDataScopeEntity;
 import com.losgai.gulimall.common.modules.sys.service.SysRoleDataScopeService;

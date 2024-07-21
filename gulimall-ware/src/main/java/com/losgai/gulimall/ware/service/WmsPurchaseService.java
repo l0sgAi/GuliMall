@@ -1,6 +1,6 @@
 package com.losgai.gulimall.ware.service;
 
-import com.losgai.gulimall.common.service.CrudService;
+import com.losgai.gulimall.common.common.service.CrudService;
 import com.losgai.gulimall.ware.dto.WmsPurchaseDTO;
 import com.losgai.gulimall.ware.entity.WmsPurchaseEntity;
 

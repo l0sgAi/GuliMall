@@ -9,7 +9,7 @@
 package com.losgai.gulimall.common.modules.sys.dao;
 
 import com.losgai.gulimall.common.modules.sys.entity.SysUserEntity;
-import com.losgai.gulimall.common.dao.BaseDao;
+import com.losgai.gulimall.common.common.dao.BaseDao;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

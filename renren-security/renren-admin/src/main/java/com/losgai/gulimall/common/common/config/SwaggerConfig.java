@@ -8,7 +8,7 @@
 
 package com.losgai.gulimall.common.common.config;
 
-import com.losgai.gulimall.common.constant.Constant;
+import com.losgai.gulimall.common.common.constant.Constant;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;

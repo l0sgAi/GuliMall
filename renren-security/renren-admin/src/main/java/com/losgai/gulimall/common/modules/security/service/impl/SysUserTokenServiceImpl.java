@@ -8,10 +8,10 @@
 
 package com.losgai.gulimall.common.modules.security.service.impl;
 
-import com.losgai.gulimall.common.constant.Constant;
-import com.losgai.gulimall.common.service.impl.BaseServiceImpl;
+import com.losgai.gulimall.common.common.constant.Constant;
+import com.losgai.gulimall.common.common.service.impl.BaseServiceImpl;
 import com.losgai.gulimall.common.modules.security.oauth2.TokenGenerator;
-import com.losgai.gulimall.common.utils.Result;
+import com.losgai.gulimall.common.common.utils.Result;
 import com.losgai.gulimall.common.modules.security.dao.SysUserTokenDao;
 import com.losgai.gulimall.common.modules.security.entity.SysUserTokenEntity;
 import com.losgai.gulimall.common.modules.security.service.SysUserTokenService;

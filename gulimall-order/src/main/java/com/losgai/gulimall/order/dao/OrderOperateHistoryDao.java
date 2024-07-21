@@ -1,6 +1,6 @@
 package com.losgai.gulimall.order.dao;
 
-import com.losgai.gulimall.common.dao.BaseDao;
+import com.losgai.gulimall.common.common.dao.BaseDao;
 import com.losgai.gulimall.order.entity.OrderOperateHistoryEntity;
 import org.apache.ibatis.annotations.Mapper;
 

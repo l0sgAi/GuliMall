@@ -1,6 +1,6 @@
 package com.losgai.gulimall.coupon.service;
 
-import com.losgai.gulimall.common.service.CrudService;
+import com.losgai.gulimall.common.common.service.CrudService;
 import com.losgai.gulimall.coupon.dto.SkuLadderDTO;
 import com.losgai.gulimall.coupon.entity.SkuLadderEntity;
 

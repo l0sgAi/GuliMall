@@ -8,12 +8,12 @@
 
 package com.losgai.gulimall.common.modules.sys.service.impl;
 
-import com.losgai.gulimall.common.constant.Constant;
-import com.losgai.gulimall.common.exception.ErrorCode;
-import com.losgai.gulimall.common.exception.RenException;
-import com.losgai.gulimall.common.service.impl.BaseServiceImpl;
-import com.losgai.gulimall.common.utils.ConvertUtils;
-import com.losgai.gulimall.common.utils.TreeUtils;
+import com.losgai.gulimall.common.common.constant.Constant;
+import com.losgai.gulimall.common.common.exception.ErrorCode;
+import com.losgai.gulimall.common.common.exception.RenException;
+import com.losgai.gulimall.common.common.service.impl.BaseServiceImpl;
+import com.losgai.gulimall.common.common.utils.ConvertUtils;
+import com.losgai.gulimall.common.common.utils.TreeUtils;
 import com.losgai.gulimall.common.modules.security.user.UserDetail;
 import com.losgai.gulimall.common.modules.sys.dao.SysMenuDao;
 import com.losgai.gulimall.common.modules.sys.dto.SysMenuDTO;

@@ -1,6 +1,6 @@
 package com.losgai.gulimall.member.service;
 
-import com.losgai.gulimall.common.service.CrudService;
+import com.losgai.gulimall.common.common.service.CrudService;
 import com.losgai.gulimall.member.dto.MemberDTO;
 import com.losgai.gulimall.member.entity.MemberEntity;
 

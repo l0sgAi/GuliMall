@@ -9,12 +9,12 @@
 package com.losgai.gulimall.common.modules.sys.controller;
 
 import com.losgai.gulimall.common.common.annotation.LogOperation;
-import com.losgai.gulimall.common.utils.Result;
-import com.losgai.gulimall.common.validator.AssertUtils;
-import com.losgai.gulimall.common.validator.ValidatorUtils;
-import com.losgai.gulimall.common.validator.group.AddGroup;
-import com.losgai.gulimall.common.validator.group.DefaultGroup;
-import com.losgai.gulimall.common.validator.group.UpdateGroup;
+import com.losgai.gulimall.common.common.utils.Result;
+import com.losgai.gulimall.common.common.validator.AssertUtils;
+import com.losgai.gulimall.common.common.validator.ValidatorUtils;
+import com.losgai.gulimall.common.common.validator.group.AddGroup;
+import com.losgai.gulimall.common.common.validator.group.DefaultGroup;
+import com.losgai.gulimall.common.common.validator.group.UpdateGroup;
 import com.losgai.gulimall.common.modules.sys.dto.SysDeptDTO;
 import com.losgai.gulimall.common.modules.sys.service.SysDeptService;
 import io.swagger.v3.oas.annotations.Operation;

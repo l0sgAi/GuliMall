@@ -1,6 +1,6 @@
 package com.losgai.gulimall.member.dao;
 
-import com.losgai.gulimall.common.dao.BaseDao;
+import com.losgai.gulimall.common.common.dao.BaseDao;
 import com.losgai.gulimall.member.entity.MemberLoginLogEntity;
 import org.apache.ibatis.annotations.Mapper;
 

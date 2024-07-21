@@ -10,9 +10,9 @@ package com.losgai.gulimall.common.modules.sys.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.losgai.gulimall.common.page.PageData;
-import com.losgai.gulimall.common.service.impl.BaseServiceImpl;
-import com.losgai.gulimall.common.utils.ConvertUtils;
+import com.losgai.gulimall.common.common.page.PageData;
+import com.losgai.gulimall.common.common.service.impl.BaseServiceImpl;
+import com.losgai.gulimall.common.common.utils.ConvertUtils;
 import com.losgai.gulimall.common.modules.sys.dao.SysDictDataDao;
 import com.losgai.gulimall.common.modules.sys.dto.SysDictDataDTO;
 import com.losgai.gulimall.common.modules.sys.entity.SysDictDataEntity;

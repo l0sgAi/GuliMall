@@ -1,6 +1,6 @@
 package com.losgai.gulimall.coupon.dao;
 
-import com.losgai.gulimall.common.dao.BaseDao;
+import com.losgai.gulimall.common.common.dao.BaseDao;
 import com.losgai.gulimall.coupon.entity.CouponSpuCategoryRelationEntity;
 import org.apache.ibatis.annotations.Mapper;
 

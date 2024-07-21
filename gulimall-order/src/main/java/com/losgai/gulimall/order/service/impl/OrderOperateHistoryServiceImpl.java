@@ -1,7 +1,7 @@
 package com.losgai.gulimall.order.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.losgai.gulimall.common.service.impl.CrudServiceImpl;
+import com.losgai.gulimall.common.common.service.impl.CrudServiceImpl;
 import com.losgai.gulimall.order.dao.OrderOperateHistoryDao;
 import com.losgai.gulimall.order.dto.OrderOperateHistoryDTO;
 import com.losgai.gulimall.order.entity.OrderOperateHistoryEntity;

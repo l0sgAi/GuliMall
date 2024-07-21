@@ -1,7 +1,7 @@
 package com.losgai.gulimall.ware.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.losgai.gulimall.common.service.impl.CrudServiceImpl;
+import com.losgai.gulimall.common.common.service.impl.CrudServiceImpl;
 import com.losgai.gulimall.ware.dao.UndoLogDao;
 import com.losgai.gulimall.ware.dto.UndoLogDTO;
 import com.losgai.gulimall.ware.entity.UndoLogEntity;
