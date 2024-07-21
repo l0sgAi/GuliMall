@@ -1,18 +1,16 @@
 package com.losgai.gulimall.member.controller;
 
-import com.losgai.gulimall.common.annotation.LogOperation;
+import com.losgai.gulimall.common.common.annotation.LogOperation;
 import com.losgai.gulimall.common.constant.Constant;
 import com.losgai.gulimall.common.page.PageData;
-import com.losgai.gulimall.common.utils.ExcelUtils;
+import com.losgai.gulimall.common.common.utils.ExcelUtils;
 import com.losgai.gulimall.common.utils.Result;
 import com.losgai.gulimall.common.validator.AssertUtils;
 import com.losgai.gulimall.common.validator.ValidatorUtils;
 import com.losgai.gulimall.common.validator.group.AddGroup;
 import com.losgai.gulimall.common.validator.group.DefaultGroup;
 import com.losgai.gulimall.common.validator.group.UpdateGroup;
-import com.losgai.gulimall.coupon.entity.CouponEntity;
 import com.losgai.gulimall.member.dto.MemberDTO;
-import com.losgai.gulimall.member.entity.MemberEntity;
 import com.losgai.gulimall.member.excel.MemberExcel;
 import com.losgai.gulimall.member.feign.CouponFeignService;
 import com.losgai.gulimall.member.service.MemberService;
@@ -26,7 +24,6 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

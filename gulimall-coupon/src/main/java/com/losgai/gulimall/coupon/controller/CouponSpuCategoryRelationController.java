@@ -1,9 +1,9 @@
 package com.losgai.gulimall.coupon.controller;
 
-import com.losgai.gulimall.common.annotation.LogOperation;
+import com.losgai.gulimall.common.common.annotation.LogOperation;
 import com.losgai.gulimall.common.constant.Constant;
 import com.losgai.gulimall.common.page.PageData;
-import com.losgai.gulimall.common.utils.ExcelUtils;
+import com.losgai.gulimall.common.common.utils.ExcelUtils;
 import com.losgai.gulimall.common.utils.Result;
 import com.losgai.gulimall.common.validator.AssertUtils;
 import com.losgai.gulimall.common.validator.ValidatorUtils;
@@ -56,7 +56,7 @@ public class CouponSpuCategoryRelationController {
 
     @GetMapping("{id}")
     @Operation(summary = "信息")
-    //@RequiresPermissions("coupon:couponspucategoryrelation:info")
+    @RequiresPermissions("coupon:couponspucategoryrelation:info")
     public Result<CouponSpuCategoryRelationDTO> get(@PathVariable("id") Long id){
         CouponSpuCategoryRelationDTO data = couponSpuCategoryRelationService.get(id);
 
@@ -66,7 +66,7 @@ public class CouponSpuCategoryRelationController {
     @PostMapping
     @Operation(summary = "保存")
     @LogOperation("保存")
-    //@RequiresPermissions("coupon:couponspucategoryrelation:save")
+    @RequiresPermissions("coupon:couponspucategoryrelation:save")
     public Result save(@RequestBody CouponSpuCategoryRelationDTO dto){
         //效验数据
         ValidatorUtils.validateEntity(dto, AddGroup.class, DefaultGroup.class);
@@ -79,7 +79,7 @@ public class CouponSpuCategoryRelationController {
     @PutMapping
     @Operation(summary = "修改")
     @LogOperation("修改")
-    //@RequiresPermissions("coupon:couponspucategoryrelation:update")
+    @RequiresPermissions("coupon:couponspucategoryrelation:update")
     public Result update(@RequestBody CouponSpuCategoryRelationDTO dto){
         //效验数据
         ValidatorUtils.validateEntity(dto, UpdateGroup.class, DefaultGroup.class);
@@ -92,7 +92,7 @@ public class CouponSpuCategoryRelationController {
     @DeleteMapping
     @Operation(summary = "删除")
     @LogOperation("删除")
-    //@RequiresPermissions("coupon:couponspucategoryrelation:delete")
+    @RequiresPermissions("coupon:couponspucategoryrelation:delete")
     public Result delete(@RequestBody Long[] ids){
         //效验数据
         AssertUtils.isArrayEmpty(ids, "id");
@@ -105,7 +105,7 @@ public class CouponSpuCategoryRelationController {
     @GetMapping("export")
     @Operation(summary = "导出")
     @LogOperation("导出")
-    //@RequiresPermissions("coupon:couponspucategoryrelation:export")
+    @RequiresPermissions("coupon:couponspucategoryrelation:export")
     public void export(@Parameter(hidden = true) @RequestParam Map<String, Object> params, HttpServletResponse response) throws Exception {
         List<CouponSpuCategoryRelationDTO> list = couponSpuCategoryRelationService.list(params);
 

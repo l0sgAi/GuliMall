@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="io.renren.modules.sys.dao.SysRoleDataScopeDao">
+<mapper namespace="com.losgai.gulimall.common.modules.sys.dao.SysRoleDataScopeDao">
 
     <select id="getDeptIdList" resultType="long">
         select dept_id from sys_role_data_scope where role_id = #{value}

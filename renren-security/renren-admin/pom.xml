@@ -25,6 +25,25 @@
 			<groupId>io.renren</groupId>
 			<artifactId>gulimall-common</artifactId>
 			<version>5.4.0</version>
+			<!--排除引入的nacos依赖-->
+			<exclusions>
+				<exclusion>
+					<groupId>com.alibaba.cloud</groupId>
+					<artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.alibaba.cloud</groupId>
+					<artifactId>spring-cloud-alibaba-dependencies</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.alibaba.cloud</groupId>
+					<artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+				</exclusion>
+				<exclusion>
+						<groupId>org.springframework.cloud</groupId>
+						<artifactId>spring-cloud-starter-bootstrap</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>io.renren</groupId>
@@ -118,7 +137,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-	</dependencies>
+    </dependencies>
 
 	<build>
 		<finalName>${project.artifactId}</finalName>

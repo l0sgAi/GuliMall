@@ -9,11 +9,11 @@
 package io.renren.controller;
 
 import cn.hutool.crypto.digest.DigestUtil;
+import io.renren.service.UserService;
 import com.losgai.gulimall.common.utils.Result;
 import com.losgai.gulimall.common.validator.ValidatorUtils;
 import io.renren.dto.RegisterDTO;
 import io.renren.entity.UserEntity;
-import io.renren.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;

@@ -1,9 +1,9 @@
 package com.losgai.gulimall.coupon.controller;
 
-import com.losgai.gulimall.common.annotation.LogOperation;
+import com.losgai.gulimall.common.common.annotation.LogOperation;
 import com.losgai.gulimall.common.constant.Constant;
 import com.losgai.gulimall.common.page.PageData;
-import com.losgai.gulimall.common.utils.ExcelUtils;
+import com.losgai.gulimall.common.common.utils.ExcelUtils;
 import com.losgai.gulimall.common.utils.Result;
 import com.losgai.gulimall.common.validator.AssertUtils;
 import com.losgai.gulimall.common.validator.ValidatorUtils;
@@ -56,7 +56,7 @@ public class CouponHistoryController {
 
     @GetMapping("{id}")
     @Operation(summary = "信息")
-    //@RequiresPermissions("coupon:couponhistory:info")
+    @RequiresPermissions("coupon:couponhistory:info")
     public Result<CouponHistoryDTO> get(@PathVariable("id") Long id){
         CouponHistoryDTO data = couponHistoryService.get(id);
 
@@ -66,7 +66,7 @@ public class CouponHistoryController {
     @PostMapping
     @Operation(summary = "保存")
     @LogOperation("保存")
-    //@RequiresPermissions("coupon:couponhistory:save")
+    @RequiresPermissions("coupon:couponhistory:save")
     public Result save(@RequestBody CouponHistoryDTO dto){
         //效验数据
         ValidatorUtils.validateEntity(dto, AddGroup.class, DefaultGroup.class);
@@ -79,7 +79,7 @@ public class CouponHistoryController {
     @PutMapping
     @Operation(summary = "修改")
     @LogOperation("修改")
-    //@RequiresPermissions("coupon:couponhistory:update")
+    @RequiresPermissions("coupon:couponhistory:update")
     public Result update(@RequestBody CouponHistoryDTO dto){
         //效验数据
         ValidatorUtils.validateEntity(dto, UpdateGroup.class, DefaultGroup.class);
@@ -92,7 +92,7 @@ public class CouponHistoryController {
     @DeleteMapping
     @Operation(summary = "删除")
     @LogOperation("删除")
-    //@RequiresPermissions("coupon:couponhistory:delete")
+    @RequiresPermissions("coupon:couponhistory:delete")
     public Result delete(@RequestBody Long[] ids){
         //效验数据
         AssertUtils.isArrayEmpty(ids, "id");
@@ -105,7 +105,7 @@ public class CouponHistoryController {
     @GetMapping("export")
     @Operation(summary = "导出")
     @LogOperation("导出")
-    //@RequiresPermissions("coupon:couponhistory:export")
+    @RequiresPermissions("coupon:couponhistory:export")
     public void export(@Parameter(hidden = true) @RequestParam Map<String, Object> params, HttpServletResponse response) throws Exception {
         List<CouponHistoryDTO> list = couponHistoryService.list(params);
 

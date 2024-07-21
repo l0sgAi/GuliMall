@@ -8,8 +8,8 @@
 
 package io.renren.service;
 
-import com.losgai.gulimall.common.service.BaseService;
 import io.renren.entity.TokenEntity;
+import com.losgai.gulimall.common.service.BaseService;
 
 /**
  * 用户Token

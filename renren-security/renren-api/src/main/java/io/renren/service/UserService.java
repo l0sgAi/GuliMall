@@ -8,9 +8,9 @@
 
 package io.renren.service;
 
-import com.losgai.gulimall.common.service.BaseService;
-import io.renren.entity.UserEntity;
 import io.renren.dto.LoginDTO;
+import io.renren.entity.UserEntity;
+import com.losgai.gulimall.common.service.BaseService;
 
 import java.util.Map;
 

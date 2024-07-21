@@ -9,16 +9,16 @@
 package io.renren.service.impl;
 
 import cn.hutool.crypto.digest.DigestUtil;
-import com.losgai.gulimall.common.exception.ErrorCode;
-import com.losgai.gulimall.common.exception.RenException;
-import com.losgai.gulimall.common.service.impl.BaseServiceImpl;
-import com.losgai.gulimall.common.validator.AssertUtils;
 import io.renren.dao.UserDao;
 import io.renren.dto.LoginDTO;
-import io.renren.entity.TokenEntity;
-import io.renren.entity.UserEntity;
+import com.losgai.gulimall.common.exception.ErrorCode;
+import com.losgai.gulimall.common.exception.RenException;
 import io.renren.service.TokenService;
 import io.renren.service.UserService;
+import com.losgai.gulimall.common.service.impl.BaseServiceImpl;
+import com.losgai.gulimall.common.validator.AssertUtils;
+import io.renren.entity.TokenEntity;
+import io.renren.entity.UserEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

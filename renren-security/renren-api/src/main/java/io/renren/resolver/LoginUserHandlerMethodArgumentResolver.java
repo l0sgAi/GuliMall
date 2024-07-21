@@ -8,10 +8,10 @@
 
 package io.renren.resolver;
 
-import io.renren.annotation.LoginUser;
-import io.renren.entity.UserEntity;
 import io.renren.interceptor.AuthorizationInterceptor;
 import io.renren.service.UserService;
+import io.renren.annotation.LoginUser;
+import io.renren.entity.UserEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;

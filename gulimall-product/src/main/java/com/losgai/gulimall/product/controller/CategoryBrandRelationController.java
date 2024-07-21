@@ -1,9 +1,9 @@
 package com.losgai.gulimall.product.controller;
 
-import com.losgai.gulimall.common.annotation.LogOperation;
+import com.losgai.gulimall.common.common.annotation.LogOperation;
 import com.losgai.gulimall.common.constant.Constant;
 import com.losgai.gulimall.common.page.PageData;
-import com.losgai.gulimall.common.utils.ExcelUtils;
+import com.losgai.gulimall.common.common.utils.ExcelUtils;
 import com.losgai.gulimall.common.utils.Result;
 import com.losgai.gulimall.common.validator.AssertUtils;
 import com.losgai.gulimall.common.validator.ValidatorUtils;
@@ -16,7 +16,6 @@ import com.losgai.gulimall.product.service.CategoryBrandRelationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -47,7 +46,7 @@ public class CategoryBrandRelationController {
         @Parameter(name = Constant.ORDER_FIELD, description = "排序字段", in = ParameterIn.QUERY, ref="String") ,
         @Parameter(name = Constant.ORDER, description = "排序方式，可选值(asc、desc)", in = ParameterIn.QUERY, ref="String")
     })
-    @RequiresPermissions("product:categorybrandrelation:page")
+    //@RequiresPermissions("product:categorybrandrelation:page")
     public Result<PageData<CategoryBrandRelationDTO>> page(@Parameter(hidden = true) @RequestParam Map<String, Object> params){
         PageData<CategoryBrandRelationDTO> page = categoryBrandRelationService.page(params);
 

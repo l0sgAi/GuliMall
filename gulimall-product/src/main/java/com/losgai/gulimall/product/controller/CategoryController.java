@@ -1,9 +1,8 @@
 package com.losgai.gulimall.product.controller;
 
-import com.losgai.gulimall.common.annotation.LogOperation;
+import com.losgai.gulimall.common.common.annotation.LogOperation;
 import com.losgai.gulimall.common.constant.Constant;
-import com.losgai.gulimall.common.page.PageData;
-import com.losgai.gulimall.common.utils.ExcelUtils;
+import com.losgai.gulimall.common.common.utils.ExcelUtils;
 import com.losgai.gulimall.common.utils.Result;
 import com.losgai.gulimall.common.validator.AssertUtils;
 import com.losgai.gulimall.common.validator.ValidatorUtils;
@@ -11,12 +10,12 @@ import com.losgai.gulimall.common.validator.group.AddGroup;
 import com.losgai.gulimall.common.validator.group.DefaultGroup;
 import com.losgai.gulimall.common.validator.group.UpdateGroup;
 import com.losgai.gulimall.product.dto.CategoryDTO;
+import com.losgai.gulimall.product.entity.CategoryEntity;
 import com.losgai.gulimall.product.excel.CategoryExcel;
 import com.losgai.gulimall.product.service.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -39,7 +38,7 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-    @GetMapping("page")
+    @GetMapping("page/tree") //树型分类封装
     @Operation(summary = "分页")
     @Parameters({
         @Parameter(name = Constant.PAGE, description = "当前页码，从1开始", in = ParameterIn.QUERY, required = true, ref="int") ,
@@ -47,11 +46,10 @@ public class CategoryController {
         @Parameter(name = Constant.ORDER_FIELD, description = "排序字段", in = ParameterIn.QUERY, ref="String") ,
         @Parameter(name = Constant.ORDER, description = "排序方式，可选值(asc、desc)", in = ParameterIn.QUERY, ref="String")
     })
-    @RequiresPermissions("product:category:page")
-    public Result<PageData<CategoryDTO>> page(@Parameter(hidden = true) @RequestParam Map<String, Object> params){
-        PageData<CategoryDTO> page = categoryService.page(params);
-
-        return new Result<PageData<CategoryDTO>>().ok(page);
+    //@RequiresPermissions("product:category:page")
+    public Result<List<CategoryEntity>> page(){
+        List<CategoryEntity> categoryTreeList = categoryService.listWithTree();
+        return new Result().ok(categoryTreeList);
     }
 
     @GetMapping("{id}")

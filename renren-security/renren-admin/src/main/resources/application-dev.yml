@@ -23,28 +23,31 @@ spring:
       stat-view-servlet:
         enabled: true
         url-pattern: /druid/*
-        #login-username: admin
-        #login-password: admin
-        #达梦数据库，需要注释掉，其他数据库可以打开
-#      filter:
-#        stat:
-#          log-slow-sql: true
-#          slow-sql-millis: 1000
-#          merge-sql: false
-#        wall:
-#          config:
-#            multi-statement-allow: true
 
-##多数据源的配置，需要引用renren-dynamic-datasource
-#dynamic:
-#  datasource:
-#    slave1:
-#      driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-#      url: jdbc:sqlserver://123456:1433;DatabaseName=renren_security
-#      username: sa
-#      password: 123456
-#    slave2:
-#      driver-class-name: org.postgresql.Driver
-#      url: jdbc:postgresql://123456:5432/renren_security
-#      username: postgres
-#      password: 123456
+
+
+#        #login-username: admin
+#        #login-password: admin
+#        #达梦数据库，需要注释掉，其他数据库可以打开
+##      filter:
+##        stat:
+##          log-slow-sql: true
+##          slow-sql-millis: 1000
+##          merge-sql: false
+##        wall:
+##          config:
+##            multi-statement-allow: true
+#
+###多数据源的配置，需要引用renren-dynamic-datasource
+##dynamic:
+##  datasource:
+##    slave1:
+##      driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+##      url: jdbc:sqlserver://123456:1433;DatabaseName=renren_security
+##      username: sa
+##      password: 123456
+##    slave2:
+##      driver-class-name: org.postgresql.Driver
+##      url: jdbc:postgresql://123456:5432/renren_security
+##      username: postgres
+##      password: 123456

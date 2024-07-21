@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="io.renren.modules.sys.dao.SysMenuDao">
+<mapper namespace="com.losgai.gulimall.common.modules.sys.dao.SysMenuDao">
 
-	<select id="getById" resultType="io.renren.modules.sys.entity.SysMenuEntity">
+	<select id="getById" resultType="com.losgai.gulimall.common.modules.sys.entity.SysMenuEntity">
 		select t1.*, (select name from sys_menu t2 where t2.id=t1.pid) as parentName from sys_menu t1
 			where t1.id = #{id}
 	</select>
 
-	<select id="getMenuList" resultType="io.renren.modules.sys.entity.SysMenuEntity">
+	<select id="getMenuList" resultType="com.losgai.gulimall.common.modules.sys.entity.SysMenuEntity">
 		select t1.* from sys_menu t1
 		<where>
 			<if test="menuType != null">
@@ -18,7 +18,7 @@
 		order by t1.sort asc
 	</select>
 
-	<select id="getUserMenuList" resultType="io.renren.modules.sys.entity.SysMenuEntity">
+	<select id="getUserMenuList" resultType="com.losgai.gulimall.common.modules.sys.entity.SysMenuEntity">
 		select t3.* from sys_role_user t1
 		left join sys_role_menu t2 on t1.role_id = t2.role_id
 		left join sys_menu t3 on t2.menu_id = t3.id
@@ -39,7 +39,7 @@
 		select permissions from sys_menu
 	</select>
 
-	<select id="getListPid" resultType="io.renren.modules.sys.entity.SysMenuEntity">
+	<select id="getListPid" resultType="com.losgai.gulimall.common.modules.sys.entity.SysMenuEntity">
 		select * from sys_menu where pid = #{value}
 	</select>
 	

@@ -1,9 +1,9 @@
 package com.losgai.gulimall.coupon.controller;
 
-import com.losgai.gulimall.common.annotation.LogOperation;
+import com.losgai.gulimall.common.common.annotation.LogOperation;
 import com.losgai.gulimall.common.constant.Constant;
 import com.losgai.gulimall.common.page.PageData;
-import com.losgai.gulimall.common.utils.ExcelUtils;
+import com.losgai.gulimall.common.common.utils.ExcelUtils;
 import com.losgai.gulimall.common.utils.Result;
 import com.losgai.gulimall.common.validator.AssertUtils;
 import com.losgai.gulimall.common.validator.ValidatorUtils;
@@ -11,7 +11,6 @@ import com.losgai.gulimall.common.validator.group.AddGroup;
 import com.losgai.gulimall.common.validator.group.DefaultGroup;
 import com.losgai.gulimall.common.validator.group.UpdateGroup;
 import com.losgai.gulimall.coupon.dto.CouponDTO;
-import com.losgai.gulimall.coupon.entity.CouponEntity;
 import com.losgai.gulimall.coupon.excel.CouponExcel;
 import com.losgai.gulimall.coupon.service.CouponService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -19,14 +18,12 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import jakarta.servlet.http.HttpServletResponse;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -62,7 +59,7 @@ public class CouponController {
 
     @GetMapping("{id}")
     @Operation(summary = "信息")
-    //@RequiresPermissions("coupon:coupon:info")
+    @RequiresPermissions("coupon:coupon:info")
     public Result<CouponDTO> get(@PathVariable("id") Long id){
         CouponDTO data = couponService.get(id);
 
@@ -72,7 +69,7 @@ public class CouponController {
     @PostMapping
     @Operation(summary = "保存")
     @LogOperation("保存")
-    //@RequiresPermissions("coupon:coupon:save")
+    @RequiresPermissions("coupon:coupon:save")
     public Result save(@RequestBody CouponDTO dto){
         //效验数据
         ValidatorUtils.validateEntity(dto, AddGroup.class, DefaultGroup.class);
@@ -85,7 +82,7 @@ public class CouponController {
     @PutMapping
     @Operation(summary = "修改")
     @LogOperation("修改")
-    //@RequiresPermissions("coupon:coupon:update")
+    @RequiresPermissions("coupon:coupon:update")
     public Result update(@RequestBody CouponDTO dto){
         //效验数据
         ValidatorUtils.validateEntity(dto, UpdateGroup.class, DefaultGroup.class);
@@ -111,7 +108,7 @@ public class CouponController {
     @GetMapping("export")
     @Operation(summary = "导出")
     @LogOperation("导出")
-    //@RequiresPermissions("coupon:coupon:export")
+    @RequiresPermissions("coupon:coupon:export")
     public void export(@Parameter(hidden = true) @RequestParam Map<String, Object> params, HttpServletResponse response) throws Exception {
         List<CouponDTO> list = couponService.list(params);
 

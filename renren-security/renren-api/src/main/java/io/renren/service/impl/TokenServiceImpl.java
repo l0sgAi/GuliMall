@@ -8,10 +8,10 @@
 
 package io.renren.service.impl;
 
-import com.losgai.gulimall.common.service.impl.BaseServiceImpl;
 import io.renren.dao.TokenDao;
-import io.renren.entity.TokenEntity;
 import io.renren.service.TokenService;
+import io.renren.entity.TokenEntity;
+import com.losgai.gulimall.common.service.impl.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;

@@ -5,9 +5,9 @@ server:
     threads:
       max: 1000
       min-spare: 30
-  port: 8080
+  port: 7777
   servlet:
-    context-path: /renren-admin
+    context-path: /gulimall-admin
     session:
       cookie:
         http-only: true
@@ -36,11 +36,10 @@ spring:
       max-file-size: 100MB
       max-request-size: 100MB
       enabled: true
-
   data:
     redis:
       database: 0
-      host: 192.168.10.10
+      host: 192.168.200.132
       port: 6379
       password:    # 密码（默认为空）
       timeout: 6000ms  # 连接超时时长（毫秒）
@@ -60,7 +59,7 @@ renren:
 mybatis-plus:
   mapper-locations: classpath*:/mapper/**/*.xml
   #实体扫描，多个package用逗号或者分号分隔
-  typeAliasesPackage: io.renren.modules.*.entity
+  typeAliasesPackage: com.losgai.gulimall.common.modules.*.entity
   global-config:
     #数据库相关配置
     db-config:
