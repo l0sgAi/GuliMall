@@ -26,10 +26,10 @@
 			<artifactId>gulimall-common</artifactId>
 			<version>5.4.0</version>
 			<!--排除引入的nacos依赖-->
-			<exclusions>
+			<!--<exclusions>
 				<exclusion>
-					<groupId>com.alibaba.cloud</groupId>
-					<artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+						<groupId>org.springframework.cloud</groupId>
+						<artifactId>spring-cloud-starter-bootstrap</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>com.alibaba.cloud</groupId>
@@ -37,19 +37,21 @@
 				</exclusion>
 				<exclusion>
 					<groupId>com.alibaba.cloud</groupId>
-					<artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+					<artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
 				</exclusion>
-				<exclusion>
-						<groupId>org.springframework.cloud</groupId>
-						<artifactId>spring-cloud-starter-bootstrap</artifactId>
-				</exclusion>
-			</exclusions>
+			</exclusions>-->
 		</dependency>
 		<dependency>
 			<groupId>io.renren</groupId>
 			<artifactId>renren-dynamic-datasource</artifactId>
 			<version>5.4.0</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-loadbalancer</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
 			<artifactId>quartz</artifactId>

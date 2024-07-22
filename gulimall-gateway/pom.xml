@@ -49,6 +49,15 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+        </dependency>
+        <!--<dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>-->
+
+        <dependency>
             <groupId>io.renren</groupId>
             <artifactId>gulimall-common</artifactId>
             <version>5.4.0</version>
@@ -59,7 +68,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
     </dependencies>
 
     <dependencyManagement>

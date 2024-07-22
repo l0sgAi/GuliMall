@@ -14,4 +14,12 @@
 #          predicates:
 #            - Query=url,qq
 #
+#        - id: admin_route
+#          uri: lb://gulimall-admin
+#          predicates:
+#            - Path=/api/**
+#          filters:
+#            - RewritePath=/api/(?<segment>.*),/gulimall-admin/$\{segment}
+### 前端项目，都带api前缀/api
+#
 #
