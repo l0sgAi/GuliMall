@@ -17,5 +17,10 @@
 #  global-config:
 #    db-config:
 #      id-type: auto
+#      logic-not-delete-value: 1
+#      logic-delete-value: 0
 #server:
 #  port: 7300
+#logging:
+#  level:
+#    com.losgai.gulimall: debug

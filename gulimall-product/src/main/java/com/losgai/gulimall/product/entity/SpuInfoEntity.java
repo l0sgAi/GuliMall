@@ -1,5 +1,6 @@
 package com.losgai.gulimall.product.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -19,7 +20,8 @@ public class SpuInfoEntity {
     /**
      * 商品id
      */
-	private Long id;
+	@TableId
+    private Long id;
     /**
      * 商品名称
      */

@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import jakarta.servlet.http.HttpServletResponse;
+
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -38,7 +40,7 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-    @GetMapping("page/tree") //树型分类封装
+    @GetMapping("/page/tree") //树型分类封装
     @Operation(summary = "分页")
     @Parameters({
         @Parameter(name = Constant.PAGE, description = "当前页码，从1开始", in = ParameterIn.QUERY, required = true, ref="int") ,
@@ -47,7 +49,7 @@ public class CategoryController {
         @Parameter(name = Constant.ORDER, description = "排序方式，可选值(asc、desc)", in = ParameterIn.QUERY, ref="String")
     })
     //@RequiresPermissions("product:category:page")
-    public Result<List<CategoryEntity>> page(){
+    public Result page(){
         List<CategoryEntity> categoryTreeList = categoryService.listWithTree();
         return new Result().ok(categoryTreeList);
     }
@@ -61,7 +63,7 @@ public class CategoryController {
         return new Result<CategoryDTO>().ok(data);
     }
 
-    @PostMapping
+    @PostMapping("save")
     @Operation(summary = "保存")
     @LogOperation("保存")
     //@RequiresPermissions("product:category:save")
@@ -74,7 +76,7 @@ public class CategoryController {
         return new Result();
     }
 
-    @PutMapping
+    @PutMapping("update")
     @Operation(summary = "修改")
     @LogOperation("修改")
     //@RequiresPermissions("product:category:update")
@@ -87,7 +89,7 @@ public class CategoryController {
         return new Result();
     }
 
-    @DeleteMapping
+    @DeleteMapping("delete")
     @Operation(summary = "删除")
     @LogOperation("删除")
     //@RequiresPermissions("product:category:delete")
@@ -95,7 +97,8 @@ public class CategoryController {
         //效验数据
         AssertUtils.isArrayEmpty(ids, "id");
 
-        categoryService.delete(ids);
+        //categoryService.delete(ids);
+        categoryService.removeMenus(Arrays.asList(ids));
 
         return new Result();
     }

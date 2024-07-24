@@ -15,4 +15,6 @@ import java.util.List;
 public interface CategoryService extends CrudService<CategoryEntity, CategoryDTO> {
 
     List<CategoryEntity> listWithTree();
+
+    void removeMenus(List<Long> ids);
 }
