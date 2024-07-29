@@ -89,6 +89,17 @@ public class CategoryController {
         return new Result();
     }
 
+    @PutMapping("update/sort")
+    @Operation(summary = "批量修改")
+    @LogOperation("批量修改")
+    public Result updateSort(@RequestBody CategoryEntity[] categoryEntities){
+        //效验数据
+        ValidatorUtils.validateEntity(categoryEntities, UpdateGroup.class, DefaultGroup.class);
+        categoryService.updateBatchById(Arrays.asList(categoryEntities));
+
+        return new Result();
+    }
+
     @DeleteMapping("delete")
     @Operation(summary = "删除")
     @LogOperation("删除")
