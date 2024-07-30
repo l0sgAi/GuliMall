@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import jakarta.servlet.http.HttpServletResponse;
+
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -89,7 +91,7 @@ public class BrandController {
         return new Result();
     }
 
-    @DeleteMapping
+    @DeleteMapping("delete")
     @Operation(summary = "删除")
     @LogOperation("删除")
     //@RequiresPermissions("product:brand:delete")
@@ -97,7 +99,7 @@ public class BrandController {
         //效验数据
         AssertUtils.isArrayEmpty(ids, "id");
 
-        brandService.delete(ids);
+        brandService.deleteBatchIds(Arrays.asList(ids));
 
         return new Result();
     }

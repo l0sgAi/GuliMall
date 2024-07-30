@@ -9,6 +9,7 @@ import com.losgai.gulimall.product.service.BrandService;
 import cn.hutool.core.util.StrUtil;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -31,4 +32,8 @@ public class BrandServiceImpl extends CrudServiceImpl<BrandDao, BrandEntity, Bra
     }
 
 
+//    @Override
+//    public void removeBrands(Long[] ids) {
+//        baseDao.deleteBatchIds(Arrays.asList(ids));
+//    }
 }

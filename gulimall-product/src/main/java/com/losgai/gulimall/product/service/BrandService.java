@@ -12,4 +12,5 @@ import com.losgai.gulimall.product.entity.BrandEntity;
  */
 public interface BrandService extends CrudService<BrandEntity, BrandDTO> {
 
+//    void removeBrands(Long[] ids);
 }
