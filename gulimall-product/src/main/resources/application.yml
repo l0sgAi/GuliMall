@@ -10,6 +10,10 @@
 #    nacos:
 #      discovery:
 #        server-addr: 192.168.200.132:8848
+#      config:
+#        access-key: your-access-key
+#        secret-key: your-secret-key
+#        endpoint: oss-cn-nanjing.aliyuncs.com
 #  application:
 #    name: gulimall-product
 #mybatis-plus:

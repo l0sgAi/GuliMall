@@ -25,6 +25,7 @@
         <module>gulimall-coupon</module>
         <module>renren-security</module>
         <module>gulimall-gateway</module>
+        <module>gulimall-third-party</module>
     </modules>
 
 </project>

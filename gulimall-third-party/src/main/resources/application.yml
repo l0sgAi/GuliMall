@@ -1,0 +1,15 @@
+#spring:
+#  cloud:
+#    nacos:
+#      discovery:
+#        server-addr: 192.168.200.132:8848
+#      config:
+#        access-key: your-access-key
+#        secret-key: your-secret-key
+#        endpoint: oss-cn-nanjing.aliyuncs.com
+#
+#server:
+#  port: 7500
+#logging:
+#  level:
+#    com.losgai.gulimall: debug
