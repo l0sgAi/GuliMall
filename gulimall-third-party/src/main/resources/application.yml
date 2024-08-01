@@ -1,3 +1,6 @@
+#alioss:
+#  bucket: xxxxxx
+#
 #spring:
 #  cloud:
 #    nacos:
@@ -6,7 +9,7 @@
 #      config:
 #        access-key: your-access-key
 #        secret-key: your-secret-key
-#        endpoint: oss-cn-nanjing.aliyuncs.com
+#        endpoint: oss-cn-xxxxxxxxxx.aliyuncs.com
 #
 #server:
 #  port: 7500

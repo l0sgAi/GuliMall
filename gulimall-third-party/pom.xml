@@ -33,6 +33,12 @@
             <groupId>io.renren</groupId>
             <artifactId>gulimall-common</artifactId>
             <version>5.4.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.baomidou</groupId>
+                    <artifactId>mybatis-plus-boot-starter</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
