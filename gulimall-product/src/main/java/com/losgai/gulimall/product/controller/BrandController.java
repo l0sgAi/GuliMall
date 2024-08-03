@@ -14,16 +14,20 @@ import com.losgai.gulimall.product.dto.BrandDTO;
 import com.losgai.gulimall.product.excel.BrandExcel;
 import com.losgai.gulimall.product.service.BrandService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,7 +40,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("product/brand")
-@Tag(name="品牌")
+@Tag(name = "品牌")
 public class BrandController {
     @Autowired
     private BrandService brandService;
@@ -44,13 +48,13 @@ public class BrandController {
     @GetMapping("page")
     @Operation(summary = "分页")
     @Parameters({
-        @Parameter(name = Constant.PAGE, description = "当前页码，从1开始", in = ParameterIn.QUERY, required = true, ref="int") ,
-        @Parameter(name = Constant.LIMIT, description = "每页显示记录数", in = ParameterIn.QUERY,required = true, ref="int") ,
-        @Parameter(name = Constant.ORDER_FIELD, description = "排序字段", in = ParameterIn.QUERY, ref="String") ,
-        @Parameter(name = Constant.ORDER, description = "排序方式，可选值(asc、desc)", in = ParameterIn.QUERY, ref="String")
+            @Parameter(name = Constant.PAGE, description = "当前页码，从1开始", in = ParameterIn.QUERY, required = true, ref = "int"),
+            @Parameter(name = Constant.LIMIT, description = "每页显示记录数", in = ParameterIn.QUERY, required = true, ref = "int"),
+            @Parameter(name = Constant.ORDER_FIELD, description = "排序字段", in = ParameterIn.QUERY, ref = "String"),
+            @Parameter(name = Constant.ORDER, description = "排序方式，可选值(asc、desc)", in = ParameterIn.QUERY, ref = "String")
     })
     @RequiresPermissions("product:brand:page")
-    public Result<PageData<BrandDTO>> page(@Parameter(hidden = true) @RequestParam Map<String, Object> params){
+    public Result<PageData<BrandDTO>> page(@Parameter(hidden = true) @RequestParam Map<String, Object> params) {
         PageData<BrandDTO> page = brandService.page(params);
 
         return new Result<PageData<BrandDTO>>().ok(page);
@@ -59,7 +63,7 @@ public class BrandController {
     @GetMapping("{id}")
     @Operation(summary = "信息")
     //@RequiresPermissions("product:brand:info")
-    public Result<BrandDTO> get(@PathVariable("id") Long id){
+    public Result<BrandDTO> get(@PathVariable("id") Long id) {
         BrandDTO data = brandService.get(id);
 
         return new Result<BrandDTO>().ok(data);
@@ -69,12 +73,10 @@ public class BrandController {
     @Operation(summary = "保存")
     @LogOperation("保存")
     //@RequiresPermissions("product:brand:save")
-    public Result save(@RequestBody BrandDTO dto){
+    public Result save(@Validated(value = {AddGroup.class}) @RequestBody BrandDTO dto) {
         //效验数据
-        ValidatorUtils.validateEntity(dto, AddGroup.class, DefaultGroup.class);
-
+        //ValidatorUtils.validateEntity(dto, AddGroup.class, DefaultGroup.class);
         brandService.save(dto);
-
         return new Result();
     }
 
@@ -82,7 +84,7 @@ public class BrandController {
     @Operation(summary = "修改")
     @LogOperation("修改")
     //@RequiresPermissions("product:brand:update")
-    public Result update(@RequestBody BrandDTO dto){
+    public Result update(@Validated(value = {UpdateGroup.class}) @RequestBody BrandDTO dto) {
         //效验数据
         ValidatorUtils.validateEntity(dto, UpdateGroup.class, DefaultGroup.class);
 
@@ -95,7 +97,7 @@ public class BrandController {
     @Operation(summary = "删除")
     @LogOperation("删除")
     //@RequiresPermissions("product:brand:delete")
-    public Result delete(@RequestBody Long[] ids){
+    public Result delete(@RequestBody Long[] ids) {
         //效验数据
         AssertUtils.isArrayEmpty(ids, "id");
 
