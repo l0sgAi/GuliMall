@@ -1,14 +1,21 @@
 package com.losgai.gulimall.product.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.losgai.gulimall.common.common.page.PageData;
 import com.losgai.gulimall.common.common.service.impl.CrudServiceImpl;
 import com.losgai.gulimall.product.dao.AttrGroupDao;
 import com.losgai.gulimall.product.dto.AttrGroupDTO;
 import com.losgai.gulimall.product.entity.AttrGroupEntity;
 import com.losgai.gulimall.product.service.AttrGroupService;
 import cn.hutool.core.util.StrUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,6 +26,9 @@ import java.util.Map;
  */
 @Service
 public class AttrGroupServiceImpl extends CrudServiceImpl<AttrGroupDao, AttrGroupEntity, AttrGroupDTO> implements AttrGroupService {
+
+    @Autowired
+    private AttrGroupDao attrGroupDao;
 
     @Override
     public QueryWrapper<AttrGroupEntity> getWrapper(Map<String, Object> params){
@@ -31,4 +41,17 @@ public class AttrGroupServiceImpl extends CrudServiceImpl<AttrGroupDao, AttrGrou
     }
 
 
+    @Override
+    public PageData<AttrGroupEntity> queryPageByCatId(Map<String, Object> params, long categoryId) {
+        List<AttrGroupEntity> list = new ArrayList<>();
+
+        if(categoryId == 0){
+            list = attrGroupDao.selectList(null);
+            return new PageData<>(list, list.size());
+        }
+
+        list = attrGroupDao.selectList(new QueryWrapper<AttrGroupEntity>().eq("catelog_id", categoryId));
+        //select * from pms_attr_group where catelog_id = categoryId
+        return new PageData<>(list, list.size());
+    }
 }

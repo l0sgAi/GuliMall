@@ -56,7 +56,7 @@ public class BrandController {
     @RequiresPermissions("product:brand:page")
     public Result<PageData<BrandDTO>> page(@Parameter(hidden = true) @RequestParam Map<String, Object> params) {
         PageData<BrandDTO> page = brandService.page(params);
-
+        page.setTotal(page.getList().size());
         return new Result<PageData<BrandDTO>>().ok(page);
     }
 

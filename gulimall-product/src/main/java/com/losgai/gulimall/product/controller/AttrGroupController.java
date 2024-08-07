@@ -1,5 +1,7 @@
 package com.losgai.gulimall.product.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.losgai.gulimall.common.common.annotation.LogOperation;
 import com.losgai.gulimall.common.common.constant.Constant;
 import com.losgai.gulimall.common.common.page.PageData;
@@ -11,6 +13,7 @@ import com.losgai.gulimall.common.common.validator.group.AddGroup;
 import com.losgai.gulimall.common.common.validator.group.DefaultGroup;
 import com.losgai.gulimall.common.common.validator.group.UpdateGroup;
 import com.losgai.gulimall.product.dto.AttrGroupDTO;
+import com.losgai.gulimall.product.entity.AttrGroupEntity;
 import com.losgai.gulimall.product.excel.AttrGroupExcel;
 import com.losgai.gulimall.product.service.AttrGroupService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -47,11 +50,28 @@ public class AttrGroupController {
         @Parameter(name = Constant.ORDER_FIELD, description = "排序字段", in = ParameterIn.QUERY, ref="String") ,
         @Parameter(name = Constant.ORDER, description = "排序方式，可选值(asc、desc)", in = ParameterIn.QUERY, ref="String")
     })
-    @RequiresPermissions("product:attrgroup:page")
+    //@RequiresPermissions("product:attrgroup:page")
     public Result<PageData<AttrGroupDTO>> page(@Parameter(hidden = true) @RequestParam Map<String, Object> params){
         PageData<AttrGroupDTO> page = attrGroupService.page(params);
+        page.setTotal(page.getList().size());
 
         return new Result<PageData<AttrGroupDTO>>().ok(page);
+    }
+
+    @GetMapping("page/{categoryId}")
+    @Operation(summary = "分页")
+    @Parameters({
+            @Parameter(name = Constant.PAGE, description = "当前页码，从1开始", in = ParameterIn.QUERY, required = true, ref="int") ,
+            @Parameter(name = Constant.LIMIT, description = "每页显示记录数", in = ParameterIn.QUERY,required = true, ref="int") ,
+            @Parameter(name = Constant.ORDER_FIELD, description = "排序字段", in = ParameterIn.QUERY, ref="String") ,
+            @Parameter(name = Constant.ORDER, description = "排序方式，可选值(asc、desc)", in = ParameterIn.QUERY, ref="String")
+    })
+    //@RequiresPermissions("product:attrgroup:page")
+    public Result<PageData<AttrGroupEntity>> pageCategory(@Parameter(hidden = true) @RequestParam Map<String, Object> params, @PathVariable("categoryId") long categoryId){
+//        PageData<AttrGroupDTO> page = attrGroupService.page(params);
+        PageData<AttrGroupEntity> page = attrGroupService.queryPageByCatId(params,categoryId);
+
+        return new Result<PageData<AttrGroupEntity>>().ok(page);
     }
 
     @GetMapping("{id}")

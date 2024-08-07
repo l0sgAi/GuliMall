@@ -1,8 +1,11 @@
 package com.losgai.gulimall.product.service;
 
+import com.losgai.gulimall.common.common.page.PageData;
 import com.losgai.gulimall.common.common.service.CrudService;
 import com.losgai.gulimall.product.dto.AttrGroupDTO;
 import com.losgai.gulimall.product.entity.AttrGroupEntity;
+
+import java.util.Map;
 
 /**
  * 属性分组
@@ -12,4 +15,5 @@ import com.losgai.gulimall.product.entity.AttrGroupEntity;
  */
 public interface AttrGroupService extends CrudService<AttrGroupEntity, AttrGroupDTO> {
 
+    PageData<AttrGroupEntity> queryPageByCatId(Map<String, Object> params, long categoryId);
 }
