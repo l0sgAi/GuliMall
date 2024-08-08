@@ -1,5 +1,6 @@
 package com.losgai.gulimall.product.controller;
 
+import com.alibaba.cloud.commons.lang.StringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.losgai.gulimall.common.common.annotation.LogOperation;
@@ -64,13 +65,20 @@ public class AttrGroupController {
             @Parameter(name = Constant.PAGE, description = "当前页码，从1开始", in = ParameterIn.QUERY, required = true, ref="int") ,
             @Parameter(name = Constant.LIMIT, description = "每页显示记录数", in = ParameterIn.QUERY,required = true, ref="int") ,
             @Parameter(name = Constant.ORDER_FIELD, description = "排序字段", in = ParameterIn.QUERY, ref="String") ,
-            @Parameter(name = Constant.ORDER, description = "排序方式，可选值(asc、desc)", in = ParameterIn.QUERY, ref="String")
+            @Parameter(name = Constant.ORDER, description = "排序方式，可选值(asc、desc)", in = ParameterIn.QUERY, ref="String"),
+            @Parameter(name = "key", description = "搜索字符串", in = ParameterIn.QUERY, ref="String") // 新增的查询参数
     })
     //@RequiresPermissions("product:attrgroup:page")
-    public Result<PageData<AttrGroupEntity>> pageCategory(@Parameter(hidden = true) @RequestParam Map<String, Object> params, @PathVariable("categoryId") long categoryId){
-//        PageData<AttrGroupDTO> page = attrGroupService.page(params);
-        PageData<AttrGroupEntity> page = attrGroupService.queryPageByCatId(params,categoryId);
+    public Result<PageData<AttrGroupEntity>> pageCategory(@Parameter(hidden = true) @RequestParam Map<String, Object> params,
+                                                          @PathVariable("categoryId") long categoryId,
+                                                          @RequestParam(value = "key", required = false) String key){
 
+        if (StringUtils.isNotBlank(key)) {
+            PageData<AttrGroupEntity> page = attrGroupService.queryPageByCatIdAndQuery(params,categoryId,key);
+            return new Result<PageData<AttrGroupEntity>>().ok(page);
+        }
+
+        PageData<AttrGroupEntity> page = attrGroupService.queryPageByCatId(params,categoryId);
         return new Result<PageData<AttrGroupEntity>>().ok(page);
     }
 

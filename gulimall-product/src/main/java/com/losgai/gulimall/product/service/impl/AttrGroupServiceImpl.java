@@ -54,4 +54,26 @@ public class AttrGroupServiceImpl extends CrudServiceImpl<AttrGroupDao, AttrGrou
         //select * from pms_attr_group where catelog_id = categoryId
         return new PageData<>(list, list.size());
     }
+
+    @Override
+    public PageData<AttrGroupEntity> queryPageByCatIdAndQuery(Map<String, Object> params, long categoryId, String key) {
+        List<AttrGroupEntity> list = new ArrayList<>();
+
+        if(categoryId == 0){
+            //获取所有attr_group_name like %key% 的分组记录
+            QueryWrapper<AttrGroupEntity> like = new QueryWrapper<AttrGroupEntity>()
+                    .like(StrUtil.isNotBlank(key), "attr_group_name", key);
+            list = attrGroupDao.selectList(like);
+            return new PageData<>(list, list.size());
+        }
+
+        QueryWrapper<AttrGroupEntity> andOrWrapper = new QueryWrapper<AttrGroupEntity>()
+                .eq("catelog_id", categoryId)
+                .and(wrapper -> wrapper
+                        .like(StrUtil.isNotBlank(key), "attr_group_name", key));
+
+        list = attrGroupDao.selectList(andOrWrapper);
+        //select * from pms_attr_group where catelog_id = categoryId
+        return new PageData<>(list, list.size());
+    }
 }

@@ -16,4 +16,6 @@ import java.util.Map;
 public interface AttrGroupService extends CrudService<AttrGroupEntity, AttrGroupDTO> {
 
     PageData<AttrGroupEntity> queryPageByCatId(Map<String, Object> params, long categoryId);
+
+    PageData<AttrGroupEntity> queryPageByCatIdAndQuery(Map<String, Object> params, long categoryId, String key);
 }
