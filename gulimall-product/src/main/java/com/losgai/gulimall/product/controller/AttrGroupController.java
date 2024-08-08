@@ -22,10 +22,13 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import jakarta.servlet.http.HttpServletResponse;
+
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -95,7 +98,7 @@ public class AttrGroupController {
     @Operation(summary = "保存")
     @LogOperation("保存")
     //@RequiresPermissions("product:attrgroup:save")
-    public Result save(@RequestBody AttrGroupDTO dto){
+    public Result save(@Validated(value = {AddGroup.class}) @RequestBody AttrGroupDTO dto){
         //效验数据
         ValidatorUtils.validateEntity(dto, AddGroup.class, DefaultGroup.class);
 
@@ -108,7 +111,7 @@ public class AttrGroupController {
     @Operation(summary = "修改")
     @LogOperation("修改")
     //@RequiresPermissions("product:attrgroup:update")
-    public Result update(@RequestBody AttrGroupDTO dto){
+    public Result update(@Validated(value = {UpdateGroup.class}) @RequestBody AttrGroupDTO dto){
         //效验数据
         ValidatorUtils.validateEntity(dto, UpdateGroup.class, DefaultGroup.class);
 
@@ -125,7 +128,7 @@ public class AttrGroupController {
         //效验数据
         AssertUtils.isArrayEmpty(ids, "id");
 
-        attrGroupService.delete(ids);
+        attrGroupService.deleteBatchIds(Arrays.asList(ids));
 
         return new Result();
     }
