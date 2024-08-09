@@ -76,4 +76,14 @@ public class AttrGroupServiceImpl extends CrudServiceImpl<AttrGroupDao, AttrGrou
         //select * from pms_attr_group where catelog_id = categoryId
         return new PageData<>(list, list.size());
     }
+
+    @Override
+    public List<AttrGroupEntity> selectByCatId(long catId) {
+        List<AttrGroupEntity> list = new ArrayList<>();
+        QueryWrapper<AttrGroupEntity> wrapper = new QueryWrapper<AttrGroupEntity>()
+                .eq("catelog_id", catId);
+
+        list = attrGroupDao.selectList(wrapper);
+        return list;
+    }
 }

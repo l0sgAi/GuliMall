@@ -10,6 +10,7 @@ import com.losgai.gulimall.common.common.validator.group.AddGroup;
 import com.losgai.gulimall.common.common.validator.group.DefaultGroup;
 import com.losgai.gulimall.common.common.validator.group.UpdateGroup;
 import com.losgai.gulimall.product.dto.CategoryDTO;
+import com.losgai.gulimall.product.entity.AttrGroupEntity;
 import com.losgai.gulimall.product.entity.CategoryEntity;
 import com.losgai.gulimall.product.excel.CategoryExcel;
 import com.losgai.gulimall.product.service.CategoryService;

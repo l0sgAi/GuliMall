@@ -5,6 +5,7 @@ import com.losgai.gulimall.common.common.service.CrudService;
 import com.losgai.gulimall.product.dto.AttrGroupDTO;
 import com.losgai.gulimall.product.entity.AttrGroupEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,4 +19,6 @@ public interface AttrGroupService extends CrudService<AttrGroupEntity, AttrGroup
     PageData<AttrGroupEntity> queryPageByCatId(Map<String, Object> params, long categoryId);
 
     PageData<AttrGroupEntity> queryPageByCatIdAndQuery(Map<String, Object> params, long categoryId, String key);
+
+    List<AttrGroupEntity> selectByCatId(long catId);
 }

@@ -143,4 +143,18 @@ public class AttrGroupController {
         ExcelUtils.exportExcelToTarget(response, null, "属性分组", list, AttrGroupExcel.class);
     }
 
+    @GetMapping("/query/attrgroup/{catId}") //获取分类对应属性分组
+    @Operation(summary = "分页")
+    @Parameters({
+            @Parameter(name = Constant.PAGE, description = "当前页码，从1开始", in = ParameterIn.QUERY, required = true, ref="int") ,
+            @Parameter(name = Constant.LIMIT, description = "每页显示记录数", in = ParameterIn.QUERY,required = true, ref="int") ,
+            @Parameter(name = Constant.ORDER_FIELD, description = "排序字段", in = ParameterIn.QUERY, ref="String") ,
+            @Parameter(name = Constant.ORDER, description = "排序方式，可选值(asc、desc)", in = ParameterIn.QUERY, ref="String")
+    })
+    //@RequiresPermissions("product:category:page")
+    public Result<List<AttrGroupEntity>> getCategoryAttrGroup(@PathVariable("catId") long catId){
+        List<AttrGroupEntity> attrGroupList = attrGroupService.selectByCatId(catId);
+        return new Result<List<AttrGroupEntity>>().ok(attrGroupList);
+    }
+
 }
