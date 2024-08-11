@@ -4,6 +4,7 @@ import com.losgai.gulimall.common.common.page.PageData;
 import com.losgai.gulimall.common.common.service.CrudService;
 import com.losgai.gulimall.product.dto.AttrDTO;
 import com.losgai.gulimall.product.entity.AttrEntity;
+import com.losgai.gulimall.product.vo.AttrVo;
 
 import java.util.Map;
 
@@ -15,7 +16,9 @@ import java.util.Map;
  */
 public interface AttrService extends CrudService<AttrEntity, AttrDTO> {
 
-    PageData<AttrEntity> queryPageByCatIdAndQuery(Map<String, Object> params, long categoryId, String key);
+    PageData<AttrVo> queryPageByCatIdAndQuery(Map<String, Object> params, long categoryId, String key);
 
-    PageData<AttrEntity> queryPageByCatId(Map<String, Object> params, long categoryId);
+    PageData<AttrVo> queryPageByCatId(Map<String, Object> params, long categoryId);
+
+    AttrVo getVoById(Long id);
 }

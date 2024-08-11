@@ -1,6 +1,7 @@
 package com.losgai.gulimall.product.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -53,4 +54,7 @@ public class AttrEntity {
      * 快速展示【是否展示在介绍上；0-否 1-是】，在sku中仍然可以调整
      */
 	private Integer showDesc;
+
+    @TableLogic(value = "1",delval = "0")
+    private Integer isShow;
 }

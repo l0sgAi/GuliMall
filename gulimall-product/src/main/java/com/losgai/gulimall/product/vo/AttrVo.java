@@ -34,7 +34,7 @@ public class AttrVo {
      */
 	private String valueSelect;
     /**
-     * 可选值列表数组[用逗号分隔]
+     * 可选值列表数组
      */
     private String[] valueSelectArray;
     /**

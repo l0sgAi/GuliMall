@@ -16,6 +16,7 @@ import com.losgai.gulimall.product.entity.AttrEntity;
 import com.losgai.gulimall.product.entity.AttrGroupEntity;
 import com.losgai.gulimall.product.excel.AttrExcel;
 import com.losgai.gulimall.product.service.AttrService;
+import com.losgai.gulimall.product.vo.AttrVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -51,12 +52,9 @@ public class AttrController {
         @Parameter(name = Constant.ORDER, description = "排序方式，可选值(asc、desc)", in = ParameterIn.QUERY, ref="String")
     })
     @RequiresPermissions("product:attr:page")
-    public Result<PageData<AttrDTO>> page(@Parameter(hidden = true) @RequestParam Map<String, Object> params){
-        //TODO: 使用VO改造
-        PageData<AttrDTO> page = attrService.page(params);
-        page.setTotal(page.getList().size());
-
-        return new Result<PageData<AttrDTO>>().ok(page);
+    public Result<PageData<AttrVo>> page(@Parameter(hidden = true) @RequestParam Map<String, Object> params){
+        PageData<AttrVo> page = attrService.queryPageByCatId(params,0);
+        return new Result<PageData<AttrVo>>().ok(page);
     }
 
     @GetMapping("page/{categoryId}")
@@ -69,28 +67,26 @@ public class AttrController {
             @Parameter(name = "key", description = "搜索字符串", in = ParameterIn.QUERY, ref="String") // 新增的查询参数
     })
     //@RequiresPermissions("product:attrgroup:page")
-    public Result<PageData<AttrEntity>> pageCategory(@Parameter(hidden = true) @RequestParam Map<String, Object> params,
-                                                     @PathVariable("categoryId") long categoryId,
-                                                     @RequestParam(value = "key", required = false) String key){
-        //TODO: 使用VO改造
+    public Result<PageData<AttrVo>> pageCategory(@Parameter(hidden = true) @RequestParam Map<String, Object> params,
+                                                 @PathVariable("categoryId") long categoryId,
+                                                 @RequestParam(value = "key", required = false) String key){
         if (StringUtils.isNotBlank(key)) {
-            PageData<AttrEntity> page = attrService.queryPageByCatIdAndQuery(params,categoryId,key);
-            List<AttrEntity> list = page.getList();
+            PageData<AttrVo> page = attrService.queryPageByCatIdAndQuery(params,categoryId,key);
 
-            return new Result<PageData<AttrEntity>>().ok(page);
+            return new Result<PageData<AttrVo>>().ok(page);
         }
 
-        PageData<AttrEntity> page = attrService.queryPageByCatId(params,categoryId);
-        return new Result<PageData<AttrEntity>>().ok(page);
+        PageData<AttrVo> page = attrService.queryPageByCatId(params,categoryId);
+        return new Result<PageData<AttrVo>>().ok(page);
     }
 
     @GetMapping("{id}")
     @Operation(summary = "信息")
     //@RequiresPermissions("product:attr:info")
-    public Result<AttrDTO> get(@PathVariable("id") Long id){
-        AttrDTO data = attrService.get(id);
+    public Result<AttrVo> get(@PathVariable("id") Long id){
+        AttrVo data = attrService.getVoById(id);
 
-        return new Result<AttrDTO>().ok(data);
+        return new Result<AttrVo>().ok(data);
     }
 
     @PostMapping

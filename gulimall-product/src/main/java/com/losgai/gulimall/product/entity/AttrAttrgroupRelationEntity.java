@@ -1,6 +1,7 @@
 package com.losgai.gulimall.product.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -33,4 +34,7 @@ public class AttrAttrgroupRelationEntity {
      * 属性组内排序
      */
 	private Integer attrSort;
+
+    @TableLogic(value = "1",delval = "0")
+    private Integer isShow;
 }

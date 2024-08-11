@@ -1,5 +1,6 @@
 package com.losgai.gulimall.product.dto;
 
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.SchemaProperty;
 import lombok.Data;
@@ -45,6 +46,9 @@ public class AttrDTO implements Serializable {
 
 	@SchemaProperty(name = "快速展示【是否展示在介绍上；0-否 1-是】，在sku中仍然可以调整")
 	private Integer showDesc;
+
+	@TableLogic(value = "1",delval = "0")
+	private Integer isShow;
 
 
 }
