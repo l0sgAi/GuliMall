@@ -1,5 +1,6 @@
 package com.losgai.gulimall.product.dto;
 
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.SchemaProperty;
 import lombok.Data;
@@ -34,5 +35,6 @@ public class CategoryBrandRelationDTO implements Serializable {
 	@SchemaProperty(name = "")
 	private String catelogName;
 
-
+	@TableLogic(value = "1",delval = "0")
+	private Integer isShow;
 }

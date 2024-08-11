@@ -11,23 +11,24 @@ import com.losgai.gulimall.common.common.validator.group.AddGroup;
 import com.losgai.gulimall.common.common.validator.group.DefaultGroup;
 import com.losgai.gulimall.common.common.validator.group.UpdateGroup;
 import com.losgai.gulimall.product.dto.BrandDTO;
+import com.losgai.gulimall.product.entity.BrandEntity;
+import com.losgai.gulimall.product.entity.CategoryBrandRelationEntity;
 import com.losgai.gulimall.product.excel.BrandExcel;
 import com.losgai.gulimall.product.service.BrandService;
+import com.losgai.gulimall.product.service.CategoryBrandRelationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.Valid;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -42,8 +43,12 @@ import java.util.Map;
 @RequestMapping("product/brand")
 @Tag(name = "品牌")
 public class BrandController {
+
     @Autowired
     private BrandService brandService;
+
+    @Autowired
+    private CategoryBrandRelationService categoryBrandRelationService;
 
     @GetMapping("page")
     @Operation(summary = "分页")
@@ -51,13 +56,21 @@ public class BrandController {
             @Parameter(name = Constant.PAGE, description = "当前页码，从1开始", in = ParameterIn.QUERY, required = true, ref = "int"),
             @Parameter(name = Constant.LIMIT, description = "每页显示记录数", in = ParameterIn.QUERY, required = true, ref = "int"),
             @Parameter(name = Constant.ORDER_FIELD, description = "排序字段", in = ParameterIn.QUERY, ref = "String"),
-            @Parameter(name = Constant.ORDER, description = "排序方式，可选值(asc、desc)", in = ParameterIn.QUERY, ref = "String")
+            @Parameter(name = Constant.ORDER, description = "排序方式，可选值(asc、desc)", in = ParameterIn.QUERY, ref = "String"),
+            @Parameter(name = "key", description = "搜索字符串", in = ParameterIn.QUERY, ref = "String") // 新增的查询参数
     })
-    @RequiresPermissions("product:brand:page")
-    public Result<PageData<BrandDTO>> page(@Parameter(hidden = true) @RequestParam Map<String, Object> params) {
-        PageData<BrandDTO> page = brandService.page(params);
-        page.setTotal(page.getList().size());
-        return new Result<PageData<BrandDTO>>().ok(page);
+    //@RequiresPermissions("product:brand:page")
+    public Result<PageData<BrandEntity>> pageQuery(@Parameter(hidden = true) @RequestParam Map<String, Object> params,
+                                                   @RequestParam(value = "key", required = false) String key) {
+        PageData<BrandEntity> page = brandService.queryPage(params, key);
+        return new Result<PageData<BrandEntity>>().ok(page);
+    }
+
+    @GetMapping("getCategoryRelation/{brandId}")
+    @Operation(summary = "分页")
+    public Result<List<CategoryBrandRelationEntity>> getCategoryRelation(@PathVariable("brandId") Long brandId) {
+        List<CategoryBrandRelationEntity> list = categoryBrandRelationService.getCategoryRelation(brandId);
+        return new Result<List<CategoryBrandRelationEntity>>().ok(list);
     }
 
     @GetMapping("{id}")
@@ -84,11 +97,12 @@ public class BrandController {
     @Operation(summary = "修改")
     @LogOperation("修改")
     //@RequiresPermissions("product:brand:update")
-    public Result update(@Validated(value = {UpdateGroup.class}) @RequestBody BrandDTO dto) {
+    public Result update(@Validated(value = {UpdateGroup.class}) @RequestBody BrandEntity brandEntity) {
         //效验数据
-        ValidatorUtils.validateEntity(dto, UpdateGroup.class, DefaultGroup.class);
+        ValidatorUtils.validateEntity(brandEntity, UpdateGroup.class, DefaultGroup.class);
 
-        brandService.update(dto);
+//        brandService.update(dto);
+        brandService.doBatchUpdate(brandEntity);
 
         return new Result();
     }

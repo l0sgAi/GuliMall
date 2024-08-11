@@ -4,6 +4,8 @@ import com.losgai.gulimall.common.common.service.CrudService;
 import com.losgai.gulimall.product.dto.CategoryBrandRelationDTO;
 import com.losgai.gulimall.product.entity.CategoryBrandRelationEntity;
 
+import java.util.List;
+
 /**
  * 品牌分类关联
  *
@@ -12,4 +14,5 @@ import com.losgai.gulimall.product.entity.CategoryBrandRelationEntity;
  */
 public interface CategoryBrandRelationService extends CrudService<CategoryBrandRelationEntity, CategoryBrandRelationDTO> {
 
+    List<CategoryBrandRelationEntity> getCategoryRelation(Long brandId);
 }

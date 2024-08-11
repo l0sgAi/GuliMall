@@ -81,11 +81,12 @@ public class CategoryController {
     @Operation(summary = "修改")
     @LogOperation("修改")
     //@RequiresPermissions("product:category:update")
-    public Result update(@RequestBody CategoryDTO dto){
+    public Result update(@RequestBody CategoryEntity dto){
         //效验数据
         ValidatorUtils.validateEntity(dto, UpdateGroup.class, DefaultGroup.class);
 
-        categoryService.update(dto);
+//        categoryService.update(dto);
+        categoryService.doBatchUpdate(dto);
 
         return new Result();
     }

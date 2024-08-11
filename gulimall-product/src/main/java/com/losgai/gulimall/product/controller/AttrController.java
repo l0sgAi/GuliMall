@@ -72,9 +72,11 @@ public class AttrController {
     public Result<PageData<AttrEntity>> pageCategory(@Parameter(hidden = true) @RequestParam Map<String, Object> params,
                                                      @PathVariable("categoryId") long categoryId,
                                                      @RequestParam(value = "key", required = false) String key){
-
+        //TODO: 使用VO改造
         if (StringUtils.isNotBlank(key)) {
             PageData<AttrEntity> page = attrService.queryPageByCatIdAndQuery(params,categoryId,key);
+            List<AttrEntity> list = page.getList();
+
             return new Result<PageData<AttrEntity>>().ok(page);
         }
 

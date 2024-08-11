@@ -7,8 +7,10 @@ import com.losgai.gulimall.product.dto.CategoryBrandRelationDTO;
 import com.losgai.gulimall.product.entity.CategoryBrandRelationEntity;
 import com.losgai.gulimall.product.service.CategoryBrandRelationService;
 import cn.hutool.core.util.StrUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,6 +21,9 @@ import java.util.Map;
  */
 @Service
 public class CategoryBrandRelationServiceImpl extends CrudServiceImpl<CategoryBrandRelationDao, CategoryBrandRelationEntity, CategoryBrandRelationDTO> implements CategoryBrandRelationService {
+
+    @Autowired
+    private CategoryBrandRelationDao categoryBrandRelationDao;
 
     @Override
     public QueryWrapper<CategoryBrandRelationEntity> getWrapper(Map<String, Object> params){
@@ -31,4 +36,11 @@ public class CategoryBrandRelationServiceImpl extends CrudServiceImpl<CategoryBr
     }
 
 
+    @Override
+    public List<CategoryBrandRelationEntity> getCategoryRelation(Long brandId) {
+        //根据品牌id查询对应的分类id
+        QueryWrapper<CategoryBrandRelationEntity> wrapper = new QueryWrapper<CategoryBrandRelationEntity>()
+                .eq("brand_id", brandId);
+        return categoryBrandRelationDao.selectList(wrapper);
+    }
 }

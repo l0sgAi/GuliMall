@@ -52,7 +52,7 @@ public class AttrVo {
     /**
      * 所属分类对应的分组
      */
-    private Long catAttrgroup;
+    private Long groupName;
     /**
      * 快速展示【是否展示在介绍上；0-否 1-是】，在sku中仍然可以调整
      */

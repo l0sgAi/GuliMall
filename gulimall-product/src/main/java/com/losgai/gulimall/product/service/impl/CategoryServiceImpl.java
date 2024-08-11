@@ -2,12 +2,17 @@ package com.losgai.gulimall.product.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.losgai.gulimall.common.common.service.impl.CrudServiceImpl;
+import com.losgai.gulimall.product.dao.CategoryBrandRelationDao;
 import com.losgai.gulimall.product.dao.CategoryDao;
 import com.losgai.gulimall.product.dto.CategoryDTO;
+import com.losgai.gulimall.product.entity.CategoryBrandRelationEntity;
 import com.losgai.gulimall.product.entity.CategoryEntity;
 import com.losgai.gulimall.product.service.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -20,6 +25,12 @@ import java.util.Map;
  */
 @Service
 public class CategoryServiceImpl extends CrudServiceImpl<CategoryDao, CategoryEntity, CategoryDTO> implements CategoryService {
+
+    @Autowired
+    private CategoryDao categoryDao;
+
+    @Autowired
+    private CategoryBrandRelationDao categoryBrandRelationDao;
 
     @Override
     public QueryWrapper<CategoryEntity> getWrapper(Map<String, Object> params) {
@@ -51,6 +62,24 @@ public class CategoryServiceImpl extends CrudServiceImpl<CategoryDao, CategoryEn
         //TODO 1.检查当前删除的菜单是否在别的地方引用
         baseDao.deleteBatchIds(ids);
 
+    }
+
+    @Override
+    @Transactional
+    public void doBatchUpdate(CategoryEntity dto) {
+        categoryDao.updateById(dto);
+
+        Long catId = dto.getCatId();
+        String catelogName = dto.getName();
+
+        // 创建UpdateWrapper实例
+        UpdateWrapper<CategoryBrandRelationEntity> updateWrapper = new UpdateWrapper<>();
+        // 设置更新条件
+        updateWrapper.eq("catelog_id", catId);
+        // 设置要更新的字段
+        updateWrapper.set("catelog_name", catelogName);
+
+        categoryBrandRelationDao.update(updateWrapper);
     }
 
     private List<CategoryEntity> getChildren(CategoryEntity root, List<CategoryEntity> all) {
