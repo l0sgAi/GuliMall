@@ -127,6 +127,10 @@ public class AttrServiceImpl extends CrudServiceImpl<AttrDao, AttrEntity, AttrDT
                 }
             }
 
+            if(StrUtil.isNotBlank(entity.getValueSelect())){
+                attrVo.setValueSelectArray(entity.getValueSelect().split(";"));
+            }
+
             voList.add(attrVo);
         }
 
@@ -157,7 +161,10 @@ public class AttrServiceImpl extends CrudServiceImpl<AttrDao, AttrEntity, AttrDT
             }
         }
 
-        attrVo.setValueSelectArray(entity.getValueSelect().split(";"));
+        if(StrUtil.isNotBlank(entity.getValueSelect())){
+            attrVo.setValueSelectArray(entity.getValueSelect().split(";"));
+        }
+
         return attrVo;
     }
 }
