@@ -14,11 +14,13 @@ import com.losgai.gulimall.product.entity.AttrEntity;
 import com.losgai.gulimall.product.entity.AttrGroupEntity;
 import com.losgai.gulimall.product.service.AttrService;
 import com.losgai.gulimall.product.vo.AttrVo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -101,6 +103,57 @@ public class AttrServiceImpl extends CrudServiceImpl<AttrDao, AttrEntity, AttrDT
         return toAttrVo(entity);
     }
 
+    @Override
+    @Transactional
+    public void saveBatch(AttrVo attrVo) {
+        AttrDTO attrDTO = new AttrDTO();
+        BeanUtils.copyProperties(attrVo,attrDTO);
+        //1、保存基本数据
+        this.save(attrDTO);
+
+        //2、保存关联关系 (先删除现有数据)
+        QueryWrapper<AttrAttrgroupRelationEntity> wrapper = new QueryWrapper<>();
+        wrapper.eq("attr_id", attrVo.getAttrId());
+        attrAttrgroupRelationDao.delete(wrapper);
+
+        AttrAttrgroupRelationEntity attrAttrgroupRelationEntity = new AttrAttrgroupRelationEntity();
+        attrAttrgroupRelationEntity.setAttrId(attrDTO.getAttrId()); //这里只能用attrDTO，否则attrId取不到
+        attrAttrgroupRelationEntity.setAttrGroupId(attrVo.getGroupName());
+        attrAttrgroupRelationEntity.setAttrSort(0);
+
+        attrAttrgroupRelationDao.insert(attrAttrgroupRelationEntity);
+    }
+
+    @Override
+    @Transactional
+    public void updateBatch(AttrVo attrVo) {
+        AttrDTO attrDTO = new AttrDTO();
+        BeanUtils.copyProperties(attrVo,attrDTO);
+        //1、更新基本数据
+        this.update(attrDTO);
+
+        //2、保存关联关系 (如果新关系不为空，先删除现有数据，为空就不新执行插入关联关系)
+        if (ObjectUtil.isNotNull(attrVo.getGroupName())) {
+            QueryWrapper<AttrAttrgroupRelationEntity> wrapper = new QueryWrapper<>();
+            wrapper.eq("attr_id", attrVo.getAttrId());
+            attrAttrgroupRelationDao.delete(wrapper);
+
+            AttrAttrgroupRelationEntity attrAttrgroupRelationEntity = new AttrAttrgroupRelationEntity();
+            attrAttrgroupRelationEntity.setAttrId(attrVo.getAttrId());
+            attrAttrgroupRelationEntity.setAttrGroupId(attrVo.getGroupName());
+            attrAttrgroupRelationEntity.setAttrSort(0);
+
+            attrAttrgroupRelationDao.insert(attrAttrgroupRelationEntity);
+        }
+    }
+
+    @Override
+    public void deleteBatch(Long[] ids) {
+        attrDao.deleteBatchIds(Arrays.asList(ids));
+//        QueryWrapper<AttrAttrgroupRelationEntity> wrapper = new QueryWrapper<AttrAttrgroupRelationEntity>().in("attr_id", ids);
+//        attrAttrgroupRelationDao.delete(wrapper);
+    }
+
     private List<AttrVo> toAttrVoList(List<AttrEntity> list) {
         List<AttrVo> voList = new ArrayList<>();
         //将list中所有AttrEntity转成AttrVo
@@ -166,5 +219,20 @@ public class AttrServiceImpl extends CrudServiceImpl<AttrDao, AttrEntity, AttrDT
         }
 
         return attrVo;
+    }
+
+    private AttrEntity toAttrEntity(AttrVo attrVO) {
+        AttrEntity attrEntity = new AttrEntity();
+
+        attrEntity.setAttrName(attrVO.getAttrName());
+        attrEntity.setSearchType(attrVO.getSearchType());
+        attrEntity.setIcon(attrVO.getIcon());
+        attrEntity.setValueSelect(attrVO.getValueSelect());
+        attrEntity.setAttrType(attrVO.getAttrType());
+        attrEntity.setEnable(attrVO.getEnable());
+        attrEntity.setCatelogId(attrVO.getCatelogId());
+        attrEntity.setShowDesc(attrVO.getShowDesc());
+
+        return attrEntity;
     }
 }

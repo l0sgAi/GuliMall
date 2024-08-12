@@ -21,4 +21,10 @@ public interface AttrService extends CrudService<AttrEntity, AttrDTO> {
     PageData<AttrVo> queryPageByCatId(Map<String, Object> params, long categoryId);
 
     AttrVo getVoById(Long id);
+
+    void saveBatch(AttrVo attrVo);
+
+    void updateBatch(AttrVo attrVo);
+
+    void deleteBatch(Long[] ids);
 }

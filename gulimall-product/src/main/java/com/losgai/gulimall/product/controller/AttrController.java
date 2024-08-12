@@ -93,12 +93,11 @@ public class AttrController {
     @Operation(summary = "保存")
     @LogOperation("保存")
     //@RequiresPermissions("product:attr:save")
-    public Result save(@RequestBody AttrDTO dto){
-        //TODO: 改造为多表插入
+    public Result save(@RequestBody AttrVo attrVo){
         //效验数据
-        ValidatorUtils.validateEntity(dto, AddGroup.class, DefaultGroup.class);
+        ValidatorUtils.validateEntity(attrVo, AddGroup.class, DefaultGroup.class);
 
-        attrService.save(dto);
+        attrService.saveBatch(attrVo);
 
         return new Result();
     }
@@ -107,11 +106,11 @@ public class AttrController {
     @Operation(summary = "修改")
     @LogOperation("修改")
     //@RequiresPermissions("product:attr:update")
-    public Result update(@RequestBody AttrDTO dto){
+    public Result update(@RequestBody AttrVo attrVo){
         //效验数据
-        ValidatorUtils.validateEntity(dto, UpdateGroup.class, DefaultGroup.class);
+        ValidatorUtils.validateEntity(attrVo, UpdateGroup.class, DefaultGroup.class);
 
-        attrService.update(dto);
+        attrService.updateBatch(attrVo);
 
         return new Result();
     }
@@ -124,7 +123,7 @@ public class AttrController {
         //效验数据
         AssertUtils.isArrayEmpty(ids, "id");
 
-        attrService.delete(ids);
+        attrService.deleteBatch(ids);
 
         return new Result();
     }
