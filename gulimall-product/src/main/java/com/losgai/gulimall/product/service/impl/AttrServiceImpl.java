@@ -3,6 +3,7 @@ package com.losgai.gulimall.product.service.impl;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.losgai.gulimall.common.common.constant.ProductConstant;
 import com.losgai.gulimall.common.common.page.PageData;
 import com.losgai.gulimall.common.common.service.impl.CrudServiceImpl;
 import com.losgai.gulimall.product.dao.AttrAttrgroupRelationDao;
@@ -107,43 +108,58 @@ public class AttrServiceImpl extends CrudServiceImpl<AttrDao, AttrEntity, AttrDT
     @Transactional
     public void saveBatch(AttrVo attrVo) {
         AttrDTO attrDTO = new AttrDTO();
-        BeanUtils.copyProperties(attrVo,attrDTO);
+        BeanUtils.copyProperties(attrVo, attrDTO);
         //1、保存基本数据
+        if(attrVo.getAttrType()== ProductConstant.AttrEnum.BASE_ATTR.getCode()){
+            attrDTO.setSearchType(null);
+            attrDTO.setShowDesc(null);
+        }
         this.save(attrDTO);
 
         //2、保存关联关系 (先删除现有数据)
-        QueryWrapper<AttrAttrgroupRelationEntity> wrapper = new QueryWrapper<>();
-        wrapper.eq("attr_id", attrVo.getAttrId());
-        attrAttrgroupRelationDao.delete(wrapper);
+        if(attrVo.getAttrType()!=ProductConstant.AttrEnum.BASE_ATTR.getCode()){
+            QueryWrapper<AttrAttrgroupRelationEntity> wrapper = new QueryWrapper<>();
+            wrapper.eq("attr_id", attrVo.getAttrId());
+            attrAttrgroupRelationDao.delete(wrapper);
 
-        AttrAttrgroupRelationEntity attrAttrgroupRelationEntity = new AttrAttrgroupRelationEntity();
-        attrAttrgroupRelationEntity.setAttrId(attrDTO.getAttrId()); //这里只能用attrDTO，否则attrId取不到
-        attrAttrgroupRelationEntity.setAttrGroupId(attrVo.getGroupName());
-        attrAttrgroupRelationEntity.setAttrSort(0);
+            AttrAttrgroupRelationEntity attrAttrgroupRelationEntity = new AttrAttrgroupRelationEntity();
+            attrAttrgroupRelationEntity.setAttrId(attrDTO.getAttrId()); //这里只能用attrDTO，否则attrId取不到
+            attrAttrgroupRelationEntity.setAttrGroupId(attrVo.getGroupName());
+            attrAttrgroupRelationEntity.setAttrSort(0);
 
-        attrAttrgroupRelationDao.insert(attrAttrgroupRelationEntity);
+            attrAttrgroupRelationDao.insert(attrAttrgroupRelationEntity);
+        }
+
     }
 
     @Override
     @Transactional
     public void updateBatch(AttrVo attrVo) {
         AttrDTO attrDTO = new AttrDTO();
-        BeanUtils.copyProperties(attrVo,attrDTO);
+        BeanUtils.copyProperties(attrVo, attrDTO);
         //1、更新基本数据
+        if(attrVo.getAttrType()== ProductConstant.AttrEnum.BASE_ATTR.getCode()){
+            attrDTO.setSearchType(null);
+            attrDTO.setShowDesc(null);
+        }
         this.update(attrDTO);
 
         //2、保存关联关系 (如果新关系不为空，先删除现有数据，为空就不新执行插入关联关系)
         if (ObjectUtil.isNotNull(attrVo.getGroupName())) {
+            //删除关系
             QueryWrapper<AttrAttrgroupRelationEntity> wrapper = new QueryWrapper<>();
             wrapper.eq("attr_id", attrVo.getAttrId());
             attrAttrgroupRelationDao.delete(wrapper);
 
-            AttrAttrgroupRelationEntity attrAttrgroupRelationEntity = new AttrAttrgroupRelationEntity();
-            attrAttrgroupRelationEntity.setAttrId(attrVo.getAttrId());
-            attrAttrgroupRelationEntity.setAttrGroupId(attrVo.getGroupName());
-            attrAttrgroupRelationEntity.setAttrSort(0);
+            //如果不是销售属性，插入关系
+            if(attrVo.getAttrType()!= ProductConstant.AttrEnum.BASE_ATTR.getCode()){
+                AttrAttrgroupRelationEntity attrAttrgroupRelationEntity = new AttrAttrgroupRelationEntity();
+                attrAttrgroupRelationEntity.setAttrId(attrVo.getAttrId());
+                attrAttrgroupRelationEntity.setAttrGroupId(attrVo.getGroupName());
+                attrAttrgroupRelationEntity.setAttrSort(0);
 
-            attrAttrgroupRelationDao.insert(attrAttrgroupRelationEntity);
+                attrAttrgroupRelationDao.insert(attrAttrgroupRelationEntity);
+            }
         }
     }
 
@@ -152,6 +168,56 @@ public class AttrServiceImpl extends CrudServiceImpl<AttrDao, AttrEntity, AttrDT
         attrDao.deleteBatchIds(Arrays.asList(ids));
 //        QueryWrapper<AttrAttrgroupRelationEntity> wrapper = new QueryWrapper<AttrAttrgroupRelationEntity>().in("attr_id", ids);
 //        attrAttrgroupRelationDao.delete(wrapper);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public PageData<AttrVo> querySalePageByCatId(Map<String, Object> params, long categoryId) {
+        List<AttrEntity> list;
+        QueryWrapper<AttrEntity> wrapper = new QueryWrapper<>();
+
+        if (categoryId == 0) {
+            wrapper.eq("attr_type", 0).or().eq("attr_type", 2);
+            list = attrDao.selectList(wrapper);
+            List<AttrVo> voList = toAttrVoList(list);
+            return new PageData<>(voList, voList.size());
+        }
+
+        wrapper.eq("catelog_id", categoryId);
+        wrapper.and(i -> i.eq("attr_type", 0).or().eq("attr_type", 2));
+        list = attrDao.selectList(wrapper);
+        List<AttrVo> voList = toAttrVoList(list);
+        //select * from pms_attr_group where catelog_id = categoryId
+        return new PageData<>(toAttrVoList(list), voList.size());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public PageData<AttrVo> querySalePageByCatIdAndQuery(Map<String, Object> params, long categoryId, String key) {
+        List<AttrEntity> list;
+        //获取所有attr_group_name like %key% 的分组记录
+        QueryWrapper<AttrEntity> wrapper = new QueryWrapper<AttrEntity>()
+                .like(StrUtil.isNotBlank(key), "attr_name", key)
+                .and(i -> i.eq("attr_type", 0).or().eq("attr_type", 2));
+
+        if (categoryId == 0) {
+            list = attrDao.selectList(wrapper); //获取结果列表
+            List<AttrVo> voList = toAttrVoList(list);
+            return new PageData<>(voList, voList.size());
+        }
+
+        /*SELECT attr_id,attr_name,search_type,icon,value_select,attr_type,enable,catelog_id,show_desc,is_show
+        FROM pms_attr
+        WHERE is_show=1
+        AND ((attr_type = 0
+        OR attr_type = 2)
+        AND (attr_name LIKE key)
+        AND (catelog_id=id))*/
+        wrapper.and(wrapper1 -> wrapper1.eq("catelog_id", categoryId));
+        list = attrDao.selectList(wrapper);
+        List<AttrVo> voList = toAttrVoList(list);
+
+        return new PageData<>(voList, voList.size());
     }
 
     private List<AttrVo> toAttrVoList(List<AttrEntity> list) {
@@ -173,14 +239,14 @@ public class AttrServiceImpl extends CrudServiceImpl<AttrDao, AttrEntity, AttrDT
             eqWrapper.eq("attr_id", entity.getAttrId());
 
             AttrAttrgroupRelationEntity attrAttrgroupRelationEntity = attrAttrgroupRelationDao.selectOne(eqWrapper);
-            if(ObjectUtil.isNotNull(attrAttrgroupRelationEntity)){ //判空
+            if (ObjectUtil.isNotNull(attrAttrgroupRelationEntity)) { //判空
                 AttrGroupEntity attrGroupEntity = attrGroupDao.selectById(attrAttrgroupRelationEntity.getAttrGroupId());
-                if(ObjectUtil.isNotNull(attrGroupEntity)){
+                if (ObjectUtil.isNotNull(attrGroupEntity)) {
                     attrVo.setGroupName(attrGroupEntity.getAttrGroupId());
                 }
             }
 
-            if(StrUtil.isNotBlank(entity.getValueSelect())){
+            if (StrUtil.isNotBlank(entity.getValueSelect())) {
                 attrVo.setValueSelectArray(entity.getValueSelect().split(";"));
             }
 
@@ -207,14 +273,14 @@ public class AttrServiceImpl extends CrudServiceImpl<AttrDao, AttrEntity, AttrDT
         eqWrapper.eq("attr_id", entity.getAttrId());
 
         AttrAttrgroupRelationEntity attrAttrgroupRelationEntity = attrAttrgroupRelationDao.selectOne(eqWrapper);
-        if(ObjectUtil.isNotNull(attrAttrgroupRelationEntity)){ //判空
+        if (ObjectUtil.isNotNull(attrAttrgroupRelationEntity)) { //判空
             AttrGroupEntity attrGroupEntity = attrGroupDao.selectById(attrAttrgroupRelationEntity.getAttrGroupId());
-            if(ObjectUtil.isNotNull(attrGroupEntity)){
+            if (ObjectUtil.isNotNull(attrGroupEntity)) {
                 attrVo.setGroupName(attrGroupEntity.getAttrGroupId());
             }
         }
 
-        if(StrUtil.isNotBlank(entity.getValueSelect())){
+        if (StrUtil.isNotBlank(entity.getValueSelect())) {
             attrVo.setValueSelectArray(entity.getValueSelect().split(";"));
         }
 

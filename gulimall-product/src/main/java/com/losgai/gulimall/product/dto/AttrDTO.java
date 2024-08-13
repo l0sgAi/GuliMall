@@ -1,8 +1,14 @@
 package com.losgai.gulimall.product.dto;
 
 import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.losgai.gulimall.common.common.validator.annotation.ListValue;
+import com.losgai.gulimall.common.common.validator.group.AddGroup;
+import com.losgai.gulimall.common.common.validator.group.UpdateGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.SchemaProperty;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -21,9 +27,12 @@ public class AttrDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
 	@SchemaProperty(name = "属性id")
+	@NotNull(message = "修改时id不能为空",groups = {UpdateGroup.class})
+	@Null(message = "新增不能指定id",groups = {AddGroup.class})
 	private Long attrId;
 
 	@SchemaProperty(name = "属性名")
+	@NotBlank(message = "属性名不能为空",groups = {AddGroup.class, UpdateGroup.class})
 	private String attrName;
 
 	@SchemaProperty(name = "是否需要检索[0-不需要，1-需要]")
@@ -36,12 +45,15 @@ public class AttrDTO implements Serializable {
 	private String valueSelect;
 
 	@SchemaProperty(name = "属性类型[0-销售属性，1-基本属性，2-既是销售属性又是基本属性]")
+	@ListValue(vals = {0,1,2},groups = {AddGroup.class, UpdateGroup.class})
 	private Integer attrType;
 
 	@SchemaProperty(name = "启用状态[0 - 禁用，1 - 启用]")
+	@ListValue(vals = {0,1},groups = {AddGroup.class, UpdateGroup.class})
 	private Long enable;
 
 	@SchemaProperty(name = "所属分类")
+	@NotNull(message = "所属分类不能为空",groups = {AddGroup.class, UpdateGroup.class})
 	private Long catelogId;
 
 	@SchemaProperty(name = "快速展示【是否展示在介绍上；0-否 1-是】，在sku中仍然可以调整")

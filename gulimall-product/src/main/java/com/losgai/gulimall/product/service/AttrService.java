@@ -27,4 +27,8 @@ public interface AttrService extends CrudService<AttrEntity, AttrDTO> {
     void updateBatch(AttrVo attrVo);
 
     void deleteBatch(Long[] ids);
+
+    PageData<AttrVo> querySalePageByCatId(Map<String, Object> params, long i);
+
+    PageData<AttrVo> querySalePageByCatIdAndQuery(Map<String, Object> params, long categoryId, String key);
 }
