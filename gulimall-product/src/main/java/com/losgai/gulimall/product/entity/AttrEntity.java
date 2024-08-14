@@ -3,15 +3,12 @@ package com.losgai.gulimall.product.entity;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.losgai.gulimall.common.common.validator.annotation.ListValue;
 import com.losgai.gulimall.common.common.validator.group.AddGroup;
 import com.losgai.gulimall.common.common.validator.group.UpdateGroup;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
 import lombok.Data;
-
-import java.util.Date;
 
 /**
  * 商品属性
@@ -50,12 +47,12 @@ public class AttrEntity {
     /**
      * 属性类型[0-销售属性，1-基本属性，2-既是销售属性又是基本属性]
      */
-    @ListValue(vals = {0,1,2},groups = {AddGroup.class, UpdateGroup.class})
+    @NotNull(message = "属性类型不能为空",groups = {AddGroup.class, UpdateGroup.class})
 	private Integer attrType;
     /**
      * 启用状态[0 - 禁用，1 - 启用]
      */
-    @ListValue(vals = {0,1},groups = {AddGroup.class, UpdateGroup.class})
+    @NotNull(message = "启用状态不能为空",groups = {AddGroup.class, UpdateGroup.class})
 	private Long enable;
     /**
      * 所属分类

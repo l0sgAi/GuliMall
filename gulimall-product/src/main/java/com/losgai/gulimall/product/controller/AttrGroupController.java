@@ -1,8 +1,6 @@
 package com.losgai.gulimall.product.controller;
 
 import com.alibaba.cloud.commons.lang.StringUtils;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.losgai.gulimall.common.common.annotation.LogOperation;
 import com.losgai.gulimall.common.common.constant.Constant;
 import com.losgai.gulimall.common.common.page.PageData;
@@ -18,15 +16,14 @@ import com.losgai.gulimall.product.entity.AttrGroupEntity;
 import com.losgai.gulimall.product.excel.AttrGroupExcel;
 import com.losgai.gulimall.product.service.AttrGroupService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
-import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.Arrays;
 import java.util.List;
@@ -43,6 +40,7 @@ import java.util.Map;
 @RequestMapping("product/attrgroup")
 @Tag(name="属性分组")
 public class AttrGroupController {
+
     @Autowired
     private AttrGroupService attrGroupService;
 
@@ -117,7 +115,7 @@ public class AttrGroupController {
 
         attrGroupService.update(dto);
 
-        return new Result();
+        return new Result<>();
     }
 
     @DeleteMapping

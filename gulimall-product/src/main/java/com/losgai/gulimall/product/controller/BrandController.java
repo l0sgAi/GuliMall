@@ -22,9 +22,7 @@ import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -67,7 +65,7 @@ public class BrandController {
     }
 
     @GetMapping("getCategoryRelation/{brandId}")
-    @Operation(summary = "分页")
+    @Operation(summary = "分类关系")
     public Result<List<CategoryBrandRelationEntity>> getCategoryRelation(@PathVariable("brandId") Long brandId) {
         List<CategoryBrandRelationEntity> list = categoryBrandRelationService.getCategoryRelation(brandId);
         return new Result<List<CategoryBrandRelationEntity>>().ok(list);

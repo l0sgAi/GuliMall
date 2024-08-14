@@ -20,10 +20,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 商品属性
@@ -166,8 +166,6 @@ public class AttrServiceImpl extends CrudServiceImpl<AttrDao, AttrEntity, AttrDT
     @Override
     public void deleteBatch(Long[] ids) {
         attrDao.deleteBatchIds(Arrays.asList(ids));
-//        QueryWrapper<AttrAttrgroupRelationEntity> wrapper = new QueryWrapper<AttrAttrgroupRelationEntity>().in("attr_id", ids);
-//        attrAttrgroupRelationDao.delete(wrapper);
     }
 
     @Override
@@ -206,13 +204,6 @@ public class AttrServiceImpl extends CrudServiceImpl<AttrDao, AttrEntity, AttrDT
             return new PageData<>(voList, voList.size());
         }
 
-        /*SELECT attr_id,attr_name,search_type,icon,value_select,attr_type,enable,catelog_id,show_desc,is_show
-        FROM pms_attr
-        WHERE is_show=1
-        AND ((attr_type = 0
-        OR attr_type = 2)
-        AND (attr_name LIKE key)
-        AND (catelog_id=id))*/
         wrapper.and(wrapper1 -> wrapper1.eq("catelog_id", categoryId));
         list = attrDao.selectList(wrapper);
         List<AttrVo> voList = toAttrVoList(list);
@@ -221,53 +212,18 @@ public class AttrServiceImpl extends CrudServiceImpl<AttrDao, AttrEntity, AttrDT
     }
 
     private List<AttrVo> toAttrVoList(List<AttrEntity> list) {
-        List<AttrVo> voList = new ArrayList<>();
-        //将list中所有AttrEntity转成AttrVo
-        for (AttrEntity entity : list) { //构建VO
-            AttrVo attrVo = new AttrVo();
-            attrVo.setAttrId(entity.getAttrId());
-            attrVo.setAttrName(entity.getAttrName());
-            attrVo.setSearchType(entity.getSearchType());
-            attrVo.setIcon(entity.getIcon());
-            attrVo.setValueSelect(entity.getValueSelect());
-            attrVo.setAttrType(entity.getAttrType());
-            attrVo.setEnable(entity.getEnable());
-            attrVo.setCatelogId(entity.getCatelogId());
-            attrVo.setShowDesc(entity.getShowDesc());
-
-            QueryWrapper<AttrAttrgroupRelationEntity> eqWrapper = new QueryWrapper<>();
-            eqWrapper.eq("attr_id", entity.getAttrId());
-
-            AttrAttrgroupRelationEntity attrAttrgroupRelationEntity = attrAttrgroupRelationDao.selectOne(eqWrapper);
-            if (ObjectUtil.isNotNull(attrAttrgroupRelationEntity)) { //判空
-                AttrGroupEntity attrGroupEntity = attrGroupDao.selectById(attrAttrgroupRelationEntity.getAttrGroupId());
-                if (ObjectUtil.isNotNull(attrGroupEntity)) {
-                    attrVo.setGroupName(attrGroupEntity.getAttrGroupId());
-                }
-            }
-
-            if (StrUtil.isNotBlank(entity.getValueSelect())) {
-                attrVo.setValueSelectArray(entity.getValueSelect().split(";"));
-            }
-
-            voList.add(attrVo);
-        }
-
-        return voList;
+        return list.stream()
+                .map(this::entityToVo)
+                .collect(Collectors.toList());
     }
 
     private AttrVo toAttrVo(AttrEntity entity) {
-        AttrVo attrVo = new AttrVo();
+        return entityToVo(entity);
+    }
 
-        attrVo.setAttrId(entity.getAttrId());
-        attrVo.setAttrName(entity.getAttrName());
-        attrVo.setSearchType(entity.getSearchType());
-        attrVo.setIcon(entity.getIcon());
-        attrVo.setValueSelect(entity.getValueSelect());
-        attrVo.setAttrType(entity.getAttrType());
-        attrVo.setEnable(entity.getEnable());
-        attrVo.setCatelogId(entity.getCatelogId());
-        attrVo.setShowDesc(entity.getShowDesc());
+    private AttrVo entityToVo(AttrEntity entity) {
+        AttrVo attrVo = new AttrVo();
+        BeanUtils.copyProperties(entity, attrVo);
 
         QueryWrapper<AttrAttrgroupRelationEntity> eqWrapper = new QueryWrapper<>();
         eqWrapper.eq("attr_id", entity.getAttrId());
@@ -287,18 +243,9 @@ public class AttrServiceImpl extends CrudServiceImpl<AttrDao, AttrEntity, AttrDT
         return attrVo;
     }
 
-    private AttrEntity toAttrEntity(AttrVo attrVO) {
-        AttrEntity attrEntity = new AttrEntity();
-
-        attrEntity.setAttrName(attrVO.getAttrName());
-        attrEntity.setSearchType(attrVO.getSearchType());
-        attrEntity.setIcon(attrVO.getIcon());
-        attrEntity.setValueSelect(attrVO.getValueSelect());
-        attrEntity.setAttrType(attrVO.getAttrType());
-        attrEntity.setEnable(attrVO.getEnable());
-        attrEntity.setCatelogId(attrVO.getCatelogId());
-        attrEntity.setShowDesc(attrVO.getShowDesc());
-
-        return attrEntity;
-    }
+//    private AttrEntity toAttrEntity(AttrVo attrVO) {
+//        AttrEntity attrEntity = new AttrEntity();
+//        BeanUtils.copyProperties(attrVO, attrEntity);
+//        return attrEntity;
+//    }
 }

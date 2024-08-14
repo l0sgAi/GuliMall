@@ -1,0 +1,29 @@
+package com.losgai.gulimall.product.vo;
+
+import lombok.Data;
+
+@Data
+public class AttrAttrGroupVo {
+    private Long id;
+    /**
+     * 属性id
+     */
+    private Long attrId;
+    /**
+     * 属性名称
+     */
+    private String attrName;
+    /**
+     * 属性分组id
+     */
+    private Long attrGroupId;
+    /**
+     * 属性分组名称
+     */
+    private String attrGroupName;
+    /**
+     * 属性组内排序
+     */
+    private Integer attrSort;
+
+}

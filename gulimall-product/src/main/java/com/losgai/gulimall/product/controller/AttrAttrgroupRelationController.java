@@ -13,15 +13,17 @@ import com.losgai.gulimall.common.common.validator.group.UpdateGroup;
 import com.losgai.gulimall.product.dto.AttrAttrgroupRelationDTO;
 import com.losgai.gulimall.product.excel.AttrAttrgroupRelationExcel;
 import com.losgai.gulimall.product.service.AttrAttrgroupRelationService;
+import com.losgai.gulimall.product.vo.AttrAttrGroupVo;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
-import jakarta.servlet.http.HttpServletResponse;
+
 import java.util.List;
 import java.util.Map;
 
@@ -38,6 +40,13 @@ import java.util.Map;
 public class AttrAttrgroupRelationController {
     @Autowired
     private AttrAttrgroupRelationService attrAttrgroupRelationService;
+
+    @GetMapping("getGroupRelation/{attrGroupId}")
+    @Operation(summary = "分组关系")
+    public Result<List<AttrAttrGroupVo>> getCategoryRelation(@PathVariable("attrGroupId") Long attrGroupId) {
+        List<AttrAttrGroupVo> list = attrAttrgroupRelationService.getGroupRelation(attrGroupId);
+        return new Result<List<AttrAttrGroupVo>>().ok(list);
+    }
 
     @GetMapping("page")
     @Operation(summary = "分页")
