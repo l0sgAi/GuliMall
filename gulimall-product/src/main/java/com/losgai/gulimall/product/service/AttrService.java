@@ -31,4 +31,6 @@ public interface AttrService extends CrudService<AttrEntity, AttrDTO> {
     PageData<AttrVo> querySalePageByCatId(Map<String, Object> params, long i);
 
     PageData<AttrVo> querySalePageByCatIdAndQuery(Map<String, Object> params, long categoryId, String key);
+
+    PageData<AttrEntity> queryBasePageByCatIdAndQuery(Map<String, Object> params, long categoryId, String key);
 }

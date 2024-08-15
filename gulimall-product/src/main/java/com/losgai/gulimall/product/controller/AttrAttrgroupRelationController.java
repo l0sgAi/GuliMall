@@ -11,6 +11,7 @@ import com.losgai.gulimall.common.common.validator.group.AddGroup;
 import com.losgai.gulimall.common.common.validator.group.DefaultGroup;
 import com.losgai.gulimall.common.common.validator.group.UpdateGroup;
 import com.losgai.gulimall.product.dto.AttrAttrgroupRelationDTO;
+import com.losgai.gulimall.product.entity.AttrAttrgroupRelationEntity;
 import com.losgai.gulimall.product.excel.AttrAttrgroupRelationExcel;
 import com.losgai.gulimall.product.service.AttrAttrgroupRelationService;
 import com.losgai.gulimall.product.vo.AttrAttrGroupVo;
@@ -81,6 +82,19 @@ public class AttrAttrgroupRelationController {
         ValidatorUtils.validateEntity(dto, AddGroup.class, DefaultGroup.class);
 
         attrAttrgroupRelationService.save(dto);
+
+        return new Result();
+    }
+
+    @PostMapping("/saveBatch")
+    @Operation(summary = "批量保存")
+    @LogOperation("批量保存")
+    //@RequiresPermissions("product:attrattrgrouprelation:save")
+    public Result saveBatch(@RequestBody List<AttrAttrgroupRelationEntity> entities){
+        //效验数据
+        ValidatorUtils.validateEntity(entities, AddGroup.class, DefaultGroup.class);
+
+        attrAttrgroupRelationService.insertBatch(entities);
 
         return new Result();
     }

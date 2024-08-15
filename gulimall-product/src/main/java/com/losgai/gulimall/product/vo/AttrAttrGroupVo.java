@@ -25,5 +25,13 @@ public class AttrAttrGroupVo {
      * 属性组内排序
      */
     private Integer attrSort;
+    /**
+     * 可选值列表[用逗号分隔]
+     */
+    private String valueSelect;
+    /**
+     * 可选值列表数组
+     */
+    private String[] valueSelectArray;
 
 }

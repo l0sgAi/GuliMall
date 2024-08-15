@@ -50,8 +50,6 @@ public class AttrAttrgroupRelationServiceImpl extends CrudServiceImpl<AttrAttrgr
 
         return wrapper;
     }
-
-
     @Override
     @Transactional(readOnly = true)
     public List<AttrAttrGroupVo> getGroupRelation(Long attrGroupId) {
@@ -76,6 +74,10 @@ public class AttrAttrgroupRelationServiceImpl extends CrudServiceImpl<AttrAttrgr
             BeanUtils.copyProperties(relation, vo);
             vo.setAttrName(attrEntity.getAttrName());
             vo.setAttrGroupName(attrGroupEntity.getAttrGroupName());
+            if(StrUtil.isNotBlank(attrEntity.getValueSelect())){
+                vo.setValueSelect(attrEntity.getValueSelect());
+                vo.setValueSelectArray(attrEntity.getValueSelect().split(";"));
+            }
             return vo;
         }).filter(Objects::nonNull) // 过滤掉所有null值
                 .collect(Collectors.toList());

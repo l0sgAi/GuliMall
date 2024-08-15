@@ -13,20 +13,20 @@ import com.losgai.gulimall.common.common.validator.group.DefaultGroup;
 import com.losgai.gulimall.common.common.validator.group.UpdateGroup;
 import com.losgai.gulimall.product.dto.AttrDTO;
 import com.losgai.gulimall.product.entity.AttrEntity;
-import com.losgai.gulimall.product.entity.AttrGroupEntity;
 import com.losgai.gulimall.product.excel.AttrExcel;
 import com.losgai.gulimall.product.service.AttrService;
 import com.losgai.gulimall.product.vo.AttrVo;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
-import jakarta.servlet.http.HttpServletResponse;
+
 import java.util.List;
 import java.util.Map;
 
@@ -39,89 +39,106 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("product/attr")
-@Tag(name="商品属性")
+@Tag(name = "商品属性")
 public class AttrController {
     @Autowired
     private AttrService attrService;
 
+    @GetMapping("/base/noRelation/page/{categoryId}")
+    @Operation(summary = "分页")
+    @Parameters({
+            @Parameter(name = Constant.PAGE, description = "当前页码，从1开始", in = ParameterIn.QUERY, required = true, ref = "int"),
+            @Parameter(name = Constant.LIMIT, description = "每页显示记录数", in = ParameterIn.QUERY, required = true, ref = "int"),
+            @Parameter(name = Constant.ORDER_FIELD, description = "排序字段", in = ParameterIn.QUERY, ref = "String"),
+            @Parameter(name = Constant.ORDER, description = "排序方式，可选值(asc、desc)", in = ParameterIn.QUERY, ref = "String"),
+            @Parameter(name = "key", description = "搜索字符串", in = ParameterIn.QUERY, ref = "String") // 新增的查询参数
+    })
+    //@RequiresPermissions("product:attrgroup:page")
+    public Result<PageData<AttrEntity>> pageBase(@Parameter(hidden = true) @RequestParam Map<String, Object> params,
+                                                 @PathVariable("categoryId") long categoryId,
+                                                 @RequestParam(value = "key", required = false) String key) {
+        PageData<AttrEntity> page = attrService.queryBasePageByCatIdAndQuery(params, categoryId, key);
+        return new Result<PageData<AttrEntity>>().ok(page);
+    }
+
     @GetMapping("/sale/page")
     @Operation(summary = "分页")
     @Parameters({
-            @Parameter(name = Constant.PAGE, description = "当前页码，从1开始", in = ParameterIn.QUERY, required = true, ref="int") ,
-            @Parameter(name = Constant.LIMIT, description = "每页显示记录数", in = ParameterIn.QUERY,required = true, ref="int") ,
-            @Parameter(name = Constant.ORDER_FIELD, description = "排序字段", in = ParameterIn.QUERY, ref="String") ,
-            @Parameter(name = Constant.ORDER, description = "排序方式，可选值(asc、desc)", in = ParameterIn.QUERY, ref="String")
+            @Parameter(name = Constant.PAGE, description = "当前页码，从1开始", in = ParameterIn.QUERY, required = true, ref = "int"),
+            @Parameter(name = Constant.LIMIT, description = "每页显示记录数", in = ParameterIn.QUERY, required = true, ref = "int"),
+            @Parameter(name = Constant.ORDER_FIELD, description = "排序字段", in = ParameterIn.QUERY, ref = "String"),
+            @Parameter(name = Constant.ORDER, description = "排序方式，可选值(asc、desc)", in = ParameterIn.QUERY, ref = "String")
     })
     @RequiresPermissions("product:attr:page")
-    public Result<PageData<AttrVo>> pageSale(@Parameter(hidden = true) @RequestParam Map<String, Object> params){
-        PageData<AttrVo> page = attrService.querySalePageByCatId(params,0);
+    public Result<PageData<AttrVo>> pageSale(@Parameter(hidden = true) @RequestParam Map<String, Object> params) {
+        PageData<AttrVo> page = attrService.querySalePageByCatId(params, 0);
         return new Result<PageData<AttrVo>>().ok(page);
     }
 
     @GetMapping("/sale/page/{categoryId}")
     @Operation(summary = "分页")
     @Parameters({
-            @Parameter(name = Constant.PAGE, description = "当前页码，从1开始", in = ParameterIn.QUERY, required = true, ref="int") ,
-            @Parameter(name = Constant.LIMIT, description = "每页显示记录数", in = ParameterIn.QUERY,required = true, ref="int") ,
-            @Parameter(name = Constant.ORDER_FIELD, description = "排序字段", in = ParameterIn.QUERY, ref="String") ,
-            @Parameter(name = Constant.ORDER, description = "排序方式，可选值(asc、desc)", in = ParameterIn.QUERY, ref="String"),
-            @Parameter(name = "key", description = "搜索字符串", in = ParameterIn.QUERY, ref="String") // 新增的查询参数
+            @Parameter(name = Constant.PAGE, description = "当前页码，从1开始", in = ParameterIn.QUERY, required = true, ref = "int"),
+            @Parameter(name = Constant.LIMIT, description = "每页显示记录数", in = ParameterIn.QUERY, required = true, ref = "int"),
+            @Parameter(name = Constant.ORDER_FIELD, description = "排序字段", in = ParameterIn.QUERY, ref = "String"),
+            @Parameter(name = Constant.ORDER, description = "排序方式，可选值(asc、desc)", in = ParameterIn.QUERY, ref = "String"),
+            @Parameter(name = "key", description = "搜索字符串", in = ParameterIn.QUERY, ref = "String") // 新增的查询参数
     })
     //@RequiresPermissions("product:attrgroup:page")
     public Result<PageData<AttrVo>> pageSaleCategory(@Parameter(hidden = true) @RequestParam Map<String, Object> params,
-                                                 @PathVariable("categoryId") long categoryId,
-                                                 @RequestParam(value = "key", required = false) String key){
+                                                     @PathVariable("categoryId") long categoryId,
+                                                     @RequestParam(value = "key", required = false) String key) {
         if (StringUtils.isNotBlank(key)) {
-            PageData<AttrVo> page = attrService.querySalePageByCatIdAndQuery(params,categoryId,key);
+            PageData<AttrVo> page = attrService.querySalePageByCatIdAndQuery(params, categoryId, key);
 
             return new Result<PageData<AttrVo>>().ok(page);
         }
 
-        PageData<AttrVo> page = attrService.querySalePageByCatId(params,categoryId);
+        PageData<AttrVo> page = attrService.querySalePageByCatId(params, categoryId);
         return new Result<PageData<AttrVo>>().ok(page);
     }
 
     @GetMapping("page")
     @Operation(summary = "分页")
     @Parameters({
-        @Parameter(name = Constant.PAGE, description = "当前页码，从1开始", in = ParameterIn.QUERY, required = true, ref="int") ,
-        @Parameter(name = Constant.LIMIT, description = "每页显示记录数", in = ParameterIn.QUERY,required = true, ref="int") ,
-        @Parameter(name = Constant.ORDER_FIELD, description = "排序字段", in = ParameterIn.QUERY, ref="String") ,
-        @Parameter(name = Constant.ORDER, description = "排序方式，可选值(asc、desc)", in = ParameterIn.QUERY, ref="String")
+            @Parameter(name = Constant.PAGE, description = "当前页码，从1开始", in = ParameterIn.QUERY, required = true, ref = "int"),
+            @Parameter(name = Constant.LIMIT, description = "每页显示记录数", in = ParameterIn.QUERY, required = true, ref = "int"),
+            @Parameter(name = Constant.ORDER_FIELD, description = "排序字段", in = ParameterIn.QUERY, ref = "String"),
+            @Parameter(name = Constant.ORDER, description = "排序方式，可选值(asc、desc)", in = ParameterIn.QUERY, ref = "String")
     })
     @RequiresPermissions("product:attr:page")
-    public Result<PageData<AttrVo>> page(@Parameter(hidden = true) @RequestParam Map<String, Object> params){
-        PageData<AttrVo> page = attrService.queryPageByCatId(params,0);
+    public Result<PageData<AttrVo>> page(@Parameter(hidden = true) @RequestParam Map<String, Object> params) {
+        PageData<AttrVo> page = attrService.queryPageByCatId(params, 0);
         return new Result<PageData<AttrVo>>().ok(page);
     }
 
     @GetMapping("page/{categoryId}")
     @Operation(summary = "分页")
     @Parameters({
-            @Parameter(name = Constant.PAGE, description = "当前页码，从1开始", in = ParameterIn.QUERY, required = true, ref="int") ,
-            @Parameter(name = Constant.LIMIT, description = "每页显示记录数", in = ParameterIn.QUERY,required = true, ref="int") ,
-            @Parameter(name = Constant.ORDER_FIELD, description = "排序字段", in = ParameterIn.QUERY, ref="String") ,
-            @Parameter(name = Constant.ORDER, description = "排序方式，可选值(asc、desc)", in = ParameterIn.QUERY, ref="String"),
-            @Parameter(name = "key", description = "搜索字符串", in = ParameterIn.QUERY, ref="String") // 新增的查询参数
+            @Parameter(name = Constant.PAGE, description = "当前页码，从1开始", in = ParameterIn.QUERY, required = true, ref = "int"),
+            @Parameter(name = Constant.LIMIT, description = "每页显示记录数", in = ParameterIn.QUERY, required = true, ref = "int"),
+            @Parameter(name = Constant.ORDER_FIELD, description = "排序字段", in = ParameterIn.QUERY, ref = "String"),
+            @Parameter(name = Constant.ORDER, description = "排序方式，可选值(asc、desc)", in = ParameterIn.QUERY, ref = "String"),
+            @Parameter(name = "key", description = "搜索字符串", in = ParameterIn.QUERY, ref = "String") // 新增的查询参数
     })
     //@RequiresPermissions("product:attrgroup:page")
     public Result<PageData<AttrVo>> pageCategory(@Parameter(hidden = true) @RequestParam Map<String, Object> params,
                                                  @PathVariable("categoryId") long categoryId,
-                                                 @RequestParam(value = "key", required = false) String key){
+                                                 @RequestParam(value = "key", required = false) String key) {
         if (StringUtils.isNotBlank(key)) {
-            PageData<AttrVo> page = attrService.queryPageByCatIdAndQuery(params,categoryId,key);
+            PageData<AttrVo> page = attrService.queryPageByCatIdAndQuery(params, categoryId, key);
 
             return new Result<PageData<AttrVo>>().ok(page);
         }
 
-        PageData<AttrVo> page = attrService.queryPageByCatId(params,categoryId);
+        PageData<AttrVo> page = attrService.queryPageByCatId(params, categoryId);
         return new Result<PageData<AttrVo>>().ok(page);
     }
 
     @GetMapping("{id}")
     @Operation(summary = "信息")
     //@RequiresPermissions("product:attr:info")
-    public Result<AttrVo> get(@PathVariable("id") Long id){
+    public Result<AttrVo> get(@PathVariable("id") Long id) {
         AttrVo data = attrService.getVoById(id);
 
         return new Result<AttrVo>().ok(data);
@@ -131,7 +148,7 @@ public class AttrController {
     @Operation(summary = "保存")
     @LogOperation("保存")
     //@RequiresPermissions("product:attr:save")
-    public Result save(@Validated(value = {AddGroup.class}) @RequestBody AttrVo attrVo){
+    public Result save(@Validated(value = {AddGroup.class}) @RequestBody AttrVo attrVo) {
         //效验数据
         ValidatorUtils.validateEntity(attrVo, AddGroup.class, DefaultGroup.class);
 
@@ -144,7 +161,7 @@ public class AttrController {
     @Operation(summary = "修改")
     @LogOperation("修改")
     //@RequiresPermissions("product:attr:update")
-    public Result update(@Validated(value = {UpdateGroup.class}) @RequestBody AttrVo attrVo){
+    public Result update(@Validated(value = {UpdateGroup.class}) @RequestBody AttrVo attrVo) {
         //效验数据
         ValidatorUtils.validateEntity(attrVo, UpdateGroup.class, DefaultGroup.class);
 
@@ -157,7 +174,7 @@ public class AttrController {
     @Operation(summary = "删除")
     @LogOperation("删除")
     //@RequiresPermissions("product:attr:delete")
-    public Result delete(@RequestBody Long[] ids){
+    public Result delete(@RequestBody Long[] ids) {
         //效验数据
         AssertUtils.isArrayEmpty(ids, "id");
 

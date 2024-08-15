@@ -16,4 +16,5 @@ import java.util.List;
 public interface AttrAttrgroupRelationService extends CrudService<AttrAttrgroupRelationEntity, AttrAttrgroupRelationDTO> {
 
     List<AttrAttrGroupVo> getGroupRelation(Long attrGroupId);
+
 }

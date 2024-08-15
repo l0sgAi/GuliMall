@@ -117,7 +117,7 @@ public class AttrServiceImpl extends CrudServiceImpl<AttrDao, AttrEntity, AttrDT
         this.save(attrDTO);
 
         //2、保存关联关系 (先删除现有数据)
-        if(attrVo.getAttrType()!=ProductConstant.AttrEnum.BASE_ATTR.getCode()){
+        if(attrVo.getAttrType()!=ProductConstant.AttrEnum.BASE_ATTR.getCode() && ObjectUtil.isNotNull(attrVo.getGroupName())){
             QueryWrapper<AttrAttrgroupRelationEntity> wrapper = new QueryWrapper<>();
             wrapper.eq("attr_id", attrVo.getAttrId());
             attrAttrgroupRelationDao.delete(wrapper);
@@ -209,6 +209,29 @@ public class AttrServiceImpl extends CrudServiceImpl<AttrDao, AttrEntity, AttrDT
         List<AttrVo> voList = toAttrVoList(list);
 
         return new PageData<>(voList, voList.size());
+    }
+
+    @Override
+    public PageData<AttrEntity> queryBasePageByCatIdAndQuery(Map<String, Object> params, long categoryId, String key) {
+        List<AttrAttrgroupRelationEntity> attrAttrgroupRelationEntities = attrAttrgroupRelationDao.selectList(null);
+        //获取attrAttrgroupRelationEntities中的所有attrId
+        List<Long> attrIds = attrAttrgroupRelationEntities.stream()
+                .map(AttrAttrgroupRelationEntity::getAttrId)
+                .toList();
+
+        List<AttrEntity> list;
+        //获取所有attr_group_name like %key% 的分组记录
+        QueryWrapper<AttrEntity> wrapper = new QueryWrapper<AttrEntity>()
+                .like(StrUtil.isNotBlank(key), "attr_name", key)
+                .and(i -> i.eq("attr_type", 1).or().eq("attr_type", 2));
+
+        wrapper.and(wrapper1 -> wrapper1.eq("catelog_id", categoryId));
+        list = attrDao.selectList(wrapper);
+        //在list中去除attrIds的对应数据
+        list = list.stream()
+                .filter(attrEntity -> !attrIds.contains(attrEntity.getAttrId()))
+                .collect(Collectors.toList());
+        return new PageData<>(list, list.size());
     }
 
     private List<AttrVo> toAttrVoList(List<AttrEntity> list) {
