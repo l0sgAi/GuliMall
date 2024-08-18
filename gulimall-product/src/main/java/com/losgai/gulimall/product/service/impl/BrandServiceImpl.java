@@ -1,5 +1,6 @@
 package com.losgai.gulimall.product.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.losgai.gulimall.common.common.page.PageData;
@@ -7,17 +8,13 @@ import com.losgai.gulimall.common.common.service.impl.CrudServiceImpl;
 import com.losgai.gulimall.product.dao.BrandDao;
 import com.losgai.gulimall.product.dao.CategoryBrandRelationDao;
 import com.losgai.gulimall.product.dto.BrandDTO;
-import com.losgai.gulimall.product.entity.AttrEntity;
 import com.losgai.gulimall.product.entity.BrandEntity;
 import com.losgai.gulimall.product.entity.CategoryBrandRelationEntity;
 import com.losgai.gulimall.product.service.BrandService;
-import cn.hutool.core.util.StrUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -48,7 +45,7 @@ public class BrandServiceImpl extends CrudServiceImpl<BrandDao, BrandEntity, Bra
 
     @Override
     public PageData<BrandEntity> queryPage(Map<String, Object> params, String key) {
-        List<BrandEntity> list = new ArrayList<>();
+        List<BrandEntity> list;
 
         QueryWrapper<BrandEntity> andOrWrapper = new QueryWrapper<BrandEntity>()
                 .like(StrUtil.isNotBlank(key), "name", key);
@@ -74,6 +71,22 @@ public class BrandServiceImpl extends CrudServiceImpl<BrandDao, BrandEntity, Bra
         updateWrapper.set("brand_name", brandName);
 
         categoryBrandRelationDao.update(updateWrapper);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<BrandEntity> getCategoryBrand(Long catId) {
+        QueryWrapper<CategoryBrandRelationEntity> relationWrapper = new QueryWrapper<>();
+        relationWrapper.eq("catelog_id", catId);
+        List<CategoryBrandRelationEntity> relationEntityList = categoryBrandRelationDao.selectList(relationWrapper);
+        //提取relationEntityList中的brandId列表，流处理
+        List<Long> brandIds = relationEntityList.stream().map(CategoryBrandRelationEntity::getBrandId).toList();
+        if (!brandIds.isEmpty()) {
+            QueryWrapper<BrandEntity> brandWrapper = new QueryWrapper<>();
+            brandWrapper.in("brand_id", brandIds);
+            return baseDao.selectList(brandWrapper);
+        }
+        return null;
     }
 
 //    @Override

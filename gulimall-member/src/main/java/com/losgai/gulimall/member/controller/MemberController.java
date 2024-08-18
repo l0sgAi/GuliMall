@@ -56,7 +56,7 @@ public class MemberController {
     @RequiresPermissions("member:member:page")
     public Result<PageData<MemberDTO>> page(@Parameter(hidden = true) @RequestParam Map<String, Object> params){
         PageData<MemberDTO> page = memberService.page(params);
-
+        page.setTotal(page.getList().size());
         return new Result<PageData<MemberDTO>>().ok(page);
     }
 

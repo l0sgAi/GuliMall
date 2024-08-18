@@ -1,10 +1,10 @@
 package com.losgai.gulimall.member.entity;
 
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 /**
  * 会员等级
@@ -56,4 +56,7 @@ public class MemberLevelEntity {
      * 备注
      */
 	private String note;
+
+    @TableLogic(value = "1",delval = "0")
+    private Integer isShow;
 }

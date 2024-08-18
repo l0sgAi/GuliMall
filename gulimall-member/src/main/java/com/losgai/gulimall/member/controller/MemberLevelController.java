@@ -11,17 +11,18 @@ import com.losgai.gulimall.common.common.validator.group.AddGroup;
 import com.losgai.gulimall.common.common.validator.group.DefaultGroup;
 import com.losgai.gulimall.common.common.validator.group.UpdateGroup;
 import com.losgai.gulimall.member.dto.MemberLevelDTO;
+import com.losgai.gulimall.member.entity.MemberLevelEntity;
 import com.losgai.gulimall.member.excel.MemberLevelExcel;
 import com.losgai.gulimall.member.service.MemberLevelService;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Map;
 
@@ -47,11 +48,27 @@ public class MemberLevelController {
         @Parameter(name = Constant.ORDER_FIELD, description = "排序字段", in = ParameterIn.QUERY, ref="String") ,
         @Parameter(name = Constant.ORDER, description = "排序方式，可选值(asc、desc)", in = ParameterIn.QUERY, ref="String")
     })
-    @RequiresPermissions("member:memberlevel:page")
+//    @RequiresPermissions("member:memberlevel:page")
     public Result<PageData<MemberLevelDTO>> page(@Parameter(hidden = true) @RequestParam Map<String, Object> params){
         PageData<MemberLevelDTO> page = memberLevelService.page(params);
-
+        page.setTotal(page.getList().size());
         return new Result<PageData<MemberLevelDTO>>().ok(page);
+    }
+
+    @GetMapping("pageQuery")
+    @Operation(summary = "分页查询")
+    @Parameters({
+            @Parameter(name = Constant.PAGE, description = "当前页码，从1开始", in = ParameterIn.QUERY, required = true, ref="int") ,
+            @Parameter(name = Constant.LIMIT, description = "每页显示记录数", in = ParameterIn.QUERY,required = true, ref="int") ,
+            @Parameter(name = Constant.ORDER_FIELD, description = "排序字段", in = ParameterIn.QUERY, ref="String") ,
+            @Parameter(name = Constant.ORDER, description = "排序方式，可选值(asc、desc)", in = ParameterIn.QUERY, ref="String"),
+            @Parameter(name = "key", description = "搜索字符串", in = ParameterIn.QUERY, ref = "String") // 新增的查询参数
+    })
+//    @RequiresPermissions("member:memberlevel:page")
+    public Result<PageData<MemberLevelEntity>> pageQuery(@Parameter(hidden = true) @RequestParam Map<String, Object> params,
+                                                      @RequestParam(value = "key",required = false) String key){
+        PageData<MemberLevelEntity> page = memberLevelService.queryPage(params, key);
+        return new Result<PageData<MemberLevelEntity>>().ok(page);
     }
 
     @GetMapping("{id}")

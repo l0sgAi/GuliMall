@@ -1,11 +1,12 @@
 package com.losgai.gulimall.member.dto;
 
-import lombok.Data;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.SchemaProperty;
-import java.io.Serializable;
-import java.util.Date;
+import lombok.Data;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
@@ -17,7 +18,8 @@ import java.math.BigDecimal;
 @Data
 @Schema(name = "会员等级")
 public class MemberLevelDTO implements Serializable {
-    private static final long serialVersionUID = 1L;
+    @Serial
+	private static final long serialVersionUID = 1L;
 
 	@SchemaProperty(name = "id")
 	private Long id;
@@ -49,5 +51,7 @@ public class MemberLevelDTO implements Serializable {
 	@SchemaProperty(name = "备注")
 	private String note;
 
+	@TableLogic(value = "1",delval = "0")
+	private Integer isShow;
 
 }

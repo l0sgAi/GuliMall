@@ -64,11 +64,18 @@ public class BrandController {
         return new Result<PageData<BrandEntity>>().ok(page);
     }
 
-    @GetMapping("getCategoryRelation/{brandId}")
+    @GetMapping("/getCategoryRelation/{brandId}")
     @Operation(summary = "分类关系")
     public Result<List<CategoryBrandRelationEntity>> getCategoryRelation(@PathVariable("brandId") Long brandId) {
         List<CategoryBrandRelationEntity> list = categoryBrandRelationService.getCategoryRelation(brandId);
         return new Result<List<CategoryBrandRelationEntity>>().ok(list);
+    }
+
+    @GetMapping("/getCategoryBrand/{catId}")
+    @Operation(summary = "分类品牌")
+    public Result<List<BrandEntity>> getCategoryBrand(@PathVariable("catId") Long catId) {
+        List<BrandEntity> list = brandService.getCategoryBrand(catId);
+        return new Result<List<BrandEntity>>().ok(list);
     }
 
     @GetMapping("{id}")

@@ -1,14 +1,17 @@
 package com.losgai.gulimall.member.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.losgai.gulimall.common.common.page.PageData;
 import com.losgai.gulimall.common.common.service.impl.CrudServiceImpl;
 import com.losgai.gulimall.member.dao.MemberLevelDao;
 import com.losgai.gulimall.member.dto.MemberLevelDTO;
 import com.losgai.gulimall.member.entity.MemberLevelEntity;
 import com.losgai.gulimall.member.service.MemberLevelService;
-import cn.hutool.core.util.StrUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,6 +23,8 @@ import java.util.Map;
 @Service
 public class MemberLevelServiceImpl extends CrudServiceImpl<MemberLevelDao, MemberLevelEntity, MemberLevelDTO> implements MemberLevelService {
 
+    @Autowired
+    private MemberLevelDao memberLevelDao;
     @Override
     public QueryWrapper<MemberLevelEntity> getWrapper(Map<String, Object> params){
         String id = (String)params.get("id");
@@ -31,4 +36,14 @@ public class MemberLevelServiceImpl extends CrudServiceImpl<MemberLevelDao, Memb
     }
 
 
+    @Override
+    public PageData<MemberLevelEntity> queryPage(Map<String, Object> params, String key) {
+        List<MemberLevelEntity> list;
+
+        QueryWrapper<MemberLevelEntity> andOrWrapper = new QueryWrapper<MemberLevelEntity>()
+                .like(StrUtil.isNotBlank(key), "name", key);
+
+        list = memberLevelDao.selectList(andOrWrapper);
+        return new PageData<>(list, list.size());
+    }
 }
