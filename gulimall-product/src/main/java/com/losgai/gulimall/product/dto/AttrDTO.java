@@ -1,6 +1,7 @@
 package com.losgai.gulimall.product.dto;
 
 import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.losgai.gulimall.common.common.validator.annotation.ListValue;
 import com.losgai.gulimall.common.common.validator.group.AddGroup;
 import com.losgai.gulimall.common.common.validator.group.UpdateGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -58,6 +59,10 @@ public class AttrDTO implements Serializable {
 
 	@SchemaProperty(name = "快速展示【是否展示在介绍上；0-否 1-是】，在sku中仍然可以调整")
 	private Integer showDesc;
+
+	@SchemaProperty(name = "值类型[0-只能单个值，1-允许多个值]")
+	@ListValue(vals = {0,1},message = "值类型只能是0或1")
+	private Integer valueType;
 
 	@TableLogic(value = "1",delval = "0")
 	private Integer isShow;

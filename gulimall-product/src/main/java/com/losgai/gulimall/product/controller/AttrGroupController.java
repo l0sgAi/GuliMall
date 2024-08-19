@@ -15,6 +15,7 @@ import com.losgai.gulimall.product.dto.AttrGroupDTO;
 import com.losgai.gulimall.product.entity.AttrGroupEntity;
 import com.losgai.gulimall.product.excel.AttrGroupExcel;
 import com.losgai.gulimall.product.service.AttrGroupService;
+import com.losgai.gulimall.product.vo.AttrGroupWithAttrVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -43,6 +44,15 @@ public class AttrGroupController {
 
     @Autowired
     private AttrGroupService attrGroupService;
+
+    @GetMapping("withattr/{catId}")
+    @Operation(summary = "获取分类分组以及对应规格参数")
+    //@RequiresPermissions("product:attrgroup:info")
+    public Result<List<AttrGroupWithAttrVo>> getCatAttrGroupAttrs(@PathVariable("catId") Long catId){
+        List<AttrGroupWithAttrVo> list = attrGroupService.getCatAttrGroupAttrs(catId);
+
+        return new Result<List<AttrGroupWithAttrVo>>().ok(list);
+    }
 
     @GetMapping("page")
     @Operation(summary = "分页")

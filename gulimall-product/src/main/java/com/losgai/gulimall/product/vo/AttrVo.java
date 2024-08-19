@@ -1,5 +1,6 @@
 package com.losgai.gulimall.product.vo;
 
+import com.losgai.gulimall.common.common.validator.annotation.ListValue;
 import com.losgai.gulimall.common.common.validator.group.AddGroup;
 import com.losgai.gulimall.common.common.validator.group.UpdateGroup;
 import jakarta.validation.constraints.NotBlank;
@@ -66,4 +67,8 @@ public class AttrVo {
      * 快速展示【是否展示在介绍上；0-否 1-是】，在sku中仍然可以调整
      */
 	private Integer showDesc;
+
+    @ListValue(vals = {0,1},message = "值类型只能是0或1")
+    //值类型，0为单选，1为多选
+    private Integer valueType;
 }
