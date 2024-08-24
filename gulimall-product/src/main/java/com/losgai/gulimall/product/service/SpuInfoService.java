@@ -3,6 +3,7 @@ package com.losgai.gulimall.product.service;
 import com.losgai.gulimall.common.common.service.CrudService;
 import com.losgai.gulimall.product.dto.SpuInfoDTO;
 import com.losgai.gulimall.product.entity.SpuInfoEntity;
+import com.losgai.gulimall.product.vo.spus.SpuSaveVo;
 
 /**
  * spu信息
@@ -12,4 +13,5 @@ import com.losgai.gulimall.product.entity.SpuInfoEntity;
  */
 public interface SpuInfoService extends CrudService<SpuInfoEntity, SpuInfoDTO> {
 
+    void saveSpuVo(SpuSaveVo vo);
 }

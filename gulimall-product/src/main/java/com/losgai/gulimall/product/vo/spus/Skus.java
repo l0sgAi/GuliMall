@@ -5,6 +5,8 @@
 package com.losgai.gulimall.product.vo.spus;
 
 import lombok.Data;
+
+import java.math.BigDecimal;
 import java.util.List;
 
 @Data
@@ -12,16 +14,16 @@ public class Skus {
 
 	private List<Attr> attr;
 	private String skuName;
-	private Integer price;
+	private BigDecimal price;
 	private String skuTitle;
 	private String skuSubtitle;
-	private List<String> images;
+	private List<Images> images;
 	private List<String> descar;
 	private Integer fullCount;
-	private Integer discount;
+	private BigDecimal discount;
 	private Integer countStatus;
-	private Integer fullPrice;
-	private Integer reducePrice;
+	private BigDecimal fullPrice;
+	private BigDecimal reducePrice;
 	private Integer priceStatus;
 	private List<MemberPrice> memberPrice;
 }

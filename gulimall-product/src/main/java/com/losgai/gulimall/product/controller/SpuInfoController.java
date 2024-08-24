@@ -13,6 +13,7 @@ import com.losgai.gulimall.common.common.validator.group.UpdateGroup;
 import com.losgai.gulimall.product.dto.SpuInfoDTO;
 import com.losgai.gulimall.product.excel.SpuInfoExcel;
 import com.losgai.gulimall.product.service.SpuInfoService;
+import com.losgai.gulimall.product.vo.spus.SpuSaveVo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -49,7 +50,7 @@ public class SpuInfoController {
     @RequiresPermissions("product:spuinfo:page")
     public Result<PageData<SpuInfoDTO>> page(@Parameter(hidden = true) @RequestParam Map<String, Object> params){
         PageData<SpuInfoDTO> page = spuInfoService.page(params);
-
+        page.setTotal(page.getList().size());
         return new Result<PageData<SpuInfoDTO>>().ok(page);
     }
 
@@ -71,6 +72,19 @@ public class SpuInfoController {
         ValidatorUtils.validateEntity(dto, AddGroup.class, DefaultGroup.class);
 
         spuInfoService.save(dto);
+
+        return new Result();
+    }
+
+    @PostMapping("save")
+    @Operation(summary = "保存spu")
+    @LogOperation("保存spu")
+    //@RequiresPermissions("product:spuinfo:save")
+    public Result saveSpuVo(@RequestBody SpuSaveVo vo){
+        //效验数据
+        ValidatorUtils.validateEntity(vo, AddGroup.class, DefaultGroup.class);
+
+        spuInfoService.saveSpuVo(vo);
 
         return new Result();
     }

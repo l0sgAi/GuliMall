@@ -6,9 +6,11 @@ package com.losgai.gulimall.product.vo.spus;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 @Data
 public class Bounds {
 
-	private Integer buyBounds;
-	private Integer growBounds;
+	private BigDecimal buyBounds;
+	private BigDecimal growBounds;
 }

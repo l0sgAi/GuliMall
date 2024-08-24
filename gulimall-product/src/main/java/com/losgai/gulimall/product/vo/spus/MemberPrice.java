@@ -6,10 +6,12 @@ package com.losgai.gulimall.product.vo.spus;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 @Data
 public class MemberPrice {
 
-	private Integer id;
+	private Long id;
 	private String name;
-	private Integer price;
+	private BigDecimal price;
 }
