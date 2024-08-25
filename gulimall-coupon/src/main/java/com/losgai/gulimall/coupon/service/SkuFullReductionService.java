@@ -2,6 +2,7 @@ package com.losgai.gulimall.coupon.service;
 
 import com.losgai.gulimall.common.common.service.CrudService;
 import com.losgai.gulimall.coupon.dto.SkuFullReductionDTO;
+import com.losgai.gulimall.coupon.dto.SkuReductionDTO;
 import com.losgai.gulimall.coupon.entity.SkuFullReductionEntity;
 
 /**
@@ -12,4 +13,5 @@ import com.losgai.gulimall.coupon.entity.SkuFullReductionEntity;
  */
 public interface SkuFullReductionService extends CrudService<SkuFullReductionEntity, SkuFullReductionDTO> {
 
+    void saveReduction(SkuReductionDTO dto);
 }

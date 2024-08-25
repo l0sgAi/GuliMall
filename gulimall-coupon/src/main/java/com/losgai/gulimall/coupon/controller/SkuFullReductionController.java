@@ -11,6 +11,7 @@ import com.losgai.gulimall.common.common.validator.group.AddGroup;
 import com.losgai.gulimall.common.common.validator.group.DefaultGroup;
 import com.losgai.gulimall.common.common.validator.group.UpdateGroup;
 import com.losgai.gulimall.coupon.dto.SkuFullReductionDTO;
+import com.losgai.gulimall.coupon.dto.SkuReductionDTO;
 import com.losgai.gulimall.coupon.excel.SkuFullReductionExcel;
 import com.losgai.gulimall.coupon.service.SkuFullReductionService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -72,6 +73,19 @@ public class SkuFullReductionController {
         ValidatorUtils.validateEntity(dto, AddGroup.class, DefaultGroup.class);
 
         skuFullReductionService.save(dto);
+
+        return new Result();
+    }
+
+    @PostMapping("saveReduction")
+    @Operation(summary = "保存")
+    @LogOperation("保存")
+    //@RequiresPermissions("coupon:skufullreduction:save")
+    public Result saveReduction(@RequestBody SkuReductionDTO dto){
+        //效验数据
+        ValidatorUtils.validateEntity(dto, AddGroup.class, DefaultGroup.class);
+
+        skuFullReductionService.saveReduction(dto);
 
         return new Result();
     }
