@@ -13,18 +13,20 @@ import com.losgai.gulimall.common.common.validator.group.UpdateGroup;
 import com.losgai.gulimall.product.dto.SpuInfoDTO;
 import com.losgai.gulimall.product.excel.SpuInfoExcel;
 import com.losgai.gulimall.product.service.SpuInfoService;
+import com.losgai.gulimall.product.vo.SpuInfoVo;
 import com.losgai.gulimall.product.vo.spus.SpuSaveVo;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
-import jakarta.servlet.http.HttpServletResponse;
+
 import java.util.List;
 import java.util.Map;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
-import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
  * spu信息
@@ -39,19 +41,34 @@ public class SpuInfoController {
     @Autowired
     private SpuInfoService spuInfoService;
 
+//    @GetMapping("page")
+//    @Operation(summary = "分页")
+//    @Parameters({
+//        @Parameter(name = Constant.PAGE, description = "当前页码，从1开始", in = ParameterIn.QUERY, required = true, ref="int") ,
+//        @Parameter(name = Constant.LIMIT, description = "每页显示记录数", in = ParameterIn.QUERY,required = true, ref="int") ,
+//        @Parameter(name = Constant.ORDER_FIELD, description = "排序字段", in = ParameterIn.QUERY, ref="String") ,
+//        @Parameter(name = Constant.ORDER, description = "排序方式，可选值(asc、desc)", in = ParameterIn.QUERY, ref="String")
+//    })
+//    @RequiresPermissions("product:spuinfo:page")
+//    public Result<PageData<SpuInfoDTO>> page(@Parameter(hidden = true) @RequestParam Map<String, Object> params){
+//        PageData<SpuInfoDTO> page = spuInfoService.page(params);
+//        page.setTotal(page.getList().size());
+//        return new Result<PageData<SpuInfoDTO>>().ok(page);
+//    }
+
     @GetMapping("page")
-    @Operation(summary = "分页")
+    @Operation(summary = "分页查询")
     @Parameters({
-        @Parameter(name = Constant.PAGE, description = "当前页码，从1开始", in = ParameterIn.QUERY, required = true, ref="int") ,
-        @Parameter(name = Constant.LIMIT, description = "每页显示记录数", in = ParameterIn.QUERY,required = true, ref="int") ,
-        @Parameter(name = Constant.ORDER_FIELD, description = "排序字段", in = ParameterIn.QUERY, ref="String") ,
-        @Parameter(name = Constant.ORDER, description = "排序方式，可选值(asc、desc)", in = ParameterIn.QUERY, ref="String")
+            @Parameter(name = Constant.PAGE, description = "当前页码，从1开始", in = ParameterIn.QUERY, required = true, ref="int") ,
+            @Parameter(name = Constant.LIMIT, description = "每页显示记录数", in = ParameterIn.QUERY,required = true, ref="int") ,
+            @Parameter(name = Constant.ORDER_FIELD, description = "排序字段", in = ParameterIn.QUERY, ref="String") ,
+            @Parameter(name = Constant.ORDER, description = "排序方式，可选值(asc、desc)", in = ParameterIn.QUERY, ref="String")
     })
     @RequiresPermissions("product:spuinfo:page")
-    public Result<PageData<SpuInfoDTO>> page(@Parameter(hidden = true) @RequestParam Map<String, Object> params){
-        PageData<SpuInfoDTO> page = spuInfoService.page(params);
+    public Result<PageData<SpuInfoVo>> pageWithCondition(@Parameter(hidden = true) @RequestParam Map<String, Object> params){
+        PageData<SpuInfoVo> page = spuInfoService.pageWithCondition(params);
         page.setTotal(page.getList().size());
-        return new Result<PageData<SpuInfoDTO>>().ok(page);
+        return new Result<PageData<SpuInfoVo>>().ok(page);
     }
 
     @GetMapping("{id}")

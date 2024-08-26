@@ -16,6 +16,8 @@
 #        endpoint: oss-cn-nanjing.aliyuncs.com
 #  application:
 #    name: gulimall-product
+#  jackson:
+#    date-format: yyyy-MM-dd HH:mm:ss
 #mybatis-plus:
 #  mapper-locations: classpath:mapper/**/*.xml
 #  global-config:

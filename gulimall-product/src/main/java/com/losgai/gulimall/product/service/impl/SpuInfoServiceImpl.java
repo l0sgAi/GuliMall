@@ -1,18 +1,19 @@
 package com.losgai.gulimall.product.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.losgai.gulimall.common.common.page.PageData;
 import com.losgai.gulimall.common.common.service.impl.CrudServiceImpl;
 import com.losgai.gulimall.common.common.utils.Result;
-import com.losgai.gulimall.product.dao.SkuInfoDao;
-import com.losgai.gulimall.product.dao.SpuInfoDao;
-import com.losgai.gulimall.product.dao.SpuInfoDescDao;
+import com.losgai.gulimall.product.dao.*;
 import com.losgai.gulimall.product.dto.SkuReductionDTO;
 import com.losgai.gulimall.product.dto.SpuBoundsTO;
 import com.losgai.gulimall.product.dto.SpuInfoDTO;
 import com.losgai.gulimall.product.entity.*;
 import com.losgai.gulimall.product.feign.CouponFeignService;
 import com.losgai.gulimall.product.service.*;
+import com.losgai.gulimall.product.vo.SpuInfoVo;
 import com.losgai.gulimall.product.vo.spus.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,12 @@ public class SpuInfoServiceImpl extends CrudServiceImpl<SpuInfoDao, SpuInfoEntit
 
     @Autowired
     private SkuInfoDao skuInfoDao;
+
+    @Autowired
+    private BrandDao brandDao;
+
+    @Autowired
+    private CategoryDao categoryDao;
 
     @Autowired
     private SkuImagesService skuImagesService;
@@ -182,7 +189,48 @@ public class SpuInfoServiceImpl extends CrudServiceImpl<SpuInfoDao, SpuInfoEntit
                 }
             });
         }
+    }
 
+    @Override
+    @Transactional(readOnly = true)
+    public PageData<SpuInfoVo> pageWithCondition(Map<String, Object> params) {
+        QueryWrapper<SpuInfoEntity> wrapper = new QueryWrapper<>();
 
+        String key = (String) params.get("key");
+        wrapper.like(StrUtil.isNotBlank(key), "spu_name", key);
+
+        long catalogId = 0L;
+        try {catalogId = Long.parseLong((String) params.get("catelogId"));}
+        catch (NumberFormatException ignored){}
+        if (catalogId != 0 && ObjectUtil.isNotNull(catalogId)) {
+            wrapper.eq("catalog_id", catalogId);
+        }
+        long brandId=0L;
+        try{brandId = Long.parseLong((String) params.get("brandId"));}
+        catch (NumberFormatException ignored){}
+        if (brandId != 0 && ObjectUtil.isNotNull(brandId)) {
+            wrapper.eq("brand_id", brandId);
+        }
+
+        Integer status = null;
+        try {status = Integer.parseInt((String) params.get("status"));}
+        catch (NumberFormatException ignored) {}
+        if (ObjectUtil.isNotNull(status)) {
+            wrapper.eq("publish_status", status);
+        }
+
+        List<SpuInfoEntity> list = spuInfoDao.selectList(wrapper);
+
+        List<SpuInfoVo> voList = list.stream()
+                .map(item -> {
+                    SpuInfoVo vo = new SpuInfoVo();
+                    BeanUtils.copyProperties(item, vo);
+                    vo.setCatalogName(categoryDao.selectById(item.getCatalogId()).getName());
+                    vo.setBrandName(brandDao.selectById(item.getBrandId()).getName());
+                    return vo;
+                })
+                .collect(Collectors.toList());
+
+        return new PageData<>(voList, voList.size());
     }
 }
