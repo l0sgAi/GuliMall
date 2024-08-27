@@ -11,6 +11,7 @@ import com.losgai.gulimall.common.common.validator.group.AddGroup;
 import com.losgai.gulimall.common.common.validator.group.DefaultGroup;
 import com.losgai.gulimall.common.common.validator.group.UpdateGroup;
 import com.losgai.gulimall.product.dto.SkuInfoDTO;
+import com.losgai.gulimall.product.entity.SkuInfoEntity;
 import com.losgai.gulimall.product.excel.SkuInfoExcel;
 import com.losgai.gulimall.product.service.SkuInfoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -48,10 +49,10 @@ public class SkuInfoController {
         @Parameter(name = Constant.ORDER, description = "排序方式，可选值(asc、desc)", in = ParameterIn.QUERY, ref="String")
     })
     @RequiresPermissions("product:skuinfo:page")
-    public Result<PageData<SkuInfoDTO>> page(@Parameter(hidden = true) @RequestParam Map<String, Object> params){
-        PageData<SkuInfoDTO> page = skuInfoService.page(params);
-
-        return new Result<PageData<SkuInfoDTO>>().ok(page);
+    public Result<PageData<SkuInfoEntity>> page(@Parameter(hidden = true) @RequestParam Map<String, Object> params){
+        PageData<SkuInfoEntity> page = skuInfoService.pageCondition(params);
+        page.setTotal(page.getList().size());
+        return new Result<PageData<SkuInfoEntity>>().ok(page);
     }
 
     @GetMapping("{id}")
