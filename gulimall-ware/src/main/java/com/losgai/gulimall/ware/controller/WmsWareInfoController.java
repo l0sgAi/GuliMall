@@ -11,6 +11,7 @@ import com.losgai.gulimall.common.common.validator.group.AddGroup;
 import com.losgai.gulimall.common.common.validator.group.DefaultGroup;
 import com.losgai.gulimall.common.common.validator.group.UpdateGroup;
 import com.losgai.gulimall.ware.dto.WmsWareInfoDTO;
+import com.losgai.gulimall.ware.entity.WmsWareInfoEntity;
 import com.losgai.gulimall.ware.excel.WmsWareInfoExcel;
 import com.losgai.gulimall.ware.service.WmsWareInfoService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -45,13 +46,15 @@ public class WmsWareInfoController {
         @Parameter(name = Constant.PAGE, description = "当前页码，从1开始", in = ParameterIn.QUERY, required = true, ref="int") ,
         @Parameter(name = Constant.LIMIT, description = "每页显示记录数", in = ParameterIn.QUERY,required = true, ref="int") ,
         @Parameter(name = Constant.ORDER_FIELD, description = "排序字段", in = ParameterIn.QUERY, ref="String") ,
-        @Parameter(name = Constant.ORDER, description = "排序方式，可选值(asc、desc)", in = ParameterIn.QUERY, ref="String")
+        @Parameter(name = Constant.ORDER, description = "排序方式，可选值(asc、desc)", in = ParameterIn.QUERY, ref="String"),
+        @Parameter(name = "key", description = "搜索字符串", in = ParameterIn.QUERY, ref = "String") // 新增的查询参数
     })
     @RequiresPermissions("ware:wmswareinfo:page")
-    public Result<PageData<WmsWareInfoDTO>> page(@Parameter(hidden = true) @RequestParam Map<String, Object> params){
-        PageData<WmsWareInfoDTO> page = wmsWareInfoService.page(params);
-
-        return new Result<PageData<WmsWareInfoDTO>>().ok(page);
+    public Result<PageData<WmsWareInfoEntity>> page(@Parameter(hidden = true) @RequestParam Map<String, Object> params,
+                                                    @RequestParam(value = "key", required = false) String key){
+        PageData<WmsWareInfoEntity> page = wmsWareInfoService.pageQuery(params,key);
+        page.setTotal(page.getList().size());
+        return new Result<PageData<WmsWareInfoEntity>>().ok(page);
     }
 
     @GetMapping("{id}")

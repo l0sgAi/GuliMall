@@ -1,5 +1,6 @@
 package com.losgai.gulimall.ware.dto;
 
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.Data;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.SchemaProperty;
@@ -30,5 +31,6 @@ public class WmsWareInfoDTO implements Serializable {
 	@SchemaProperty(name = "区域编码")
 	private String areacode;
 
-
+	@TableLogic(value = "1", delval = "0")
+	private Integer isShow;
 }

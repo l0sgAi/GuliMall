@@ -1,8 +1,11 @@
 package com.losgai.gulimall.ware.service;
 
+import com.losgai.gulimall.common.common.page.PageData;
 import com.losgai.gulimall.common.common.service.CrudService;
 import com.losgai.gulimall.ware.dto.WmsWareInfoDTO;
 import com.losgai.gulimall.ware.entity.WmsWareInfoEntity;
+
+import java.util.Map;
 
 /**
  * 仓库信息
@@ -12,4 +15,5 @@ import com.losgai.gulimall.ware.entity.WmsWareInfoEntity;
  */
 public interface WmsWareInfoService extends CrudService<WmsWareInfoEntity, WmsWareInfoDTO> {
 
+    PageData<WmsWareInfoEntity> pageQuery(Map<String, Object> params,String key);
 }

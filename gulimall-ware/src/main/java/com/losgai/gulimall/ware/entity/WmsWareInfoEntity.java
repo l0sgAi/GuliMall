@@ -1,5 +1,6 @@
 package com.losgai.gulimall.ware.entity;
 
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -31,4 +32,7 @@ public class WmsWareInfoEntity {
      * 区域编码
      */
 	private String areacode;
+
+    @TableLogic(value = "1", delval = "0")
+    private Integer isShow;
 }
