@@ -1,5 +1,6 @@
 package com.losgai.gulimall.ware.entity;
 
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -44,4 +45,7 @@ public class WmsPurchaseDetailEntity {
      * 状态[0新建，1已分配，2正在采购，3已完成，4采购失败]
      */
 	private Integer status;
+
+    @TableLogic(value = "1", delval = "0")
+    private Integer isShow;
 }

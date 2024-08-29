@@ -1,5 +1,6 @@
 package com.losgai.gulimall.ware.dto;
 
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.Data;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.SchemaProperty;
@@ -39,6 +40,9 @@ public class WmsPurchaseDetailDTO implements Serializable {
 
 	@SchemaProperty(name = "状态[0新建，1已分配，2正在采购，3已完成，4采购失败]")
 	private Integer status;
+
+	@TableLogic(value = "1", delval = "0")
+	private Integer isShow;
 
 
 }

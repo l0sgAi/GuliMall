@@ -1,5 +1,6 @@
 package com.losgai.gulimall.ware.entity;
 
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -39,4 +40,7 @@ public class WmsWareSkuEntity {
      * 锁定库存
      */
 	private Integer stockLocked;
+
+    @TableLogic(value = "1", delval = "0")
+    private Integer isShow;
 }

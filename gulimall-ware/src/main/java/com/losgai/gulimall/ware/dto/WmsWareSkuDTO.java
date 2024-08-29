@@ -1,5 +1,6 @@
 package com.losgai.gulimall.ware.dto;
 
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.Data;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.SchemaProperty;
@@ -36,5 +37,6 @@ public class WmsWareSkuDTO implements Serializable {
 	@SchemaProperty(name = "锁定库存")
 	private Integer stockLocked;
 
-
+	@TableLogic(value = "1", delval = "0")
+	private Integer isShow;
 }
