@@ -11,6 +11,7 @@ import com.losgai.gulimall.common.common.validator.group.AddGroup;
 import com.losgai.gulimall.common.common.validator.group.DefaultGroup;
 import com.losgai.gulimall.common.common.validator.group.UpdateGroup;
 import com.losgai.gulimall.ware.dto.WmsPurchaseDetailDTO;
+import com.losgai.gulimall.ware.entity.WmsPurchaseDetailEntity;
 import com.losgai.gulimall.ware.excel.WmsPurchaseDetailExcel;
 import com.losgai.gulimall.ware.service.WmsPurchaseDetailService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -36,6 +37,7 @@ import java.util.Map;
 @RequestMapping("ware/wmspurchasedetail")
 @Tag(name="")
 public class WmsPurchaseDetailController {
+
     @Autowired
     private WmsPurchaseDetailService wmsPurchaseDetailService;
 
@@ -48,10 +50,10 @@ public class WmsPurchaseDetailController {
         @Parameter(name = Constant.ORDER, description = "排序方式，可选值(asc、desc)", in = ParameterIn.QUERY, ref="String")
     })
     @RequiresPermissions("ware:wmspurchasedetail:page")
-    public Result<PageData<WmsPurchaseDetailDTO>> page(@Parameter(hidden = true) @RequestParam Map<String, Object> params){
-        PageData<WmsPurchaseDetailDTO> page = wmsPurchaseDetailService.page(params);
-
-        return new Result<PageData<WmsPurchaseDetailDTO>>().ok(page);
+    public Result<PageData<WmsPurchaseDetailEntity>> page(@Parameter(hidden = true) @RequestParam Map<String, Object> params){
+        PageData<WmsPurchaseDetailEntity> page = wmsPurchaseDetailService.pageQuery(params);
+        page.setTotal(page.getList().size());
+        return new Result<PageData<WmsPurchaseDetailEntity>>().ok(page);
     }
 
     @GetMapping("{id}")

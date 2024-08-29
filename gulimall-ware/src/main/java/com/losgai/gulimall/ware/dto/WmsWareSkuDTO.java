@@ -1,10 +1,12 @@
 package com.losgai.gulimall.ware.dto;
 
-import lombok.Data;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.SchemaProperty;
+import lombok.Data;
+
+import java.io.Serial;
 import java.io.Serializable;
-import java.util.Date;
 
 
 /**
@@ -16,7 +18,8 @@ import java.util.Date;
 @Data
 @Schema(name = "商品库存")
 public class WmsWareSkuDTO implements Serializable {
-    private static final long serialVersionUID = 1L;
+    @Serial
+	private static final long serialVersionUID = 1L;
 
 	@SchemaProperty(name = "id")
 	private Long id;
@@ -36,5 +39,6 @@ public class WmsWareSkuDTO implements Serializable {
 	@SchemaProperty(name = "锁定库存")
 	private Integer stockLocked;
 
-
+	@TableLogic(value = "1", delval = "0")
+	private Integer isShow;
 }

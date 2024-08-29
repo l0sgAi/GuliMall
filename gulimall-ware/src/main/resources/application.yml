@@ -20,3 +20,6 @@
 #      id-type: auto
 #server:
 #  port: 7400
+#logging:
+#  level:
+#    com.losgai.gulimall: debug

@@ -11,17 +11,19 @@ import com.losgai.gulimall.common.common.validator.group.AddGroup;
 import com.losgai.gulimall.common.common.validator.group.DefaultGroup;
 import com.losgai.gulimall.common.common.validator.group.UpdateGroup;
 import com.losgai.gulimall.ware.dto.WmsWareSkuDTO;
+import com.losgai.gulimall.ware.entity.WmsWareSkuEntity;
 import com.losgai.gulimall.ware.excel.WmsWareSkuExcel;
 import com.losgai.gulimall.ware.service.WmsWareSkuService;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +36,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("ware/wmswaresku")
-@Tag(name="商品库存")
+@Tag(name = "商品库存")
 public class WmsWareSkuController {
     @Autowired
     private WmsWareSkuService wmsWareSkuService;
@@ -42,22 +44,27 @@ public class WmsWareSkuController {
     @GetMapping("page")
     @Operation(summary = "分页")
     @Parameters({
-        @Parameter(name = Constant.PAGE, description = "当前页码，从1开始", in = ParameterIn.QUERY, required = true, ref="int") ,
-        @Parameter(name = Constant.LIMIT, description = "每页显示记录数", in = ParameterIn.QUERY,required = true, ref="int") ,
-        @Parameter(name = Constant.ORDER_FIELD, description = "排序字段", in = ParameterIn.QUERY, ref="String") ,
-        @Parameter(name = Constant.ORDER, description = "排序方式，可选值(asc、desc)", in = ParameterIn.QUERY, ref="String")
+            @Parameter(name = Constant.PAGE, description = "当前页码，从1开始", in = ParameterIn.QUERY, required = true, ref = "int"),
+            @Parameter(name = Constant.LIMIT, description = "每页显示记录数", in = ParameterIn.QUERY, required = true, ref = "int"),
+            @Parameter(name = Constant.ORDER_FIELD, description = "排序字段", in = ParameterIn.QUERY, ref = "String"),
+            @Parameter(name = Constant.ORDER, description = "排序方式，可选值(asc、desc)", in = ParameterIn.QUERY, ref = "String"),
+            @Parameter(name = "wareId", description = "仓库", in = ParameterIn.QUERY, ref = "Long"),
+            @Parameter(name = "skuId", description = "skuId", in = ParameterIn.QUERY, ref = "Long")
+
     })
     @RequiresPermissions("ware:wmswaresku:page")
-    public Result<PageData<WmsWareSkuDTO>> page(@Parameter(hidden = true) @RequestParam Map<String, Object> params){
-        PageData<WmsWareSkuDTO> page = wmsWareSkuService.page(params);
-
-        return new Result<PageData<WmsWareSkuDTO>>().ok(page);
+    public Result<PageData<WmsWareSkuEntity>> page(@Parameter(hidden = true) @RequestParam Map<String, Object> params,
+                                                   @RequestParam(required = false) Long wareId,
+                                                   @RequestParam(required = false) Long skuId) {
+        PageData<WmsWareSkuEntity> page = wmsWareSkuService.pageQuery(params, wareId, skuId);
+        page.setTotal(page.getList().size());
+        return new Result<PageData<WmsWareSkuEntity>>().ok(page);
     }
 
     @GetMapping("{id}")
     @Operation(summary = "信息")
     //@RequiresPermissions("ware:wmswaresku:info")
-    public Result<WmsWareSkuDTO> get(@PathVariable("id") Long id){
+    public Result<WmsWareSkuDTO> get(@PathVariable("id") Long id) {
         WmsWareSkuDTO data = wmsWareSkuService.get(id);
 
         return new Result<WmsWareSkuDTO>().ok(data);
@@ -67,7 +74,7 @@ public class WmsWareSkuController {
     @Operation(summary = "保存")
     @LogOperation("保存")
     //@RequiresPermissions("ware:wmswaresku:save")
-    public Result save(@RequestBody WmsWareSkuDTO dto){
+    public Result save(@RequestBody WmsWareSkuDTO dto) {
         //效验数据
         ValidatorUtils.validateEntity(dto, AddGroup.class, DefaultGroup.class);
 
@@ -80,7 +87,7 @@ public class WmsWareSkuController {
     @Operation(summary = "修改")
     @LogOperation("修改")
     //@RequiresPermissions("ware:wmswaresku:update")
-    public Result update(@RequestBody WmsWareSkuDTO dto){
+    public Result update(@RequestBody WmsWareSkuDTO dto) {
         //效验数据
         ValidatorUtils.validateEntity(dto, UpdateGroup.class, DefaultGroup.class);
 
@@ -93,7 +100,7 @@ public class WmsWareSkuController {
     @Operation(summary = "删除")
     @LogOperation("删除")
     //@RequiresPermissions("ware:wmswaresku:delete")
-    public Result delete(@RequestBody Long[] ids){
+    public Result delete(@RequestBody Long[] ids) {
         //效验数据
         AssertUtils.isArrayEmpty(ids, "id");
 

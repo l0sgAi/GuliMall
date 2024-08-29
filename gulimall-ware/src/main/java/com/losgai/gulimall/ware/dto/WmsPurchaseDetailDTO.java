@@ -1,11 +1,12 @@
 package com.losgai.gulimall.ware.dto;
 
-import lombok.Data;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.SchemaProperty;
-import java.io.Serializable;
-import java.util.Date;
+import lombok.Data;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
@@ -15,11 +16,12 @@ import java.math.BigDecimal;
  * @since 1.0.0 2024-07-17
  */
 @Data
-@Schema(name = "")
+@Schema()
 public class WmsPurchaseDetailDTO implements Serializable {
-    private static final long serialVersionUID = 1L;
+    @Serial
+	private static final long serialVersionUID = 1L;
 
-	@SchemaProperty(name = "")
+	@SchemaProperty()
 	private Long id;
 
 	@SchemaProperty(name = "采购单id")
@@ -39,6 +41,9 @@ public class WmsPurchaseDetailDTO implements Serializable {
 
 	@SchemaProperty(name = "状态[0新建，1已分配，2正在采购，3已完成，4采购失败]")
 	private Integer status;
+
+	@TableLogic(value = "1", delval = "0")
+	private Integer isShow;
 
 
 }
