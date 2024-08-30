@@ -44,6 +44,4 @@ public class WmsPurchaseDetailDTO implements Serializable {
 
 	@TableLogic(value = "1", delval = "0")
 	private Integer isShow;
-
-
 }

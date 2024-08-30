@@ -11,8 +11,10 @@ import com.losgai.gulimall.common.common.validator.group.AddGroup;
 import com.losgai.gulimall.common.common.validator.group.DefaultGroup;
 import com.losgai.gulimall.common.common.validator.group.UpdateGroup;
 import com.losgai.gulimall.ware.dto.WmsPurchaseDTO;
+import com.losgai.gulimall.ware.entity.WmsPurchaseEntity;
 import com.losgai.gulimall.ware.excel.WmsPurchaseExcel;
 import com.losgai.gulimall.ware.service.WmsPurchaseService;
+import com.losgai.gulimall.ware.vo.MergeVo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -48,10 +50,19 @@ public class WmsPurchaseController {
         @Parameter(name = Constant.ORDER, description = "排序方式，可选值(asc、desc)", in = ParameterIn.QUERY, ref="String")
     })
     @RequiresPermissions("ware:wmspurchase:page")
-    public Result<PageData<WmsPurchaseDTO>> page(@Parameter(hidden = true) @RequestParam Map<String, Object> params){
-        PageData<WmsPurchaseDTO> page = wmsPurchaseService.page(params);
+    public Result<PageData<WmsPurchaseEntity>> page(@Parameter(hidden = true) @RequestParam Map<String, Object> params){
+        PageData<WmsPurchaseEntity> page = wmsPurchaseService.pageQuery(params);
+        page.setTotal(page.getList().size());
+        return new Result<PageData<WmsPurchaseEntity>>().ok(page);
+    }
 
-        return new Result<PageData<WmsPurchaseDTO>>().ok(page);
+    @GetMapping("pageNoAssign")
+    @Operation(summary = "未分配")
+//    @RequiresPermissions("ware:wmspurchase:page")
+    public Result<PageData<WmsPurchaseEntity>> pageNoAssign(@Parameter(hidden = true) @RequestParam Map<String, Object> params){
+        PageData<WmsPurchaseEntity> page = wmsPurchaseService.pageNoAssign(params);
+        page.setTotal(page.getList().size());
+        return new Result<PageData<WmsPurchaseEntity>>().ok(page);
     }
 
     @GetMapping("{id}")
@@ -72,6 +83,19 @@ public class WmsPurchaseController {
         ValidatorUtils.validateEntity(dto, AddGroup.class, DefaultGroup.class);
 
         wmsPurchaseService.save(dto);
+
+        return new Result();
+    }
+
+    @PostMapping("merge")
+    @Operation(summary = "合并整单")
+    @LogOperation("合并整单")
+    //@RequiresPermissions("ware:wmspurchase:save")
+    public Result merge(@RequestBody MergeVo vo){
+        //效验数据
+        ValidatorUtils.validateEntity(vo, AddGroup.class, DefaultGroup.class);
+
+        wmsPurchaseService.merge(vo);
 
         return new Result();
     }

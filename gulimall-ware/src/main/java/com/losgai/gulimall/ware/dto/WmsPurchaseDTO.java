@@ -1,8 +1,11 @@
 package com.losgai.gulimall.ware.dto;
 
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.Data;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.SchemaProperty;
+
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -17,37 +20,39 @@ import java.math.BigDecimal;
 @Data
 @Schema(name = "采购信息")
 public class WmsPurchaseDTO implements Serializable {
-    private static final long serialVersionUID = 1L;
+    @Serial
+	private static final long serialVersionUID = 1L;
 
-	@SchemaProperty(name = "")
+	@SchemaProperty()
 	private Long id;
 
-	@SchemaProperty(name = "")
+	@SchemaProperty()
 	private Long assigneeId;
 
-	@SchemaProperty(name = "")
+	@SchemaProperty()
 	private String assigneeName;
 
-	@SchemaProperty(name = "")
+	@SchemaProperty()
 	private String phone;
 
-	@SchemaProperty(name = "")
+	@SchemaProperty()
 	private Integer priority;
 
-	@SchemaProperty(name = "")
+	@SchemaProperty()
 	private Integer status;
 
-	@SchemaProperty(name = "")
+	@SchemaProperty()
 	private Long wareId;
 
-	@SchemaProperty(name = "")
+	@SchemaProperty()
 	private BigDecimal amount;
 
-	@SchemaProperty(name = "")
+	@SchemaProperty()
 	private Date createTime;
 
-	@SchemaProperty(name = "")
+	@SchemaProperty()
 	private Date updateTime;
 
-
+	@TableLogic(value = "1", delval = "0")
+	private Integer isShow;
 }
