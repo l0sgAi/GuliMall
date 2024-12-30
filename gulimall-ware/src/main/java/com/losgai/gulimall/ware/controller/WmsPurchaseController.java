@@ -65,6 +65,13 @@ public class WmsPurchaseController {
         return new Result<PageData<WmsPurchaseEntity>>().ok(page);
     }
 
+    // 领取采购单方法
+    @PostMapping("received")
+    public Result receive(@RequestBody List<Long> receivedIds){
+        wmsPurchaseService.receivePurchase(receivedIds);
+        return new Result();
+    }
+
     @GetMapping("{id}")
     @Operation(summary = "信息")
     //@RequiresPermissions("ware:wmspurchase:info")

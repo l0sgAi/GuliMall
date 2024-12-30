@@ -72,7 +72,6 @@ public class MemberCollectSubjectController {
         ValidatorUtils.validateEntity(dto, AddGroup.class, DefaultGroup.class);
 
         memberCollectSubjectService.save(dto);
-
         return new Result();
     }
 

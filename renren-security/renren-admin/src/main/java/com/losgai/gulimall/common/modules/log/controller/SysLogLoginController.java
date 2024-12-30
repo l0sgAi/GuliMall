@@ -59,7 +59,6 @@ public class SysLogLoginController {
     @RequiresPermissions("sys:log:login")
     public Result<PageData<SysLogLoginDTO>> page(@Parameter(hidden = true) @RequestParam Map<String, Object> params) {
         PageData<SysLogLoginDTO> page = sysLogLoginService.page(params);
-
         return new Result<PageData<SysLogLoginDTO>>().ok(page);
     }
 

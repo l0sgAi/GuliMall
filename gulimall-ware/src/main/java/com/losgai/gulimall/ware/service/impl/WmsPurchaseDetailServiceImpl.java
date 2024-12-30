@@ -67,4 +67,9 @@ public class WmsPurchaseDetailServiceImpl extends CrudServiceImpl<WmsPurchaseDet
         list = baseDao.selectList(wrapper);
         return new PageData<>(list, list.size());
     }
+
+    @Override
+    public List<WmsPurchaseDetailEntity> listDetailByPurchaseId(Long id) {
+        return baseDao.selectList(new QueryWrapper<WmsPurchaseDetailEntity>().eq("purchase_id", id));
+    }
 }

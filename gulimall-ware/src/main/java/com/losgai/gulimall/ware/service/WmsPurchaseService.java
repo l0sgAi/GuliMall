@@ -6,6 +6,7 @@ import com.losgai.gulimall.ware.dto.WmsPurchaseDTO;
 import com.losgai.gulimall.ware.entity.WmsPurchaseEntity;
 import com.losgai.gulimall.ware.vo.MergeVo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,4 +22,6 @@ public interface WmsPurchaseService extends CrudService<WmsPurchaseEntity, WmsPu
     PageData<WmsPurchaseEntity> pageNoAssign(Map<String, Object> params);
 
     void merge(MergeVo vo);
+
+    void receivePurchase(List<Long> receivedIds);
 }

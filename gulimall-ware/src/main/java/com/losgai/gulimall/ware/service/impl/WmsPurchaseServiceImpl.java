@@ -38,8 +38,8 @@ public class WmsPurchaseServiceImpl extends CrudServiceImpl<WmsPurchaseDao, WmsP
     private WmsPurchaseDetailService wmsPurchaseDetailService;
 
     @Override
-    public QueryWrapper<WmsPurchaseEntity> getWrapper(Map<String, Object> params){
-        String id = (String)params.get("id");
+    public QueryWrapper<WmsPurchaseEntity> getWrapper(Map<String, Object> params) {
+        String id = (String) params.get("id");
 
         QueryWrapper<WmsPurchaseEntity> wrapper = new QueryWrapper<>();
         wrapper.eq(StrUtil.isNotBlank(id), "id", id);
@@ -59,13 +59,14 @@ public class WmsPurchaseServiceImpl extends CrudServiceImpl<WmsPurchaseDao, WmsP
         Integer status = null;
         try {
             status = Integer.parseInt((String) params.get("status"));
-        }catch (Exception ignored){}
-        if(ObjectUtil.isNotNull(status)){
+        } catch (Exception ignored) {
+        }
+        if (ObjectUtil.isNotNull(status)) {
             wrapper.eq("status", status);
         }
 
-        List<WmsPurchaseEntity> list=wmsPurchaseDao.selectList(wrapper);
-        return new PageData<>(list,list.size());
+        List<WmsPurchaseEntity> list = wmsPurchaseDao.selectList(wrapper);
+        return new PageData<>(list, list.size());
     }
 
     @Override
@@ -74,21 +75,21 @@ public class WmsPurchaseServiceImpl extends CrudServiceImpl<WmsPurchaseDao, WmsP
 
         wrapper.eq("status", 0).or().eq("status", 1);
 
-        List<WmsPurchaseEntity> list=wmsPurchaseDao.selectList(wrapper);
-        return new PageData<>(list,list.size());
+        List<WmsPurchaseEntity> list = wmsPurchaseDao.selectList(wrapper);
+        return new PageData<>(list, list.size());
     }
 
     @Override
     @Transactional
     public void merge(MergeVo vo) {
         Long purchaseId = vo.getPurchaseId();
-        if(ObjectUtil.isNull(purchaseId)){ //无purchaseId，新建
+        if (ObjectUtil.isNull(purchaseId)) { //无purchaseId，新建
             WmsPurchaseEntity wmsPurchaseEntity = new WmsPurchaseEntity();
             wmsPurchaseEntity.setStatus(WareConstant.PurchaseEnum.CREATED.getCode());
             wmsPurchaseEntity.setCreateTime(new Date());
             wmsPurchaseEntity.setUpdateTime(new Date());
             wmsPurchaseDao.insert(wmsPurchaseEntity);
-            purchaseId=wmsPurchaseEntity.getId();
+            purchaseId = wmsPurchaseEntity.getId();
         }
 
         List<Long> items = vo.getItems();
@@ -107,5 +108,44 @@ public class WmsPurchaseServiceImpl extends CrudServiceImpl<WmsPurchaseDao, WmsP
         wmsPurchaseEntity.setId(purchaseId);
         wmsPurchaseEntity.setUpdateTime(new Date());
         wmsPurchaseDao.updateById(wmsPurchaseEntity);
+    }
+
+    /**
+    * &#064;param:  receivedIds 采购单id列表
+    *  */
+    @Override
+    @Transactional
+    public void receivePurchase(List<Long> receivedIds) {
+        // 1.确认当前采购单是新建或者已分配状态 ps:应该还要确认采购单属于该用户
+        List<WmsPurchaseEntity> list = receivedIds.stream().map(id -> {
+            // 根据id获取对应的采购单
+            return wmsPurchaseDao.selectById(id);
+        }).filter(wmsPurchaseEntity ->
+                wmsPurchaseEntity.getStatus() == WareConstant.PurchaseEnum.CREATED.getCode() ||
+                        wmsPurchaseEntity.getStatus() == WareConstant.PurchaseEnum.ASSIGNED.getCode())
+                .peek(wmsPurchaseEntity -> {
+                    wmsPurchaseEntity.setStatus(WareConstant.PurchaseEnum.RECEIVED.getCode());
+                    wmsPurchaseEntity.setUpdateTime(new Date());
+                }).collect(Collectors.toList());
+
+        // 2.改变采购单状态至"已领取"
+        if(!list.isEmpty())
+            updateBatchById(list);
+
+        // 3. 改变采购项目的状态
+        list.forEach(wmsPurchaseEntity -> {
+            // 获取每个采购单的对应的采购项目
+            List<WmsPurchaseDetailEntity> detailList =
+                    wmsPurchaseDetailService.listDetailByPurchaseId(wmsPurchaseEntity.getId());
+            // 改变每个采购项目的状态至 "购买中"
+            List<WmsPurchaseDetailEntity> detailListCollect = detailList.stream().map(item -> {
+                WmsPurchaseDetailEntity detailEntity = new WmsPurchaseDetailEntity();
+                detailEntity.setId(item.getId());
+                detailEntity.setStatus(WareConstant.PurchaseDetailEnum.PURCHASING.getCode());
+                return detailEntity;
+            }).collect(Collectors.toList());
+            // 批量修改采购项目状态
+            wmsPurchaseDetailService.updateBatchById(detailListCollect);
+        });
     }
 }

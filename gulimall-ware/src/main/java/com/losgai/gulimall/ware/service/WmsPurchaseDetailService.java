@@ -5,6 +5,7 @@ import com.losgai.gulimall.common.common.service.CrudService;
 import com.losgai.gulimall.ware.dto.WmsPurchaseDetailDTO;
 import com.losgai.gulimall.ware.entity.WmsPurchaseDetailEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,4 +17,6 @@ import java.util.Map;
 public interface WmsPurchaseDetailService extends CrudService<WmsPurchaseDetailEntity, WmsPurchaseDetailDTO> {
 
     PageData<WmsPurchaseDetailEntity> pageQuery(Map<String, Object> params);
+
+    List<WmsPurchaseDetailEntity> listDetailByPurchaseId(Long id);
 }
