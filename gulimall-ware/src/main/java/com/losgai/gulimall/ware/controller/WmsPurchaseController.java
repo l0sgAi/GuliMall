@@ -15,15 +15,17 @@ import com.losgai.gulimall.ware.entity.WmsPurchaseEntity;
 import com.losgai.gulimall.ware.excel.WmsPurchaseExcel;
 import com.losgai.gulimall.ware.service.WmsPurchaseService;
 import com.losgai.gulimall.ware.vo.MergeVo;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import com.losgai.gulimall.ware.vo.PurchaseDoneVO;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Map;
 
@@ -69,6 +71,12 @@ public class WmsPurchaseController {
     @PostMapping("received")
     public Result receive(@RequestBody List<Long> receivedIds){
         wmsPurchaseService.receivePurchase(receivedIds);
+        return new Result();
+    }
+
+    @PostMapping("done")
+    public Result receive(@RequestBody PurchaseDoneVO itemVo){
+        wmsPurchaseService.done(itemVo);
         return new Result();
     }
 

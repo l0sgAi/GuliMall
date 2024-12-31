@@ -16,4 +16,6 @@ import java.util.Map;
 public interface WmsWareSkuService extends CrudService<WmsWareSkuEntity, WmsWareSkuDTO> {
 
     PageData<WmsWareSkuEntity> pageQuery(Map<String, Object> params,Long wareId,Long skuId);
+
+    void addToStock(Long skuId, Long wareId, Integer stock);
 }

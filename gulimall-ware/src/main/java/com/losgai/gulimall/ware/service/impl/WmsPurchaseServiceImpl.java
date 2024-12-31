@@ -8,15 +8,20 @@ import com.losgai.gulimall.common.common.page.PageData;
 import com.losgai.gulimall.common.common.service.impl.CrudServiceImpl;
 import com.losgai.gulimall.ware.dao.WmsPurchaseDao;
 import com.losgai.gulimall.ware.dto.WmsPurchaseDTO;
+import com.losgai.gulimall.ware.dto.WmsPurchaseDetailDTO;
 import com.losgai.gulimall.ware.entity.WmsPurchaseDetailEntity;
 import com.losgai.gulimall.ware.entity.WmsPurchaseEntity;
 import com.losgai.gulimall.ware.service.WmsPurchaseDetailService;
 import com.losgai.gulimall.ware.service.WmsPurchaseService;
+import com.losgai.gulimall.ware.service.WmsWareSkuService;
 import com.losgai.gulimall.ware.vo.MergeVo;
+import com.losgai.gulimall.ware.vo.PurchaseDoneVO;
+import com.losgai.gulimall.ware.vo.PurchaseItemDoneVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +41,9 @@ public class WmsPurchaseServiceImpl extends CrudServiceImpl<WmsPurchaseDao, WmsP
 
     @Autowired
     private WmsPurchaseDetailService wmsPurchaseDetailService;
+
+    @Autowired
+    private WmsWareSkuService wmsWareSkuService;
 
     @Override
     public QueryWrapper<WmsPurchaseEntity> getWrapper(Map<String, Object> params) {
@@ -147,5 +155,41 @@ public class WmsPurchaseServiceImpl extends CrudServiceImpl<WmsPurchaseDao, WmsP
             // 批量修改采购项目状态
             wmsPurchaseDetailService.updateBatchById(detailListCollect);
         });
+    }
+
+    /*TODO: 完善数据库，在wms_purchase_detail表中添加
+     *  采购项目的细节状态、未成功原因等 */
+    @Override
+    @Transactional
+    public void done(PurchaseDoneVO itemVo) {
+        Long id = itemVo.getId();
+
+        //1.改变采购项目的状态
+        boolean isSuccess = true; // 采购是否成功的标志
+        List<PurchaseItemDoneVo> items = itemVo.getItems();
+        List<WmsPurchaseDetailEntity> shouldUpdateItems = new ArrayList<>(); // 需要更新的采购项目
+        for(PurchaseItemDoneVo item : items){
+            if(item.getStatus() == WareConstant.PurchaseDetailEnum.REJECTED.getCode())
+                isSuccess = false;
+            else { // 采购项目成功
+                //3.将采购的物品入库，skuId，wareId和增加的stock库存数量
+                // 商品采购详细信息,查出采购项目的skuId，wareId和增加的stock库存数量
+                WmsPurchaseDetailDTO purchaseDetail = wmsPurchaseDetailService.get(item.getItemId());
+                // 执行库存更新
+                wmsWareSkuService.addToStock(purchaseDetail.getSkuId(), purchaseDetail.getWareId(), purchaseDetail.getSkuNum());
+            }
+            WmsPurchaseDetailEntity detailEntity = new WmsPurchaseDetailEntity();
+            detailEntity.setId(item.getItemId());
+            detailEntity.setStatus(item.getStatus());
+            shouldUpdateItems.add(detailEntity);
+        }
+        wmsPurchaseDetailService.updateBatchById(shouldUpdateItems);
+
+        //2. 改变采购单状态
+        WmsPurchaseEntity purchaseEntity = new WmsPurchaseEntity();
+        purchaseEntity.setId(id);
+        purchaseEntity.setStatus(isSuccess ? WareConstant.PurchaseEnum.FINISHED.getCode() : WareConstant.PurchaseEnum.ERROR.getCode());
+        purchaseEntity.setUpdateTime(new Date());
+        updateById(purchaseEntity);
     }
 }
