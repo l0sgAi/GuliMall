@@ -13,8 +13,10 @@ import com.losgai.gulimall.common.common.validator.group.DefaultGroup;
 import com.losgai.gulimall.common.common.validator.group.UpdateGroup;
 import com.losgai.gulimall.product.dto.AttrDTO;
 import com.losgai.gulimall.product.entity.AttrEntity;
+import com.losgai.gulimall.product.entity.ProductAttrValueEntity;
 import com.losgai.gulimall.product.excel.AttrExcel;
 import com.losgai.gulimall.product.service.AttrService;
+import com.losgai.gulimall.product.service.ProductAttrValueService;
 import com.losgai.gulimall.product.vo.AttrVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -41,8 +43,12 @@ import java.util.Map;
 @RequestMapping("product/attr")
 @Tag(name = "商品属性")
 public class AttrController {
+
     @Autowired
     private AttrService attrService;
+
+    @Autowired
+    private ProductAttrValueService productAttrValueService;
 
     @GetMapping("/base/noRelation/page/{categoryId}")
     @Operation(summary = "分页")
@@ -144,6 +150,15 @@ public class AttrController {
         return new Result<AttrVo>().ok(data);
     }
 
+    @GetMapping("base/list/{spuId}")
+    @Operation(summary = "获取spu对应的规格属性值")
+    public Result<List<ProductAttrValueEntity>> getSpuBaseAttrs(@PathVariable("spuId") Long spuId) {
+        List<ProductAttrValueEntity> data = productAttrValueService.getListBySpuId(spuId);
+
+        return new Result<List<ProductAttrValueEntity>>().ok(data);
+    }
+
+
     @PostMapping
     @Operation(summary = "保存")
     @LogOperation("保存")
@@ -166,6 +181,21 @@ public class AttrController {
         ValidatorUtils.validateEntity(attrVo, UpdateGroup.class, DefaultGroup.class);
 
         attrService.updateBatch(attrVo);
+
+        return new Result();
+    }
+
+    @PostMapping("/update/{spuId}")
+    @Operation(summary = "修改spu规格参数")
+    @LogOperation("修改spu规格")
+    //@RequiresPermissions("product:attr:update")
+    public Result updateAttrValueBySpuId(@PathVariable("spuId") Long spuId,
+                                         @Validated(value = {UpdateGroup.class})
+                                         @RequestBody List<ProductAttrValueEntity> values) {
+        //效验数据
+        ValidatorUtils.validateEntity(values, UpdateGroup.class, DefaultGroup.class);
+
+        productAttrValueService.updateAttrValueBySpuId(values,spuId);
 
         return new Result();
     }

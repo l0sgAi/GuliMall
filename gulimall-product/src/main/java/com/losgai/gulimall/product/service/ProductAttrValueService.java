@@ -4,6 +4,8 @@ import com.losgai.gulimall.common.common.service.CrudService;
 import com.losgai.gulimall.product.dto.ProductAttrValueDTO;
 import com.losgai.gulimall.product.entity.ProductAttrValueEntity;
 
+import java.util.List;
+
 /**
  * spu属性值
  *
@@ -12,4 +14,7 @@ import com.losgai.gulimall.product.entity.ProductAttrValueEntity;
  */
 public interface ProductAttrValueService extends CrudService<ProductAttrValueEntity, ProductAttrValueDTO> {
 
+    List<ProductAttrValueEntity> getListBySpuId(Long id);
+
+    void updateAttrValueBySpuId(List<ProductAttrValueEntity> values, Long spuId);
 }

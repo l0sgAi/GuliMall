@@ -3,8 +3,10 @@ package com.losgai.gulimall.product;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @EnableFeignClients(basePackages = "com.losgai.gulimall.product.feign")
+@EnableTransactionManagement
 @SpringBootApplication
 public class   GulimallProductApplication {
 

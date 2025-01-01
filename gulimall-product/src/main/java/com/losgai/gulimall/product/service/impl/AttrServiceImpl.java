@@ -9,6 +9,7 @@ import com.losgai.gulimall.common.common.service.impl.CrudServiceImpl;
 import com.losgai.gulimall.product.dao.AttrAttrgroupRelationDao;
 import com.losgai.gulimall.product.dao.AttrDao;
 import com.losgai.gulimall.product.dao.AttrGroupDao;
+import com.losgai.gulimall.product.dao.ProductAttrValueDao;
 import com.losgai.gulimall.product.dto.AttrDTO;
 import com.losgai.gulimall.product.entity.AttrAttrgroupRelationEntity;
 import com.losgai.gulimall.product.entity.AttrEntity;
@@ -110,14 +111,14 @@ public class AttrServiceImpl extends CrudServiceImpl<AttrDao, AttrEntity, AttrDT
         AttrDTO attrDTO = new AttrDTO();
         BeanUtils.copyProperties(attrVo, attrDTO);
         //1、保存基本数据
-        if(attrVo.getAttrType()== ProductConstant.AttrEnum.BASE_ATTR.getCode()){
+        if (attrVo.getAttrType() == ProductConstant.AttrEnum.BASE_ATTR.getCode()) {
             attrDTO.setSearchType(null);
             attrDTO.setShowDesc(null);
         }
         this.save(attrDTO);
 
         //2、保存关联关系 (先删除现有数据)
-        if(attrVo.getAttrType()!=ProductConstant.AttrEnum.BASE_ATTR.getCode() && ObjectUtil.isNotNull(attrVo.getGroupName())){
+        if (attrVo.getAttrType() != ProductConstant.AttrEnum.BASE_ATTR.getCode() && ObjectUtil.isNotNull(attrVo.getGroupName())) {
             QueryWrapper<AttrAttrgroupRelationEntity> wrapper = new QueryWrapper<>();
             wrapper.eq("attr_id", attrVo.getAttrId());
             attrAttrgroupRelationDao.delete(wrapper);
@@ -138,7 +139,7 @@ public class AttrServiceImpl extends CrudServiceImpl<AttrDao, AttrEntity, AttrDT
         AttrDTO attrDTO = new AttrDTO();
         BeanUtils.copyProperties(attrVo, attrDTO);
         //1、更新基本数据
-        if(attrVo.getAttrType()== ProductConstant.AttrEnum.BASE_ATTR.getCode()){
+        if (attrVo.getAttrType() == ProductConstant.AttrEnum.BASE_ATTR.getCode()) {
             attrDTO.setSearchType(null);
             attrDTO.setShowDesc(null);
         }
@@ -152,7 +153,7 @@ public class AttrServiceImpl extends CrudServiceImpl<AttrDao, AttrEntity, AttrDT
             attrAttrgroupRelationDao.delete(wrapper);
 
             //如果不是销售属性，插入关系
-            if(attrVo.getAttrType()!= ProductConstant.AttrEnum.BASE_ATTR.getCode()){
+            if (attrVo.getAttrType() != ProductConstant.AttrEnum.BASE_ATTR.getCode()) {
                 AttrAttrgroupRelationEntity attrAttrgroupRelationEntity = new AttrAttrgroupRelationEntity();
                 attrAttrgroupRelationEntity.setAttrId(attrVo.getAttrId());
                 attrAttrgroupRelationEntity.setAttrGroupId(attrVo.getGroupName());
