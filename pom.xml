@@ -26,6 +26,7 @@
         <module>renren-security</module>
         <module>gulimall-gateway</module>
         <module>gulimall-third-party</module>
+        <module>gulimall-search</module>
     </modules>
 
 </project>
