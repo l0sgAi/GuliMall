@@ -14,6 +14,8 @@ import co.elastic.clients.elasticsearch.indices.CreateIndexResponse;
 import co.elastic.clients.elasticsearch.indices.ExistsRequest;
 import com.alibaba.fastjson2.JSON;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,18 +25,69 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * elasticsearch 数据储存格式
+ * 1、(方便检索，冗余大){
+ *     "skuId": 1,
+ *     "skuTitle": "华为手机",
+ *     "skuPrice": 999.0,
+ *     "saleCount":99,
+ *     "attrs": [
+ *          {
+ *              "size": 5,
+ *          },
+ *          {
+ *              "cpu": "骁龙845"
+ *          },
+ *          {
+ *              "camera": "双摄"
+ *          },
+ *          {
+ *              "分辨率":  "FHD"
+ *          }
+ *     ]
+ * }
+ * 2、(只保存必要信息，不冗余)
+ *  (1).sku索引：{
+ *     "skuId": 1,
+ *     "skuTitle": "华为手机",
+ *     "skuPrice": 999.0,
+ *     "saleCount":99
+ * }
+ *
+ * (2).attr索引：{
+ *     "spuId": 11,
+ *     "attrs": [
+ *          {
+ *              "size": 5,
+ *          },
+ *          {
+ *              "cpu": "骁龙845"
+ *          },
+ *          {
+ *              "camera": "双摄"
+ *          },
+ *          {
+ *              "分辨率":  "FHD"
+ *          }
+ *          and more...
+ *     ]
+ * }
+ * 问题：
+ * */
 @SpringBootTest
+@RequiredArgsConstructor
+@Slf4j
 class GulimallSearchApplicationTests {
 
-    @Autowired
-    private ElasticsearchClient elasticsearchClient;
+    private final ElasticsearchClient elasticsearchClient;
 
     @Test
     void contextLoads() {
         try {
             elasticsearchClient.info();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("ES 测试异常:{}",e.getMessage());
         }
     }
 

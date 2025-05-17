@@ -1,0 +1,392 @@
+GET _search
+{
+  "query":
+  {
+    "match_all":{}
+
+  }
+
+}
+
+PUT product
+{
+  "mappings": {
+    "properties": {
+      "skuId":{
+        "type": "long"
+      },
+      "spuId":{
+        "type": "keyword"
+      },
+      "skuTitle":{
+        "type": "text",
+        "analyzer": "ik_samart"
+      },
+      "skuPrice":{
+        "type": "keyword"
+      },
+      "skuImg":{
+        "type": "keyword",
+        "index": false,
+        "doc_values": false
+      },
+      "saleCount":{
+        "type": "long"
+      },
+      "hasStock":{
+        "type": "boolean"
+      },
+      "hotScore":{
+        "type": "long"
+      },
+      "brandId":{
+        "type": "long"
+      },
+      "catalogId":{
+        "type": "long"
+      },
+      "brandName":{
+        "type": "keyword",
+        "index": false,
+        "doc_values": false
+      },
+      "brandImg":{
+        "type": "keyword",
+        "index": false,
+        "doc_values": false
+      },
+      "catalogName":{
+        "type": "keyword",
+        "index": false,
+        "doc_values": false
+      },
+      "attrs":{
+        "type": "nested",
+        "properties": {
+          "attrId":{
+            "type":"long"
+          },
+          "attrName":{
+            "type": "keyword",
+            "index": false,
+            "doc_values": false
+          },
+          "attrValue":{
+            "type":"keyword"
+          }
+        }
+      }
+    }
+  }
+}
+
+GET bank/_mapping
+
+GET new_bank/_search
+
+GET my_index/_mapping
+
+POST _analyze
+{"analyzer":"standard","text":"Just do it, unless u are a loser."}
+## 传统分词器
+
+POST _analyze
+{"analyzer":"ik_max_word","text":"蔡徐坤的空耳不如孙笑川带派谷粒商城下牢大开着直升机去尚硅谷学计算机然后说操你妈"}
+## ik分词器
+
+POST _analyze
+{"analyzer":"ik_max_word","text":"不需要重新设置。Docker 开机自启动 主要依赖于容器的 --restart 策略，只要你的容器 在启动时未被手动删除，它会按照 restart 规则自动启动。"}
+## ik分词器-获取所有分词方案
+
+POST /_reindex
+{
+  "source": {
+    "index": "bank",
+    "type": "account"
+  },
+  "dest": {
+    "index": "new_bank"
+  }
+}
+## 迁移新数据，指定源索引和新索引，将数据迁移至新索引结构上
+
+PUT /my_index
+{
+  "mappings": {
+    "properties": {
+      "name": {
+        "type": "text"
+      },
+      "age": {
+        "type": "integer"
+      },
+      "email": {
+        "type": "keyword"
+      }
+    }
+  }
+}
+
+PUT /my_index/_mapping
+{
+  "properties": {
+      "employee_id":{
+        "type": "long",
+        "index":false
+      }
+    }
+}
+
+GET bank/_search?q=*&sort=account_number:asc
+
+GET bank/_search
+{
+  "query": {
+    "match_all": {}
+  }
+  , "sort": [
+    {
+      "age":{
+        "order": "desc"
+      }
+    }
+  ]
+  , "size": 5,
+  "from": 3,
+  "_source": ["firstname","balance","age","address"]
+}
+
+GET student/_search
+{
+  "query": {
+    "match": {
+      "name": "Bob"
+    }
+  }
+}
+## 全文检索按照评分进行排序，分词匹配
+
+GET bank/_search
+{
+  "query": {
+    "match_phrase": {
+      "address": "Street"
+    }
+  }
+}
+## 短语检索只返回评分最高的，相同则都匹配
+
+GET bank/_search
+{
+  "query": {
+    "multi_match": {
+      "query": "mill",
+      "fields": ["address","city"]
+    }
+  }
+}
+## 多匹配查询，自定义条件和复合查询项
+
+GET bank/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "gender": "M"
+          }
+        },
+        {
+          "match": {
+            "address": "mill"
+          }
+        }
+      ],
+      "must_not": [
+        {
+          "match": {
+            "age": "18"
+          }
+        }
+      ],
+      "should": [
+        {
+          "match": {
+            "firstname": "Parker"
+          }
+        }
+      ]
+    }
+  }
+}
+## bool查询，自定义条件，包括必须匹配和必须不匹配的字段
+
+GET bank/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "gender": "M"
+          }
+        },
+        {
+          "match": {
+            "address": "mill"
+          }
+        }
+      ],
+      "must_not": [
+        {
+          "range": {
+            "age": {
+              "gte": 0,
+              "lte": 30
+            }
+          }
+        }
+      ],
+      "should": [
+        {
+          "match": {
+            "firstname": "Parker"
+          }
+        }
+      ]
+    }
+  }
+}
+
+GET bank/_search
+{
+  "query": {
+    "bool": {
+
+      "filter": [
+        {
+          "range": {
+            "age": {
+              "gte": 0,
+              "lte": 30
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+## filter不提供匹配分数，性能更好
+
+GET bank/_search
+{
+  "query": {
+    "match": {
+        "address.keyword": "510 Sedgwick"
+    }
+  }
+}
+## keyword不分词，精确匹配
+
+GET bank/_search
+{
+  "query": {
+    "match_phrase": {
+        "address": "510 Sedgwick"
+    }
+  }
+}
+## match_phrase不分词，模糊匹配
+
+GET bank/_search
+{
+  "query": {
+    "term": {
+        "balance" : 32838
+    }
+  }
+}
+## 全文检索字段用match，非text字段用term
+
+GET bank/_search
+{
+  "size": 0,
+  "aggs": {
+    "average_balance_by_age": {
+      "terms": { "field": "age" },
+      "aggs": {
+        "average_balance": { "avg": { "field": "balance" } }
+      }
+    }
+  }
+}
+## 按 age 统计平均存款余额
+
+GET bank/_search
+{
+  "query": {
+    "match": {
+        "address": "mill"
+    }
+  },
+  "aggs": {
+    "age_type": {
+      "terms": {
+        "field": "age",
+        "size": 10
+      }
+    },
+    "age_avg":{
+      "avg": {
+        "field": "age"
+      }
+    },
+    "balance_avg":{
+      "avg": {
+        "field": "balance"
+      }
+    }
+  }
+}
+## 根据查询结果统计不同的年龄种类，并计数，使用terms
+## 平均值使用avg，另外定义agg名称
+
+GET bank/_search
+{
+  "query": {
+    "match_all": {}
+  },
+  "aggs": {
+    "age_type": {
+      "terms": {
+        "field": "age",
+        "size": 100
+      },
+      "aggs": {
+        "balance_avg": {
+          "avg": {
+            "field": "balance"
+          }
+        },
+        "gender_agg":{
+          "terms": {
+            "field": "gender.keyword"
+          },
+          "aggs": {
+            "gender_balance_avg": {
+              "avg": {
+                "field": "balance"
+              }
+            }
+          }
+        }
+      }
+    }
+    }
+  }
+}
+## 嵌套聚合，进行复杂数据分析
+## 先查询所有文档，按照年龄组聚合并按照年龄组求平均值
+## 再根据不同年龄组求男女人数
+## 再根据男女求平均薪资
