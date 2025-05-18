@@ -20,4 +20,7 @@ public interface SpuInfoService extends CrudService<SpuInfoEntity, SpuInfoDTO> {
     void saveSpuVo(SpuSaveVo vo);
 
     PageData<SpuInfoVo> pageWithCondition(Map<String, Object> params);
+
+    /** 商品上架*/
+    void spuUp(Long spuId);
 }

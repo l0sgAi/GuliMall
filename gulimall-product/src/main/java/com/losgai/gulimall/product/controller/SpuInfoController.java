@@ -21,6 +21,7 @@ import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -36,10 +37,11 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("product/spuinfo")
+@RequiredArgsConstructor
 @Tag(name="spu信息")
 public class SpuInfoController {
-    @Autowired
-    private SpuInfoService spuInfoService;
+
+    private final SpuInfoService spuInfoService;
 
 //    @GetMapping("page")
 //    @Operation(summary = "分页")
@@ -55,6 +57,14 @@ public class SpuInfoController {
 //        page.setTotal(page.getList().size());
 //        return new Result<PageData<SpuInfoDTO>>().ok(page);
 //    }
+
+    /** product/spuinfo/{spuid}/up
+     * 商品上架（使其支持检索）*/
+    @PostMapping("/{spuId}/up")
+    public Result<String> spuUp(@PathVariable("spuId") Long spuId){
+        spuInfoService.spuUp(spuId);
+        return new Result<String>().ok("商品上架成功");
+    }
 
     @GetMapping("page")
     @Operation(summary = "分页查询")

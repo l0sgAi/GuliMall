@@ -1,8 +1,11 @@
 package com.losgai.gulimall.product.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.losgai.gulimall.common.common.es.ESAttr;
+import com.losgai.gulimall.common.common.es.SkuEsModel;
 import com.losgai.gulimall.common.common.page.PageData;
 import com.losgai.gulimall.common.common.service.impl.CrudServiceImpl;
 import com.losgai.gulimall.common.common.utils.Result;
@@ -14,16 +17,15 @@ import com.losgai.gulimall.product.entity.*;
 import com.losgai.gulimall.product.feign.CouponFeignService;
 import com.losgai.gulimall.product.service.*;
 import com.losgai.gulimall.product.vo.SpuInfoVo;
+
 import com.losgai.gulimall.product.vo.spus.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -33,37 +35,30 @@ import java.util.stream.Collectors;
  * @since 1.0.0 2024-07-16
  */
 @Service
+@RequiredArgsConstructor
 public class SpuInfoServiceImpl extends CrudServiceImpl<SpuInfoDao, SpuInfoEntity, SpuInfoDTO> implements SpuInfoService {
 
-    @Autowired
-    private SpuInfoDao spuInfoDao;
+    private final SpuInfoDao spuInfoDao;
 
-    @Autowired
-    private SpuInfoDescDao spuInfoDescDao;
+    private final SpuInfoDescDao spuInfoDescDao;
 
-    @Autowired
-    private SpuImagesService spuImagesService;
+    private final SpuImagesService spuImagesService;
 
-    @Autowired
-    private ProductAttrValueService productAttrValueService;
+    private final ProductAttrValueService productAttrValueService;
 
-    @Autowired
-    private SkuInfoDao skuInfoDao;
+    private final AttrDao attrDao;
 
-    @Autowired
-    private BrandDao brandDao;
+    private final SkuInfoDao skuInfoDao;
 
-    @Autowired
-    private CategoryDao categoryDao;
+    private final BrandDao brandDao;
 
-    @Autowired
-    private SkuImagesService skuImagesService;
+    private final CategoryDao categoryDao;
 
-    @Autowired
-    private SkuSaleAttrValueService skuSaleAttrValueService;
+    private final SkuImagesService skuImagesService;
 
-    @Autowired
-    private CouponFeignService couponFeignService;
+    private final SkuSaleAttrValueService skuSaleAttrValueService;
+
+    private final CouponFeignService couponFeignService;
 
     @Override
     public QueryWrapper<SpuInfoEntity> getWrapper(Map<String, Object> params) {
@@ -200,21 +195,27 @@ public class SpuInfoServiceImpl extends CrudServiceImpl<SpuInfoDao, SpuInfoEntit
         wrapper.like(StrUtil.isNotBlank(key), "spu_name", key);
 
         long catalogId = 0L;
-        try {catalogId = Long.parseLong((String) params.get("catelogId"));}
-        catch (NumberFormatException ignored){}
+        try {
+            catalogId = Long.parseLong((String) params.get("catelogId"));
+        } catch (NumberFormatException ignored) {
+        }
         if (catalogId != 0 && ObjectUtil.isNotNull(catalogId)) {
             wrapper.eq("catalog_id", catalogId);
         }
-        long brandId=0L;
-        try{brandId = Long.parseLong((String) params.get("brandId"));}
-        catch (NumberFormatException ignored){}
+        long brandId = 0L;
+        try {
+            brandId = Long.parseLong((String) params.get("brandId"));
+        } catch (NumberFormatException ignored) {
+        }
         if (brandId != 0 && ObjectUtil.isNotNull(brandId)) {
             wrapper.eq("brand_id", brandId);
         }
 
         Integer status = null;
-        try {status = Integer.parseInt((String) params.get("status"));}
-        catch (NumberFormatException ignored) {}
+        try {
+            status = Integer.parseInt((String) params.get("status"));
+        } catch (NumberFormatException ignored) {
+        }
         if (ObjectUtil.isNotNull(status)) {
             wrapper.eq("publish_status", status);
         }
@@ -232,5 +233,83 @@ public class SpuInfoServiceImpl extends CrudServiceImpl<SpuInfoDao, SpuInfoEntit
                 .collect(Collectors.toList());
 
         return new PageData<>(voList, voList.size());
+    }
+
+    /**
+     * 商品上架
+     */
+    @Override
+    public void spuUp(Long spuId) {
+        // 需要上架的所有商品
+        List<SkuEsModel> upProducts = new ArrayList<>();
+
+        // 查询spu下的属性id列表
+        List<ProductAttrValueEntity> baseAttrs = productAttrValueService.getListBySpuId(spuId);
+        // 过滤出对应的id列表
+        List<Long> attrValueIds = baseAttrs
+                .stream()
+                .map(ProductAttrValueEntity::getAttrId)
+                .toList();
+
+        // 根据id列表获取属性信息，过滤出需要检索的属性值id
+        List<Long> attrIds = attrDao.selectBatchIds(attrValueIds)
+                .stream()
+                .filter(i-> i.getSearchType() == 1) // 是否需要检索，0-不需要 1-需要
+                .map(AttrEntity::getAttrId)
+                .toList();
+
+        // 将spu下的属性id列表根据attrIds进行过滤
+        Set<Long> attrValueIdsSet = new HashSet<>(attrIds);
+        List<ESAttr> baseESAttrValues = baseAttrs
+                .stream()
+                .map(i -> {
+                    ESAttr ESAttr = new ESAttr();
+                    ESAttr.setAttrId(i.getAttrId());
+                    ESAttr.setAttrName(i.getAttrName());
+                    ESAttr.setAttrValue(i.getAttrValue());
+                    return ESAttr;
+                })
+                .filter(i -> attrValueIdsSet.contains(i.getAttrId()))
+                .toList();
+
+        // 1. 组装需要的数据
+        SkuEsModel skuEsModel = new SkuEsModel();
+        // 2. 查下传入的spuId对应的所有skuId信息 包括品牌名等
+        List<SkuInfoEntity> skuInfoEntities = skuInfoDao
+                .selectList(new QueryWrapper<SkuInfoEntity>()
+                        .eq("spu_id", spuId));
+
+        // TODO 后期改进？
+        // 3. 封装每个sku的信息
+        // 提前查询品牌名称和分类名
+        if (CollectionUtil.isNotEmpty(skuInfoEntities)) {
+            Long brandId = skuInfoEntities.get(0).getBrandId();
+            Long catalogId = skuInfoEntities.get(0).getCatalogId();
+
+            // 只查一次品牌和分类
+            BrandEntity brandEntity = brandDao.selectById(brandId);
+            CategoryEntity categoryEntity = categoryDao.selectById(catalogId);
+            List<SkuEsModel> collect = skuInfoEntities.stream().map(item -> {
+                SkuEsModel esModel = new SkuEsModel();
+                BeanUtils.copyProperties(item, esModel);
+                // 设置价格和图片
+                esModel.setSkuPrice(item.getPrice());
+                esModel.setSkuImg(item.getSkuDefaultImg());
+                // 设置hasStock、hotScore
+                // 发送远程调用查询是否有库存（不能直接用item.getSaleCount）
+                esModel.setHasStock(item.getSaleCount() > 0);
+                // TODO 热度评分，初始为0 后面再改
+                esModel.setHotScore(0L);
+                esModel.setBrandName(brandEntity.getName());
+                esModel.setBrandImg(brandEntity.getLogo());
+                esModel.setCatalogName(categoryEntity.getName());
+                // 查询当前sku的所有可以被检索的属性，并赋值
+                esModel.setESAttrs(baseESAttrValues);
+                return skuEsModel;
+            }).toList();
+
+            // TODO 发送给ES保存
+        }
+
     }
 }
