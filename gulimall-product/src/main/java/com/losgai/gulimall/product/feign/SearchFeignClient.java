@@ -1,5 +1,6 @@
 package com.losgai.gulimall.product.feign;
 
+import com.losgai.gulimall.common.common.es.SkuEsModel;
 import com.losgai.gulimall.common.common.utils.Result;
 import com.losgai.gulimall.product.vo.SkuStockVo;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -8,10 +9,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@FeignClient("gulimall-ware")
-public interface WareFeignService {
+@FeignClient("gulimall-search")
+public interface SearchFeignClient {
 
-    @PostMapping("ware/wmswaresku/hasStock")
-    Result<List<SkuStockVo>> checkStock(@RequestBody List<Long> skuIds);
+    @PostMapping("/search/save/product")
+    Result productStatUp(@RequestBody List<SkuEsModel> skuEsModels);
 
 }

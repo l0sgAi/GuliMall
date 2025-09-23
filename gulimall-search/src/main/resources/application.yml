@@ -1,5 +1,5 @@
-spring:
-  cloud:
-    nacos:
-      discovery:
-        server-addr: 192.168.200.132:8848
+#spring:
+#  cloud:
+#    nacos:
+#      discovery:
+#        server-addr: 192.168.200.132:8848

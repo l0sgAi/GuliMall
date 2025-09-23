@@ -4,8 +4,10 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.losgai.gulimall.common.common.constant.ProductConstant;
 import com.losgai.gulimall.common.common.es.ESAttr;
 import com.losgai.gulimall.common.common.es.SkuEsModel;
+import com.losgai.gulimall.common.common.exception.BaseCodeEnume;
 import com.losgai.gulimall.common.common.page.PageData;
 import com.losgai.gulimall.common.common.service.impl.CrudServiceImpl;
 import com.losgai.gulimall.common.common.utils.Result;
@@ -15,6 +17,7 @@ import com.losgai.gulimall.product.dto.SpuBoundsTO;
 import com.losgai.gulimall.product.dto.SpuInfoDTO;
 import com.losgai.gulimall.product.entity.*;
 import com.losgai.gulimall.product.feign.CouponFeignService;
+import com.losgai.gulimall.product.feign.SearchFeignClient;
 import com.losgai.gulimall.product.feign.WareFeignService;
 import com.losgai.gulimall.product.service.*;
 import com.losgai.gulimall.product.vo.SkuStockVo;
@@ -64,6 +67,8 @@ public class SpuInfoServiceImpl extends CrudServiceImpl<SpuInfoDao, SpuInfoEntit
     private final CouponFeignService couponFeignService;
 
     private final WareFeignService wareFeignService;
+
+    private final SearchFeignClient searchFeignClient;
 
     @Override
     public QueryWrapper<SpuInfoEntity> getWrapper(Map<String, Object> params) {
@@ -336,7 +341,16 @@ public class SpuInfoServiceImpl extends CrudServiceImpl<SpuInfoDao, SpuInfoEntit
                 return skuEsModel;
             }).toList();
 
-            // TODO 发送给ES保存
+            // 发送给ES保存
+            Result result = searchFeignClient.productStatUp(collect);
+            if(result.getCode() == 0){
+                // 远程调用成功
+                // 修改spu状态为已上架
+                spuInfoDao.updateUpStatusById(spuId, ProductConstant.StatsEnum.UP_SPU.getCode());
+            }else {
+                // TODO: 远程调用失败解决方案？重试策略等。。。
+                log.error("ES保存操作远程调用失败：{}");
+            }
         }
 
     }

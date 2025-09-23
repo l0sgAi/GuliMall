@@ -12,6 +12,7 @@ public enum BaseCodeEnume {
     USER_NOT_LOGIN_EXCEPTION(10008,"用户未登录"),
     USER_LOGIN_EXCEPTION(10009,"用户已登录"),
     USER_NOT_PERMISSION_EXCEPTION(10010,"用户没有权限"),
+    ES_PRODUCT_UP_EXCEPTION(11000,"商品上架ES失败"),
     ;
 
     private final int code;

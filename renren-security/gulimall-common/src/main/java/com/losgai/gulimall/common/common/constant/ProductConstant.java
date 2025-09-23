@@ -15,4 +15,18 @@ public enum ProductConstant {;
             this.msg = msg;
         }
     }
+
+    // SPU上架状态枚举
+    @Getter
+    public enum StatsEnum {
+        NEW_SPU(0, "新建"),
+        UP_SPU(1, "上架"),
+        DOWN_SPU(2,"下架");
+        private final int code;
+        private final String msg;
+        StatsEnum(int code, String msg) {
+            this.code = code;
+            this.msg = msg;
+        }
+    }
 }
