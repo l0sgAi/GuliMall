@@ -14,6 +14,7 @@ import com.losgai.gulimall.ware.dto.WmsWareSkuDTO;
 import com.losgai.gulimall.ware.entity.WmsWareSkuEntity;
 import com.losgai.gulimall.ware.excel.WmsWareSkuExcel;
 import com.losgai.gulimall.ware.service.WmsWareSkuService;
+import com.losgai.gulimall.ware.vo.SkuStockVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -59,6 +60,15 @@ public class WmsWareSkuController {
         PageData<WmsWareSkuEntity> page = wmsWareSkuService.pageQuery(params, wareId, skuId);
         page.setTotal(page.getList().size());
         return new Result<PageData<WmsWareSkuEntity>>().ok(page);
+    }
+
+    @PostMapping("/hasStock")
+    @Operation(summary = "对应sku是否有库存")
+    //@RequiresPermissions("ware:wmswaresku:info")
+    public Result<List<SkuStockVo>> getSkuHasStock(@RequestBody List<Long> skuIds) {
+        // skuId,库存量
+        List<SkuStockVo> list = wmsWareSkuService.getSkuHasStock(skuIds);
+        return new Result<List<SkuStockVo>>().ok(list);
     }
 
     @GetMapping("{id}")

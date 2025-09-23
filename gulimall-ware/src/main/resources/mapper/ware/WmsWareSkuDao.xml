@@ -12,8 +12,30 @@
         <result property="stockLocked" column="stock_locked"/>
     </resultMap>
 
+    <!-- 结果映射 -->
+    <resultMap id="skuStockVoMap" type="com.losgai.gulimall.ware.vo.SkuStockVo">
+        <result property="skuId" column="sku_id"/>
+        <result property="hasStock" column="has_stock"/>
+    </resultMap>
+
     <update id="addToStock">
         UPDATE wms_ware_sku SET stock = stock + #{stock} WHERE sku_id = #{skuId} AND ware_id = #{wareId}
     </update>
+
+    <!-- 批量SKU库存查询 -->
+    <select id="getSkuHasStock" resultMap="skuStockVoMap">
+        SELECT
+        sku_id,
+        CASE
+        WHEN SUM(stock - stock_locked) > 0 THEN 1
+        ELSE 0
+        END AS has_stock
+        FROM wms_ware_sku
+        WHERE sku_id IN
+        <foreach collection="skuIds" item="skuId" open="(" close=")" separator=",">
+            #{skuId}
+        </foreach>
+        GROUP BY sku_id
+    </select>
 
 </mapper>

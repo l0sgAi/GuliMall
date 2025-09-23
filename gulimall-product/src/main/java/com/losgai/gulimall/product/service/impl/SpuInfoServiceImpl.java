@@ -15,12 +15,15 @@ import com.losgai.gulimall.product.dto.SpuBoundsTO;
 import com.losgai.gulimall.product.dto.SpuInfoDTO;
 import com.losgai.gulimall.product.entity.*;
 import com.losgai.gulimall.product.feign.CouponFeignService;
+import com.losgai.gulimall.product.feign.WareFeignService;
 import com.losgai.gulimall.product.service.*;
+import com.losgai.gulimall.product.vo.SkuStockVo;
 import com.losgai.gulimall.product.vo.SpuInfoVo;
 
 import com.losgai.gulimall.product.vo.spus.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,6 +62,8 @@ public class SpuInfoServiceImpl extends CrudServiceImpl<SpuInfoDao, SpuInfoEntit
     private final SkuSaleAttrValueService skuSaleAttrValueService;
 
     private final CouponFeignService couponFeignService;
+
+    private final WareFeignService wareFeignService;
 
     @Override
     public QueryWrapper<SpuInfoEntity> getWrapper(Map<String, Object> params) {
@@ -279,6 +284,12 @@ public class SpuInfoServiceImpl extends CrudServiceImpl<SpuInfoDao, SpuInfoEntit
                 .selectList(new QueryWrapper<SkuInfoEntity>()
                         .eq("spu_id", spuId));
 
+        // 获取对应的skuId列表和库存信息映射
+        List<Long> skuIds = skuInfoEntities
+                .stream()
+                .map(SkuInfoEntity::getSkuId)
+                .toList();
+
         // TODO 后期改进？
         // 3. 封装每个sku的信息
         // 提前查询品牌名称和分类名
@@ -289,6 +300,21 @@ public class SpuInfoServiceImpl extends CrudServiceImpl<SpuInfoDao, SpuInfoEntit
             // 只查一次品牌和分类
             BrandEntity brandEntity = brandDao.selectById(brandId);
             CategoryEntity categoryEntity = categoryDao.selectById(catalogId);
+
+            // 获取库存信息映射Map
+            Map<Long,Boolean> stockMap = null;
+            try {
+                List<SkuStockVo> data = wareFeignService.checkStock(skuIds).getData();
+                // 转化为Map
+                stockMap = data.stream()
+                        .collect(Collectors
+                                .toMap(SkuStockVo::getSkuId
+                                        , SkuStockVo::getHasStock));
+            } catch (Exception e) {
+                log.error("库存服务查询异常:{}", e);
+            }
+
+            Map<Long, Boolean> finalStockMap = stockMap;
             List<SkuEsModel> collect = skuInfoEntities.stream().map(item -> {
                 SkuEsModel esModel = new SkuEsModel();
                 BeanUtils.copyProperties(item, esModel);
@@ -297,7 +323,9 @@ public class SpuInfoServiceImpl extends CrudServiceImpl<SpuInfoDao, SpuInfoEntit
                 esModel.setSkuImg(item.getSkuDefaultImg());
                 // 设置hasStock、hotScore
                 // 发送远程调用查询是否有库存（不能直接用item.getSaleCount）
-                esModel.setHasStock(item.getSaleCount() > 0);
+                if(CollectionUtil.isNotEmpty(finalStockMap)){
+                    esModel.setHasStock(finalStockMap.get(item.getSkuId()));
+                }
                 // TODO 热度评分，初始为0 后面再改
                 esModel.setHotScore(0L);
                 esModel.setBrandName(brandEntity.getName());

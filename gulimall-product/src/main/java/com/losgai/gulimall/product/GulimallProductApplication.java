@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableFeignClients(basePackages = "com.losgai.gulimall.product.feign")
 @EnableTransactionManagement
 @SpringBootApplication
-public class   GulimallProductApplication {
+public class GulimallProductApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(GulimallProductApplication.class, args);

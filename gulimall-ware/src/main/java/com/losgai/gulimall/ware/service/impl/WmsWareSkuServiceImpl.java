@@ -12,6 +12,7 @@ import com.losgai.gulimall.ware.entity.WmsWareSkuEntity;
 import com.losgai.gulimall.ware.feign.ProductFeignService;
 import com.losgai.gulimall.ware.service.WmsWareSkuService;
 import cn.hutool.core.util.StrUtil;
+import com.losgai.gulimall.ware.vo.SkuStockVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -83,5 +84,10 @@ public class WmsWareSkuServiceImpl extends CrudServiceImpl<WmsWareSkuDao, WmsWar
         }else { // 有库存记录，更新
             wmsWareSkuDao.addToStock(skuId, wareId, stock);
         }
+    }
+
+    @Override
+    public List<SkuStockVo> getSkuHasStock(List<Long> skuIds) {
+        return wmsWareSkuDao.getSkuHasStock(skuIds);
     }
 }
