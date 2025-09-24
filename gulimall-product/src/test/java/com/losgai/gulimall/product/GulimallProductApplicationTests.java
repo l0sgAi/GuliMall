@@ -2,18 +2,50 @@ package com.losgai.gulimall.product;
 
 import com.losgai.gulimall.product.dto.BrandDTO;
 import com.losgai.gulimall.product.service.BrandService;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.StringRedisTemplate;
 
 import java.util.HashMap;
 import java.util.List;
 
 @SpringBootTest
+@Slf4j
 class GulimallProductApplicationTests {
 
     @Autowired
     private BrandService brandService;
+
+    // 测试Redis
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+
+    @Test
+    void testRedisConnection() {
+        try {
+            // 测试Redis连接，设置一个键值对
+            redisTemplate.opsForValue().set("test_key", "test_value");
+
+            // 获取刚才设置的值
+            String value = (String) redisTemplate.opsForValue().get("test_key");
+
+            Assertions.assertNotNull(value);
+            if(value.equals("test_value")){
+                log.info("Redis连接测试成功");
+            }
+
+            // 删除测试键
+            redisTemplate.delete("test_key");
+
+
+            log.info("Redis连接测试成功");
+        } catch (Exception e) {
+            log.error("Redis连接测试失败: {}", e.getMessage());
+        }
+    }
 
     @Test
     void contextLoads() {

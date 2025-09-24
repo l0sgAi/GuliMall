@@ -20,6 +20,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 
 import java.io.IOException;
 import java.util.List;
@@ -76,11 +78,11 @@ import java.util.Map;
  * 问题：
  * */
 @SpringBootTest
-@RequiredArgsConstructor
 @Slf4j
 class GulimallSearchApplicationTests {
 
-    private final ElasticsearchClient elasticsearchClient;
+    @Autowired
+    private ElasticsearchClient elasticsearchClient;
 
     @Test
     void contextLoads() {

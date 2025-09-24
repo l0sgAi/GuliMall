@@ -59,6 +59,12 @@
             <version>5.4.0</version>
             <scope>compile</scope>
         </dependency>
+        <!--Redis整合-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+
     </dependencies>
     <dependencyManagement>
         <dependencies>

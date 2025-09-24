@@ -3,3 +3,14 @@
 #    nacos:
 #      discovery:
 #        server-addr: 192.168.200.132:8848
+#      config:
+#        access-key: xxxxx
+#        secret-key: xxxxx
+#        endpoint: oss-cn-nanjing.aliyuncs.com
+#  jackson:
+#    date-format: yyyy-MM-dd HH:mm:ss
+#server:
+#  port: 12000
+#logging:
+#  level:
+#    com.losgai.gulimall: debug
