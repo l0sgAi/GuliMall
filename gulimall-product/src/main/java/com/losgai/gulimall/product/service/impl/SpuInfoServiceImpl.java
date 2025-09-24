@@ -282,9 +282,7 @@ public class SpuInfoServiceImpl extends CrudServiceImpl<SpuInfoDao, SpuInfoEntit
                 .filter(i -> attrValueIdsSet.contains(i.getAttrId()))
                 .toList();
 
-        // 1. 组装需要的数据
-        SkuEsModel skuEsModel = new SkuEsModel();
-        // 2. 查下传入的spuId对应的所有skuId信息 包括品牌名等
+        // 查下传入的spuId对应的所有skuId信息 包括品牌名等
         List<SkuInfoEntity> skuInfoEntities = skuInfoDao
                 .selectList(new QueryWrapper<SkuInfoEntity>()
                         .eq("spu_id", spuId));
@@ -296,7 +294,7 @@ public class SpuInfoServiceImpl extends CrudServiceImpl<SpuInfoDao, SpuInfoEntit
                 .toList();
 
         // TODO 后期改进？
-        // 3. 封装每个sku的信息
+        // 封装每个sku的信息
         // 提前查询品牌名称和分类名
         if (CollectionUtil.isNotEmpty(skuInfoEntities)) {
             Long brandId = skuInfoEntities.get(0).getBrandId();
@@ -338,7 +336,7 @@ public class SpuInfoServiceImpl extends CrudServiceImpl<SpuInfoDao, SpuInfoEntit
                 esModel.setCatalogName(categoryEntity.getName());
                 // 查询当前sku的所有可以被检索的属性，并赋值
                 esModel.setESAttrs(baseESAttrValues);
-                return skuEsModel;
+                return esModel;
             }).toList();
 
             // 发送给ES保存

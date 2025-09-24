@@ -17,9 +17,9 @@
 
     <update id="updateUpStatusById">
         update pms_spu_info
-        set publish_status = #{status},
+        set publish_status = #{code},
             update_time    = NOW()
-        where id = #{id}
+        where id = #{spuId}
     </update>
 
 </mapper>
