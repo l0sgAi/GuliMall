@@ -5,6 +5,8 @@ import com.losgai.gulimall.product.service.BrandService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -22,6 +24,28 @@ class GulimallProductApplicationTests {
     // 测试Redis
     @Autowired
     private StringRedisTemplate redisTemplate;
+
+    // 测试Redisson
+    @Autowired
+    private RedissonClient redissonClient;
+
+    @Test
+    void testRedisson() {
+        // 1. 获取一把锁
+        RLock lock = redissonClient.getLock("my-lock");
+
+        // 2. 加锁
+        lock.lock();
+        try{
+            log.info("加锁成功，执行业务");
+            Thread.sleep(30000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } finally {
+            // 3. 解锁
+            lock.unlock();
+        }
+    }
 
     @Test
     void testRedisConnection() {

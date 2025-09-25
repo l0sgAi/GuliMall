@@ -1,38 +1,42 @@
-#spring:
-#  datasource:
-#    type: com.alibaba.druid.pool.DruidDataSource
-#    #MySQL配置
-#    driverClassName: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://192.168.200.132:3306/gulimall_pms?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&nullCatalogMeansCurrent=true
-#    username: root
-#    password: 123456
-#  # redis配置
-#  data:
-#    redis:
-#      # TODO 修改成自己的ip与端口号
-#      host: 192.168.200.132
-#      port: 6389
-#  cloud:
-#    nacos:
-#      discovery:
-#        server-addr: 192.168.200.132:8848
-#      config:
-#        access-key: your-access-key
-#        secret-key: your-secret-key
-#        endpoint: oss-cn-nanjing.aliyuncs.com
-#  application:
-#    name: gulimall-product
-#  jackson:
-#    date-format: yyyy-MM-dd HH:mm:ss
-#mybatis-plus:
-#  mapper-locations: classpath:mapper/**/*.xml
-#  global-config:
-#    db-config:
-#      id-type: auto
-#      logic-not-delete-value: 1
-#      logic-delete-value: 0
-#server:
-#  port: 7300
-#logging:
-#  level:
-#    com.losgai.gulimall: debug
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    #MySQL配置
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.200.132:3306/gulimall_pms?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&nullCatalogMeansCurrent=true
+    username: root
+    password: 123456
+  # redis配置
+  data:
+    redis:
+      # TODO 修改成自己的ip与端口号
+      host: 192.168.200.132
+      port: 6389
+  cache:
+    type: redis
+    redis:
+      time-to-live: 3600000 # 设置默认过期时间（毫秒），比如1小时
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.200.132:8848
+      config:
+        access-key: your-access-key
+        secret-key: your-secret-key
+        endpoint: oss-cn-nanjing.aliyuncs.com
+  application:
+    name: gulimall-product
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+mybatis-plus:
+  mapper-locations: classpath:mapper/**/*.xml
+  global-config:
+    db-config:
+      id-type: auto
+      logic-not-delete-value: 1
+      logic-delete-value: 0
+server:
+  port: 7300
+logging:
+  level:
+    com.losgai.gulimall: debug
