@@ -1,38 +1,51 @@
-#spring:
-#  datasource:
-#    type: com.alibaba.druid.pool.DruidDataSource
-#    #MySQL配置
-#    driverClassName: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://192.168.200.132:3306/gulimall_pms?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&nullCatalogMeansCurrent=true
-#    username: root
-#    password: 123456
-#  # redis配置
-#  data:
-#    redis:
-#      # TODO 修改成自己的ip与端口号
-#      host: 192.168.200.132
-#      port: 6389
-#  cloud:
-#    nacos:
-#      discovery:
-#        server-addr: 192.168.200.132:8848
-#      config:
-#        access-key: your-access-key
-#        secret-key: your-secret-key
-#        endpoint: oss-cn-nanjing.aliyuncs.com
-#  application:
-#    name: gulimall-product
-#  jackson:
-#    date-format: yyyy-MM-dd HH:mm:ss
-#mybatis-plus:
-#  mapper-locations: classpath:mapper/**/*.xml
-#  global-config:
-#    db-config:
-#      id-type: auto
-#      logic-not-delete-value: 1
-#      logic-delete-value: 0
-#server:
-#  port: 7300
-#logging:
-#  level:
-#    com.losgai.gulimall: debug
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    #MySQL配置
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.200.132:3306/gulimall_pms?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&nullCatalogMeansCurrent=true
+    username: root
+    password: 123456
+  # redis配置
+  data:
+    redis:
+      # TODO 修改成自己的ip与端口号
+      host: 192.168.200.132
+      port: 6389
+      # 连接超时时间
+      timeout: 6000ms
+      # 连接池配置
+      lettuce:
+        pool:
+          # 连接池最大连接数
+          max-active: 8
+          # 连接池最大阻塞等待时间（使用负值表示没有限制）
+          max-wait: -1ms
+          # 连接池中的最大空闲连接
+          max-idle: 8
+          # 连接池中的最小空闲连接
+          min-idle: 0
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.200.132:8848
+      config:
+        access-key: your-access-key
+        secret-key: your-secret-key
+        endpoint: oss-cn-nanjing.aliyuncs.com
+  application:
+    name: gulimall-product
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+mybatis-plus:
+  mapper-locations: classpath:mapper/**/*.xml
+  global-config:
+    db-config:
+      id-type: auto
+      logic-not-delete-value: 1
+      logic-delete-value: 0
+server:
+  port: 7300
+logging:
+  level:
+    com.losgai.gulimall: debug
