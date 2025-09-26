@@ -11,17 +11,14 @@ import com.losgai.gulimall.product.entity.CategoryBrandRelationEntity;
 import com.losgai.gulimall.product.entity.CategoryEntity;
 import com.losgai.gulimall.product.service.CategoryService;
 import lombok.RequiredArgsConstructor;
+import org.redisson.api.RedissonClient;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 商品三级分类
@@ -37,7 +34,7 @@ public class CategoryServiceImpl extends CrudServiceImpl<CategoryDao, CategoryEn
 
     private final CategoryBrandRelationDao categoryBrandRelationDao;
 
-    private final StringRedisTemplate stringRedisTemplate;
+    private final RedissonClient redissonClient;
 
     @Override
     public QueryWrapper<CategoryEntity> getWrapper(Map<String, Object> params) {
@@ -63,34 +60,6 @@ public class CategoryServiceImpl extends CrudServiceImpl<CategoryDao, CategoryEn
                 .peek((menu) -> menu.setChildren(getChildren(menu, categoryList)))
                 .sorted((menu1, menu2) -> menu1.getSort() == null ? 0 : menu1.getSort() - (menu2.getSort() == null ? 0 : menu2.getSort()))
                 .toList();
-//        synchronized (){ // 数据库查询加锁，同步到缓存，防止过大并发
-//                单机锁，需要改分布式锁
-//        }
-//        // 占分布式锁，设置过期时间
-//        String uuid = UUID.randomUUID().toString();
-//        Boolean lock = stringRedisTemplate.opsForValue().setIfAbsent("lock", uuid, 30, TimeUnit.SECONDS);
-//        if (Boolean.TRUE.equals(lock)) { // 加锁成功
-//            //1.查出所有分类
-//            List<CategoryEntity> categoryList = baseDao.selectList(null);
-//            //2.递归组装树型结构
-//            //2.1 找到所有的一级分类，并进行递归封装
-//            list = categoryList
-//                    .stream()
-//                    .filter(category -> category.getParentCid() == 0 && category.getShowStatus() == 1)
-//                    .peek((menu) -> menu.setChildren(getChildren(menu, categoryList)))
-//                    .sorted((menu1, menu2) -> menu1.getSort() == null ? 0 : menu1.getSort() - (menu2.getSort() == null ? 0 : menu2.getSort()))
-//                    .toList();
-//            // 检查锁值
-//            String lockUuid = stringRedisTemplate.opsForValue().get("lock");
-//            if (StrUtil.isNotBlank(lockUuid) && lockUuid.equals(uuid)) {
-//                // 只删除自己对应uuid的锁
-//                stringRedisTemplate.delete("lock");
-//            }
-//
-//        } else { // 锁失败，重试
-//            // 自旋
-//            return listWithTree();
-//        }
     }
 
     @Override

@@ -3,6 +3,8 @@ package com.losgai.gulimall.product.config;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.losgai.gulimall.product.utils.RandomRedisCacheWriter;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -55,7 +57,7 @@ public class RedisConfig {
         });
 
         // 4. 构建 RedisCacheManager
-        return RedisCacheManager.builder(factory)
+        return RedisCacheManager.builder(new RandomRedisCacheWriter(factory, 0.85, 1.15))
                 .cacheDefaults(defaultConfig) // 应用默认配置
                 .withInitialCacheConfigurations(cacheConfigs) // 应用特定缓存的配置
                 .build();
