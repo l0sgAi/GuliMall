@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.redisson.api.RLock;
+import org.redisson.api.RReadWriteLock;
+import org.redisson.api.RSemaphore;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,6 +15,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @SpringBootTest
 @Slf4j
@@ -31,11 +34,12 @@ class GulimallProductApplicationTests {
 
     @Test
     void testRedisson() {
+        RSemaphore rs = redissonClient.getSemaphore("my-semaphore");
+        rs.tryAcquire();
         // 1. 获取一把锁
         RLock lock = redissonClient.getLock("my-lock");
-
         // 2. 加锁
-        lock.lock();
+        lock.lock(20, TimeUnit.SECONDS);
         try{
             log.info("加锁成功，执行业务");
             Thread.sleep(30000);
